@@ -8,7 +8,7 @@ import { ErrorReportContext } from '../../utils/sentry';
 const isProduction = process.env.NODE_ENV === 'production';
 
 class SentryErrorBoundary extends PureComponent {
-  state = { error: null, eventId: null };
+  state = { error: null };
 
   static getDerivedStateFromError(error) {
     return { error };
@@ -28,22 +28,15 @@ class SentryErrorBoundary extends PureComponent {
       scope.setUser({ id: userId, username });
 
       const eventId = Sentry.captureException(error);
-      this.setState({ eventId });
     });
   };
    
   componentDidCatch(error, info) {
     this.reportError(error, info);
   }
-
-  onReportFeedback = (e) => {
-    e.preventDefault();
-    Sentry.showReportDialog({
-      eventId: this.state.eventId,
-    });
-  };
-
+  
   render() {
+    const { error } = this.state;
     const { children, renderError } = this.props;
 
     if (error) return renderError(error);
@@ -56,4 +49,4 @@ class SentryErrorBoundary extends PureComponent {
   }
 }
 
-export default ErrorBoundary;
+export default SentryErrorBoundary;
