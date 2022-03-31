@@ -29,28 +29,38 @@ export default function App() {
     }, [initHotjar]);
   }
 
+  const content = <>
+    <Toasts />
+    <Switch>
+      <AuthenticatedPageRoute exact path="/" component={EnterpriseCustomerRedirect} />
+      <AuthenticatedPageRoute exact path="/r/:redirectPath+" component={EnterprisePageRedirect} />
+      <PageRoute exact path="/invite/:enterpriseCustomerInviteKey" component={EnterpriseInvitePage} />
+      <PageRoute exact path="/:enterpriseSlug" component={DashboardPage} />
+      <PageRoute exact path="/:enterpriseSlug/search" component={SearchPage} />
+      <PageRoute exact path="/:enterpriseSlug/course/:courseKey" component={CoursePage} />
+      {features.ENABLE_PROGRAMS && (
+        <PageRoute exact path="/:enterpriseSlug/program/:programUuid" component={ProgramPage} />
+      )}
+      <PageRoute exact path="/:enterpriseSlug/program-progress/:programUUID" component={ProgramProgressPage} />
+      <PageRoute exact path="/:enterpriseSlug/licenses/:activationKey/activate" component={LicenseActivationPage} />
+      <PageRoute exact path="/:enterpriseSlug/skills-quiz" component={SkillsQuizPage} />
+      <PageRoute path="*" component={NotFoundPage} />
+    </Switch>
+  </>
+
   return (
     <AppProvider>
       <NoticesProvider>
         <ToastsProvider>
-          <Toasts />
-          <Switch>
-            <AuthenticatedPageRoute exact path="/" component={EnterpriseCustomerRedirect} />
-            <AuthenticatedPageRoute exact path="/r/:redirectPath+" component={EnterprisePageRedirect} />
-            <PageRoute exact path="/invite/:enterpriseCustomerInviteKey" component={EnterpriseInvitePage} />
-            <PageRoute exact path="/:enterpriseSlug" component={DashboardPage} />
-            <PageRoute exact path="/:enterpriseSlug/search" component={SearchPage} />
-            <PageRoute exact path="/:enterpriseSlug/course/:courseKey" component={CoursePage} />
-            {features.ENABLE_PROGRAMS && (
-              <PageRoute exact path="/:enterpriseSlug/program/:programUuid" component={ProgramPage} />
-            )}
-            <PageRoute exact path="/:enterpriseSlug/program-progress/:programUUID" component={ProgramProgressPage} />
-            <PageRoute exact path="/:enterpriseSlug/licenses/:activationKey/activate" component={LicenseActivationPage} />
-            <PageRoute exact path="/:enterpriseSlug/skills-quiz" component={SkillsQuizPage} />
-            <PageRoute path="*" component={NotFoundPage} />
-          </Switch>
+          <ErrorBoundary renderError={renderError}>
+            {content}
+          </ErrorBoundary>
         </ToastsProvider>
       </NoticesProvider>
     </AppProvider>
   );
 }
+
+const renderError = (error) => (
+  <ErrorPage />
+)
