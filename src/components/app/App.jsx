@@ -18,6 +18,7 @@ import { SearchPage } from '../search';
 import { LicenseActivationPage } from '../license-activation';
 import { SkillsQuizPage } from '../skills-quiz';
 import { EnterpriseInvitePage } from '../enterprise-invite';
+import { ErrorPage } from '../error-page';
 
 import { features } from '../../config';
 import { ToastsProvider, Toasts } from '../Toasts';
@@ -63,5 +64,5 @@ export default function App() {
 }
 
 const renderError = (error) => (
-  <ErrorPage />
+  <ErrorPage message={error.message} />
 )

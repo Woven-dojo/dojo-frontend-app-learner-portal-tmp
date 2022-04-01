@@ -1,1 +1,1 @@
-export { default as SentryErrorBoundary } from './SentryErrorBoundary';
+export { SentryErrorBoundary } from './SentryErrorBoundary';
