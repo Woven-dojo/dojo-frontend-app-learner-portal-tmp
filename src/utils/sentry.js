@@ -11,6 +11,5 @@ export function initSentry(projectEnvPrefix) {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     environment: `${projectEnvPrefix}_${process.env.SENTRY_ENVIRONMENT}`,
-    release: `dojo-alpha@${process.env.RELEASE}`,
   });
 }

@@ -15,7 +15,7 @@ import { App } from './components/app';
 
 import './index.scss';
 
-initSentry('dojo_learner_portal');
+initSentry('dojo_frontend_app_learner_portal');
 
 subscribe(APP_READY, () => {
   ReactDOM.render(<App />, document.getElementById('root'));
