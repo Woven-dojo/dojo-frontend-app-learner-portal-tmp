@@ -9,12 +9,12 @@ import { LoginRedirect } from '@edx/frontend-enterprise-logistration';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform/config';
 import { camelCaseObject } from '@edx/frontend-platform/utils';
-import { logError } from '@edx/frontend-platform/logging';
 
 import { ErrorPage } from '../error-page';
 import { LoadingSpinner } from '../loading-spinner';
 
 import { postLinkEnterpriseLearner } from './data/service';
+import { reportError } from '../../utils/sentry';
 
 export const LOADING_MESSAGE = 'Processing edX invite from your organization.';
 export const CTA_BUTTON_TEXT = 'Continue to edX.org';
@@ -50,7 +50,7 @@ const EnterpriseInvitePage = () => {
           const { enterpriseCustomerSlug } = result;
           history.replace(`/${enterpriseCustomerSlug}`);
         } catch (error) {
-          logError(error);
+          reportError(error);
           setInviteError(error);
         } finally {
           setIsLoading(false);

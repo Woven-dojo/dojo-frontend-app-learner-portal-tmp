@@ -22,8 +22,8 @@ axiosMock.onGet(LEARNER_PATHWAY_API_URL).reply(200, TEST_PATHWAY_DATA);
 jest.mock('@edx/frontend-platform/config', () => ({
   getConfig: () => (APP_CONFIG),
 }));
-jest.mock('@edx/frontend-platform/logging', () => ({
-  logError: jest.fn(),
+jest.mock('../utils/sentry', () => ({
+  reportError: jest.fn(),
 }));
 
 describe('useLearnerPathwayData', () => {

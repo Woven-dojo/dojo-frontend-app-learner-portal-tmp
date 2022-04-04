@@ -15,8 +15,8 @@ import { renderWithRouter } from '../../utils/tests';
 jest.mock('./data/service');
 jest.mock('@edx/frontend-platform/auth');
 jest.mock('@edx/frontend-platform/config');
-jest.mock('@edx/frontend-platform/logging', () => ({
-  logError: jest.fn(),
+jest.mock('../utils/sentry', () => ({
+  reportError: jest.fn(),
 }));
 jest.mock('../error-page', () => ({
   // eslint-disable-next-line react/prop-types

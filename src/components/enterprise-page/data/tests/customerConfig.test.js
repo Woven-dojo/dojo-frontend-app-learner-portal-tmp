@@ -11,11 +11,11 @@ import { fetchEnterpriseCustomerConfigForSlug } from '../service';
 const TEST_ENTERPRISE_SLUG = 'test-enterprise';
 
 jest.mock('../service');
+jest.mock('../../../../utils/sentry')
 
 // somehow jest does not seems to recognize/load the logging module
 // need to sort this out and ideally remove this
 jest.mock('@edx/frontend-platform/logging', () => ({
-  logError: jest.fn(),
   logInfo: jest.fn(),
 }));
 

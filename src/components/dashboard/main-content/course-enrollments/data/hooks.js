@@ -2,11 +2,13 @@ import {
   useState, useEffect, useCallback,
 } from 'react';
 import { camelCaseObject } from '@edx/frontend-platform/utils';
-import { logError } from '@edx/frontend-platform/logging';
 import _camelCase from 'lodash.camelcase';
 import _cloneDeep from 'lodash.clonedeep';
+
 import * as service from './service';
 import { groupCourseEnrollmentsByStatus, transformCourseEnrollment } from './utils';
+import { reportError } from '../../../../../utils/sentry';
+
 
 export const useCourseEnrollments = (enterpriseUUID) => {
   const [courseEnrollmentsByStatus, setCourseEnrollmentsByStatus] = useState(groupCourseEnrollmentsByStatus([]));
@@ -23,7 +25,7 @@ export const useCourseEnrollments = (enterpriseUUID) => {
         const enrollmentsByStatus = groupCourseEnrollmentsByStatus(enrollments);
         setCourseEnrollmentsByStatus(enrollmentsByStatus);
       } catch (error) {
-        logError(error);
+        reportError(error);
         setFetchError(error);
       } finally {
         setIsLoading(false);
@@ -39,7 +41,7 @@ export const useCourseEnrollments = (enterpriseUUID) => {
         const response = await service.fetchEnterpriseProgramEnrollments(enterpriseUUID);
         setProgramEnrollments(response.data);
       } catch (error) {
-        logError(error);
+        reportError(error);
         setFetchError(error);
       } finally {
         setIsLoading(false);

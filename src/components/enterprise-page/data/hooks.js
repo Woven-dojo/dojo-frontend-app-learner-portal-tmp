@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { logError, logInfo } from '@edx/frontend-platform/logging';
+import { logInfo } from '@edx/frontend-platform/logging';
 import { camelCaseObject } from '@edx/frontend-platform/utils';
 
 import colors from '../../../colors.scss';
+import { reportError } from '../../../utils/sentry';
 import { fetchEnterpriseCustomerConfigForSlug } from './service';
 
 export const defaultPrimaryColor = colors?.primary;
@@ -78,7 +79,7 @@ export function useEnterpriseCustomerConfig(enterpriseSlug, useCache = true) {
         }
       })
       .catch((error) => {
-        logError(new Error(`Error occurred while fetching the Enterprise Config: ${error}`));
+        reportError(new Error(`Error occurred while fetching the Enterprise Config: ${error}`));
         setFetchError(error);
       });
   }, [enterpriseSlug]);

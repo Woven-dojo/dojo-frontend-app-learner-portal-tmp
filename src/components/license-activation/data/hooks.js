@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { logError } from '@edx/frontend-platform/logging';
 
 import { activateLicense } from './service';
+import { reportError } from '../../../utils/sentry';
 
 export function useLicenseActivation(activationKey) {
   const [activationSuccess, setActivationSuccess] = useState(false);
@@ -14,7 +14,7 @@ export function useLicenseActivation(activationKey) {
         setActivationError(false);
       })
       .catch((error) => {
-        logError(new Error(error));
+        reportError(new Error(error));
         setActivationError(true);
         setActivationSuccess(false);
       });

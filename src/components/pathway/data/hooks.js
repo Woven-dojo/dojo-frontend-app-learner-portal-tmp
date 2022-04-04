@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { logError } from '@edx/frontend-platform/logging';
 
 import LearnerPathwayService from './service';
+import { reportError } from '../../../utils/sentry';
 
 export function useLearnerPathwayData({ learnerPathwayUuid }) {
   const [learnerPathwayData, setLearnerPathwayData] = useState({});
@@ -17,7 +17,7 @@ export function useLearnerPathwayData({ learnerPathwayUuid }) {
           setLearnerPathwayData(data);
           setIsLoading(false);
         } catch (error) {
-          logError(error);
+          reportError(error);
           setFetchError(error);
         }
       }

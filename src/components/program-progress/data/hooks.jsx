@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { logError } from '@edx/frontend-platform/logging';
 import { camelCaseObject } from '@edx/frontend-platform/utils';
+
+import { reportError } from '../../../utils/sentry';
 import { getLearnerProgramProgressDetail } from './service';
 
 export function useLearnerProgramProgressData(programUUID) {
@@ -14,7 +15,7 @@ export function useLearnerProgramProgressData(programUUID) {
           const data = await getLearnerProgramProgressDetail(programUUID);
           setLearnerProgramProgressData(data);
         } catch (error) {
-          logError(error);
+          reportError(error);
           setFetchError(error);
         }
       }

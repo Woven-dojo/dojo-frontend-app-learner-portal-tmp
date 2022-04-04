@@ -1,15 +1,23 @@
-import { createContext, useContext } from 'react';
+import { logError } from '@edx/frontend-platform/logging';
+
 import * as Sentry from '@sentry/react';
-
-export const ErrorReportContext = createContext((error, info) => {
-  console.error(error, info);
-});
-
-export const useReportError = () => useContext(ErrorReportContext);
 
 export function initSentry(projectEnvPrefix) {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     environment: `${projectEnvPrefix}_${process.env.SENTRY_ENVIRONMENT}`,
+  });
+}
+
+export function reportError(error, info) {
+  logError(error);
+  if (!isProduction) return;
+
+  Sentry.withScope((scope) => {
+    scope.setExtras(info);
+
+    const { userId, username } = getAuthenticatedUser()
+
+    scope.setUser({ id: userId, username });
   });
 }

@@ -3,7 +3,6 @@ import React, {
 } from 'react';
 import PropTypes from 'prop-types';
 import { StatefulButton } from '@edx/paragon';
-import { logError } from '@edx/frontend-platform/logging';
 import { useHistory } from 'react-router-dom';
 
 import { SubsidyRequestsContext } from '../enterprise-subsidy-requests';
@@ -13,6 +12,7 @@ import { ToastsContext } from '../Toasts';
 import { useUserHasSubsidyRequestForCourse } from '../enterprise-subsidy-requests/data/hooks';
 import { postLicenseRequest, postCouponCodeRequest } from '../enterprise-subsidy-requests/data/service';
 import { SUBSIDY_TYPE } from '../enterprise-subsidy-requests/constants';
+import { useReportError } from '../../utils/sentry';
 
 const props = {
   labels: {
@@ -103,7 +103,7 @@ const SubsidyRequestButton = ({ enterpriseSlug }) => {
     }
   }, [subsidyRequestConfiguration]);
 
-  const handleRequestButtonClick = async () => {
+  const handleRequestButtonClick = useCallback(async () => {
     setLoadingRequest(true);
     try {
       await requestSubsidy(courseKey);
@@ -112,10 +112,10 @@ const SubsidyRequestButton = ({ enterpriseSlug }) => {
       refreshSubsidyRequests();
       history.push(`/${enterpriseSlug}`);
     } catch (error) {
-      logError(error);
+      reportError(error);
       setLoadingRequest(false);
     }
-  };
+  }, [requestSubsidy, refreshSubsidyRequests]);
 
   return (
     <StatefulButton {...props} state={getButtonState()} onClick={handleRequestButtonClick} />

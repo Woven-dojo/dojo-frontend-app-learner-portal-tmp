@@ -1,5 +1,4 @@
 import { renderHook } from '@testing-library/react-hooks';
-import * as logger from '@edx/frontend-platform/logging';
 import { SUBSIDY_TYPE, SUBSIDY_REQUEST_STATE } from '../../constants';
 import {
   useSubsidyRequestConfiguration,
@@ -8,9 +7,11 @@ import {
 } from '../hooks';
 import { SubsidyRequestsContext } from '../../SubsidyRequestsContextProvider';
 import * as service from '../service';
+import * as sentry from '../../../../utils/sentry';
 /* eslint react/prop-types: 0 */
 
 jest.mock('../service');
+jest.mock('../../../../utils/sentry');
 
 describe('useSubsidyRequestConfiguration', () => {
   afterEach(() => jest.clearAllMocks());
@@ -47,7 +48,7 @@ describe('useSubsidyRequestConfiguration', () => {
     const { result, waitForNextUpdate } = renderHook(() => useSubsidyRequestConfiguration('uuid'));
     await waitForNextUpdate();
     expect(result.current.subsidyRequestConfiguration).toEqual(undefined);
-    expect(logger.logError).toHaveBeenCalledWith(error);
+    expect(sentry.reportError).toHaveBeenCalledWith(error);
   });
 });
 

@@ -4,13 +4,13 @@ import {
 import { useHistory, useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { sendEnterpriseTrackEvent } from '@edx/frontend-enterprise-utils';
-import { logError } from '@edx/frontend-platform/logging';
 import { camelCaseObject } from '@edx/frontend-platform/utils';
 import { getConfig } from '@edx/frontend-platform/config';
 import { AppContext } from '@edx/frontend-platform/react';
 
 import { CourseContext } from '../CourseContextProvider';
 
+import { reportError } from '../../../utils/sentry';
 import { isDefinedAndNotNull } from '../../../utils/common';
 import { features } from '../../../config';
 import CourseService from './service';
@@ -43,7 +43,7 @@ export function useAllCourseData({ courseKey, enterpriseConfig, courseRunKey }) 
           const data = await courseService.fetchAllCourseData();
           setCourseData(data);
         } catch (error) {
-          logError(error);
+          reportError(error);
           setFetchError(error);
         }
       }
