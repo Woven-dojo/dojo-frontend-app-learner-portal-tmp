@@ -7,7 +7,7 @@ import _cloneDeep from 'lodash.clonedeep';
 
 import * as service from './service';
 import { groupCourseEnrollmentsByStatus, transformCourseEnrollment } from './utils';
-import { reportError } from '../../../../../utils/errorHandling';
+import { reportFatalError } from '../../../../../utils/errorHandling';
 
 
 export const useCourseEnrollments = (enterpriseUUID) => {
@@ -25,7 +25,7 @@ export const useCourseEnrollments = (enterpriseUUID) => {
         const enrollmentsByStatus = groupCourseEnrollmentsByStatus(enrollments);
         setCourseEnrollmentsByStatus(enrollmentsByStatus);
       } catch (error) {
-        reportError(error);
+        reportFatalError(error);
         setFetchError(error);
       } finally {
         setIsLoading(false);
@@ -41,7 +41,7 @@ export const useCourseEnrollments = (enterpriseUUID) => {
         const response = await service.fetchEnterpriseProgramEnrollments(enterpriseUUID);
         setProgramEnrollments(response.data);
       } catch (error) {
-        reportError(error);
+        reportFatalError(error);
         setFetchError(error);
       } finally {
         setIsLoading(false);

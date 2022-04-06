@@ -7,11 +7,11 @@ import {
 } from '../hooks';
 import { SubsidyRequestsContext } from '../../SubsidyRequestsContextProvider';
 import * as service from '../service';
-import * as sentry from '../../../../utils/sentry';
+import * as errorHandling from '../../../../utils/errorHandling';
 /* eslint react/prop-types: 0 */
 
 jest.mock('../service');
-jest.mock('../../../../utils/sentry');
+jest.mock('../../../../utils/errorHandling');
 
 describe('useSubsidyRequestConfiguration', () => {
   afterEach(() => jest.clearAllMocks());
@@ -48,7 +48,7 @@ describe('useSubsidyRequestConfiguration', () => {
     const { result, waitForNextUpdate } = renderHook(() => useSubsidyRequestConfiguration('uuid'));
     await waitForNextUpdate();
     expect(result.current.subsidyRequestConfiguration).toEqual(undefined);
-    expect(sentry.reportError).toHaveBeenCalledWith(error);
+    expect(errorHandling.handleRequestError).toHaveBeenCalledWith(error);
   });
 });
 

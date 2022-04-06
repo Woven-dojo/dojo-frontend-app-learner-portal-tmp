@@ -10,7 +10,7 @@ import { AppContext } from '@edx/frontend-platform/react';
 
 import { CourseContext } from '../CourseContextProvider';
 
-import { reportError } from '../../../utils/errorHandling';
+import { reportFatalError } from '../../../utils/errorHandling';
 import { isDefinedAndNotNull } from '../../../utils/common';
 import { features } from '../../../config';
 import CourseService from './service';
@@ -43,7 +43,7 @@ export function useAllCourseData({ courseKey, enterpriseConfig, courseRunKey }) 
           const data = await courseService.fetchAllCourseData();
           setCourseData(data);
         } catch (error) {
-          reportError(error);
+          reportFatalError(error);
           setFetchError(error);
         }
       }

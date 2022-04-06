@@ -14,7 +14,7 @@ import { ErrorPage } from '../error-page';
 import { LoadingSpinner } from '../loading-spinner';
 
 import { postLinkEnterpriseLearner } from './data/service';
-import { reportError } from '../../utils/errorHandling';
+import { reportFatalError } from '../../utils/errorHandling';
 
 export const LOADING_MESSAGE = 'Processing edX invite from your organization.';
 export const CTA_BUTTON_TEXT = 'Continue to edX.org';
@@ -50,7 +50,7 @@ const EnterpriseInvitePage = () => {
           const { enterpriseCustomerSlug } = result;
           history.replace(`/${enterpriseCustomerSlug}`);
         } catch (error) {
-          reportError(error);
+          reportFatalError(error);
           setInviteError(error);
         } finally {
           setIsLoading(false);

@@ -1,7 +1,7 @@
 import ErrorBoundary from "./ErrorBoundary";
 import '@testing-library/jest-dom/extend-expect';
 
-import { reportError } from '../../utils/errorHandling';
+import { reportFatalError } from '../../utils/errorHandling';
 import { render, screen } from "@testing-library/react";
 
 const USER = { username: 'b.wayne', userId: 1 };
@@ -35,7 +35,7 @@ describe('Error boundary', () => {
       </ErrorBoundary>
     )
 
-    expect(reportError).not.toHaveBeenCalled();
+    expect(reportFatalError).not.toHaveBeenCalled();
     
     expect(screen.getByText(expectedText)).toBeInTheDocument();
   });
@@ -49,9 +49,9 @@ describe('Error boundary', () => {
       </ErrorBoundary>
     )
 
-    reportError(error);
+    reportFatalError(error);
 
-    expect(reportError).toBeCalledWith(error);
+    expect(reportFatalError).toBeCalledWith(error);
     
     expect(screen.getByText(ERROR_MESSAGE)).toBeInTheDocument();
   });

@@ -112,7 +112,7 @@ const SubsidyRequestButton = ({ enterpriseSlug }) => {
       refreshSubsidyRequests();
       history.push(`/${enterpriseSlug}`);
     } catch (error) {
-      reportError(error);
+      handleRequestError(error);
       setLoadingRequest(false);
     }
   }, [requestSubsidy, refreshSubsidyRequests]);

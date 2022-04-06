@@ -23,7 +23,7 @@ jest.mock('@edx/frontend-platform/config', () => ({
   getConfig: () => (APP_CONFIG),
 }));
 jest.mock('../utils/sentry', () => ({
-  reportError: jest.fn(),
+  handleRequestError: jest.fn(),
 }));
 
 describe('useLearnerPathwayData', () => {

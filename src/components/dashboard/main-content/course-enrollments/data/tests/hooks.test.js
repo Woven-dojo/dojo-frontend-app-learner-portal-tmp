@@ -6,8 +6,8 @@ import { transformCourseEnrollment } from '../utils';
 import { createRawCourseEnrollment } from '../../tests/enrollment-testutils';
 
 jest.mock('../service');
-jest.mock('../utils/sentry', () => ({
-  reportError: jest.fn(),
+jest.mock('../utils/errorHandling', () => ({
+  handleRequestError: jest.fn(),
 }));
 
 const mockRawCourseEnrollment = createRawCourseEnrollment();

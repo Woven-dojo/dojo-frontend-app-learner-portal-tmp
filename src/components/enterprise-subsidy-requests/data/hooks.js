@@ -5,7 +5,7 @@ import { camelCaseObject } from '@edx/frontend-platform/utils';
 import { fetchSubsidyRequestConfiguration, fetchLicenseRequests, fetchCouponCodeRequests } from './service';
 import { SUBSIDY_TYPE, SUBSIDY_REQUEST_STATE } from '../constants';
 import { SubsidyRequestsContext } from '../SubsidyRequestsContextProvider';
-import { reportError } from '../../../utils/errorHandling';
+import { reportFatalError } from '../../../utils/errorHandling';
 
 export function useSubsidyRequestConfiguration(enterpriseUUID) {
   const [subsidyRequestConfiguration, setSubsidyRequestConfiguration] = useState();
@@ -23,7 +23,7 @@ export function useSubsidyRequestConfiguration(enterpriseUUID) {
           // Customer configuration does not exist, subsidy requests are turned off.
           setSubsidyRequestConfiguration(null);
         } else {
-          reportError(error);
+          reportFatalError(error);
         }
       } finally {
         setIsLoading(false);
@@ -67,7 +67,7 @@ export function useSubsidyRequests(subsidyRequestConfiguration) {
         setLicenseRequests(requests);
       }
     } catch (error) {
-      reportError(error);
+      reportFatalError(error);
     } finally {
       setIsLoading(false);
     }

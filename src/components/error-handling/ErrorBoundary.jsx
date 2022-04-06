@@ -1,6 +1,6 @@
 import { PureComponent } from 'react'
 
-import { reportError } from '../../utils/errorHandling';
+import { reportFatalError } from '../../utils/errorHandling';
 
 class ErrorBoundary extends PureComponent {
   state = { error: null };
@@ -10,7 +10,7 @@ class ErrorBoundary extends PureComponent {
   }
 
   componentDidCatch(error, info) {
-    reportError(error, info);
+    reportFatalError(error, info);
     console.log(error, info);
   }
   

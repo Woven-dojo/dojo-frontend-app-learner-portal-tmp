@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { camelCaseObject } from '@edx/frontend-platform/utils';
 
-import { reportError } from '../../../utils/errorHandling';
+import { reportFatalError } from '../../../utils/errorHandling';
 import ProgramService from './service';
 
 export function useAllProgramData({ enterpriseUuid, programUuid }) {
@@ -16,7 +16,7 @@ export function useAllProgramData({ enterpriseUuid, programUuid }) {
           const data = await programService.fetchAllProgramData();
           setProgramData(data);
         } catch (error) {
-          reportError(error);
+          reportFatalError(error);
           setFetchError(error);
         }
       }

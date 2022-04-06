@@ -3,7 +3,7 @@ import { logInfo } from '@edx/frontend-platform/logging';
 import { camelCaseObject } from '@edx/frontend-platform/utils';
 
 import colors from '../../../colors.scss';
-import { reportError } from '../../../utils/errorHandling';
+import { reportFatalError } from '../../../utils/errorHandling';
 import { fetchEnterpriseCustomerConfigForSlug } from './service';
 
 export const defaultPrimaryColor = colors?.primary;
@@ -79,7 +79,7 @@ export function useEnterpriseCustomerConfig(enterpriseSlug, useCache = true) {
         }
       })
       .catch((error) => {
-        reportError(new Error(`Error occurred while fetching the Enterprise Config: ${error}`));
+        reportFatalError(new Error(`Error occurred while fetching the Enterprise Config: ${error}`));
         setFetchError(error);
       });
   }, [enterpriseSlug]);

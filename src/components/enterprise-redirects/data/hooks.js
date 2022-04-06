@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { camelCaseObject } from '@edx/frontend-platform/utils';
 
 import { fetchEnterpriseCustomerByUUID } from './service';
-import { reportError } from '../../../utils/errorHandling';
+import { reportFatalError } from '../../../utils/errorHandling';
 
 /**
  * A React hook that will fetch all the enterprise customers linked to the specified user id.
@@ -35,7 +35,7 @@ export const useEnterpriseCustomerByUUID = (enterpriseUUID) => {
             `EnterpriseCustomerRedirect could not fetch metadata for 
             enterprise customer (${enterpriseUUID}): ${error.message}`
           );
-          reportError(errorMessage);
+          reportFatalError(errorMessage);
         })
         .finally(() => {
           setIsLoading(false);

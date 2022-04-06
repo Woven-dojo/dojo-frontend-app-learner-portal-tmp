@@ -3,7 +3,7 @@ import { getConfig } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient, getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import { logInfo } from '@edx/frontend-platform/logging';
 
-import { reportError } from '../../utils/errorHandling';
+import { reportFatalError } from '../../utils/errorHandling';
 
 export const getNotices = async () => {
   const authenticatedUser = getAuthenticatedUser();
@@ -19,7 +19,7 @@ export const getNotices = async () => {
       if (httpErrorStatus === 404) {
         logInfo(`${e}. This probably happened because the notices plugin is not installed on platform.`);
       } else {
-        reportError(e);
+        reportFatalError(e);
       }
     }
   }
