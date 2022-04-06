@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { camelCaseObject } from '@edx/frontend-platform/utils';
 
 import { fetchEnterpriseCustomerByUUID } from './service';
-import { reportError } from '../../../utils/sentry';
+import { reportError } from '../../../utils/errorHandling';
 
 /**
  * A React hook that will fetch all the enterprise customers linked to the specified user id.

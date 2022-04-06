@@ -12,7 +12,7 @@ import {
 import { DashboardPage } from '../dashboard';
 import { CoursePage } from '../course';
 import { ProgramPage } from '../program';
-import { SentryErrorBoundary } from '../sentry';
+import { ErrorBoundary } from '../error-handling';
 import ProgramProgressPage from '../program-progress/ProgramProgressPage';
 import { SearchPage } from '../search';
 import { LicenseActivationPage } from '../license-activation';
@@ -54,9 +54,9 @@ export default function App() {
     <AppProvider>
       <NoticesProvider>
         <ToastsProvider>
-          <SentryErrorBoundary renderError={renderError}>
+          <ErrorBoundary renderError={renderError}>
             {content}
-          </SentryErrorBoundary>
+          </ErrorBoundary>
         </ToastsProvider>
       </NoticesProvider>
     </AppProvider>

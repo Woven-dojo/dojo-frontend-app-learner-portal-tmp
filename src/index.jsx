@@ -10,7 +10,7 @@ import {
 import { ErrorPage } from '@edx/frontend-platform/react';
 import { mergeConfig } from '@edx/frontend-platform/config';
 
-import { initSentry } from './utils/sentry';
+import { initSentry } from './utils/errorHandling';
 import { App } from './components/app';
 
 import './index.scss';

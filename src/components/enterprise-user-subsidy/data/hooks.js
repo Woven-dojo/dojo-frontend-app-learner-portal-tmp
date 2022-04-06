@@ -5,7 +5,7 @@ import { camelCaseObject } from '@edx/frontend-platform/utils';
 
 import { fetchOffers } from '../offers';
 import offersReducer, { initialOfferState } from '../offers/data/reducer';
-import { reportError } from '../../../utils/sentry';
+import { reportError } from '../../../utils/errorHandling';
 
 import { LICENSE_STATUS } from './constants';
 import {

@@ -3,7 +3,7 @@ import { getConfig } from '@edx/frontend-platform';
 import { getAuthenticatedHttpClient, getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import { logInfo } from '@edx/frontend-platform/logging';
 
-import { reportError } from '../../utils/sentry';
+import { reportError } from '../../utils/errorHandling';
 
 export const getNotices = async () => {
   const authenticatedUser = getAuthenticatedUser();

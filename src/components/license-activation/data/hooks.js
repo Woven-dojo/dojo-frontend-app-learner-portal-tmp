@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { activateLicense } from './service';
-import { reportError } from '../../../utils/sentry';
+import { reportError } from '../../../utils/errorHandling';
 
 export function useLicenseActivation(activationKey) {
   const [activationSuccess, setActivationSuccess] = useState(false);

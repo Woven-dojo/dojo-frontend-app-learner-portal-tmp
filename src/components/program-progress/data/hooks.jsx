@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { camelCaseObject } from '@edx/frontend-platform/utils';
 
-import { reportError } from '../../../utils/sentry';
+import { reportError } from '../../../utils/errorHandling';
 import { getLearnerProgramProgressDetail } from './service';
 
 export function useLearnerProgramProgressData(programUUID) {

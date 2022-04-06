@@ -10,7 +10,7 @@ import { AppContext } from '@edx/frontend-platform/react';
 
 import { CourseContext } from '../CourseContextProvider';
 
-import { reportError } from '../../../utils/sentry';
+import { reportError } from '../../../utils/errorHandling';
 import { isDefinedAndNotNull } from '../../../utils/common';
 import { features } from '../../../config';
 import CourseService from './service';

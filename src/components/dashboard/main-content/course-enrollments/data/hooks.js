@@ -7,7 +7,7 @@ import _cloneDeep from 'lodash.clonedeep';
 
 import * as service from './service';
 import { groupCourseEnrollmentsByStatus, transformCourseEnrollment } from './utils';
-import { reportError } from '../../../../../utils/sentry';
+import { reportError } from '../../../../../utils/errorHandling';
 
 
 export const useCourseEnrollments = (enterpriseUUID) => {

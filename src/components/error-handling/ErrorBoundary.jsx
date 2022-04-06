@@ -1,8 +1,8 @@
 import { PureComponent } from 'react'
 
-import { reportError } from '../../utils/sentry';
+import { reportError } from '../../utils/errorHandling';
 
-class SentryErrorBoundary extends PureComponent {
+class ErrorBoundary extends PureComponent {
   state = { error: null };
 
   static getDerivedStateFromError(error) {
@@ -10,7 +10,8 @@ class SentryErrorBoundary extends PureComponent {
   }
 
   componentDidCatch(error, info) {
-    reportError(error, info)
+    reportError(error, info);
+    console.log(error, info);
   }
   
   render() {
@@ -23,4 +24,4 @@ class SentryErrorBoundary extends PureComponent {
   }
 }
 
-export default SentryErrorBoundary;
+export default ErrorBoundary;
