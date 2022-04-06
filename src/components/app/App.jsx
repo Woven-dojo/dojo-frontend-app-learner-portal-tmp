@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Switch } from 'react-router-dom';
 import useHotjar from 'react-use-hotjar';
-import { AppProvider, AuthenticatedPageRoute, PageRoute } from '@edx/frontend-platform/react';
+import { AppProvider, AuthenticatedPageRoute, PageRoute, ErrorPage } from '@edx/frontend-platform/react';
 
 import NotFoundPage from '../NotFoundPage';
 import NoticesProvider from '../notices-provider';
@@ -18,7 +18,6 @@ import { SearchPage } from '../search';
 import { LicenseActivationPage } from '../license-activation';
 import { SkillsQuizPage } from '../skills-quiz';
 import { EnterpriseInvitePage } from '../enterprise-invite';
-import { ErrorPage } from '../error-page';
 
 import { features } from '../../config';
 import { ToastsProvider, Toasts } from '../Toasts';
@@ -48,17 +47,17 @@ export default function App() {
       <PageRoute exact path="/:enterpriseSlug/skills-quiz" component={SkillsQuizPage} />
       <PageRoute path="*" component={NotFoundPage} />
     </Switch>
-  </>
+  </>;
 
   return (
     <AppProvider>
-      <NoticesProvider>
-        <ToastsProvider>
-          <ErrorBoundary renderError={renderError}>
+      <ErrorBoundary renderError={renderError}>
+        <NoticesProvider>
+          <ToastsProvider>
             {content}
-          </ErrorBoundary>
-        </ToastsProvider>
-      </NoticesProvider>
+          </ToastsProvider>
+        </NoticesProvider>
+      </ErrorBoundary>
     </AppProvider>
   );
 }
