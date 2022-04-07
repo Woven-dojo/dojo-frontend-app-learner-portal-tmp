@@ -12,7 +12,7 @@ import { ToastsContext } from '../Toasts';
 import { useUserHasSubsidyRequestForCourse } from '../enterprise-subsidy-requests/data/hooks';
 import { postLicenseRequest, postCouponCodeRequest } from '../enterprise-subsidy-requests/data/service';
 import { SUBSIDY_TYPE } from '../enterprise-subsidy-requests/constants';
-import { useReportError } from '../../utils/errorHandling';
+import { handleRequestError } from '../../utils/errorHandling';
 
 const props = {
   labels: {

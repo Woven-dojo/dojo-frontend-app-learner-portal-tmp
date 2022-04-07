@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import LearnerPathwayService from './service';
-import { handleRequestError } from '../../../utils/sentry';
+import { handleRequestError } from '../../../utils/errorHandling';
 
 export function useLearnerPathwayData({ learnerPathwayUuid }) {
   const [learnerPathwayData, setLearnerPathwayData] = useState({});

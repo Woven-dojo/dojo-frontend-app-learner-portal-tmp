@@ -11,7 +11,9 @@ import * as errorHandling from '../../../../utils/errorHandling';
 /* eslint react/prop-types: 0 */
 
 jest.mock('../service');
-jest.mock('../../../../utils/errorHandling');
+jest.mock('../../../../utils/errorHandling', () => ({
+  handleRequestError: jest.fn(),
+}));
 
 describe('useSubsidyRequestConfiguration', () => {
   afterEach(() => jest.clearAllMocks());

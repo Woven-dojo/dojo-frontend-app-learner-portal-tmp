@@ -1,4 +1,6 @@
 import { Severity } from '@sentry/react';
+import { logError } from '@edx/frontend-platform/logging';
+
 import sendExceptionToSentry from "./sendExceptionToSentry";
 
 export function reportError(error, extra, severityLevel = Severity.Error) {
