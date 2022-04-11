@@ -44,7 +44,7 @@ initialize({
         LEARNER_SUPPORT_URL: process.env.LEARNER_SUPPORT_URL || null,
         SENTRY_DSN: process.env.SENTRY_DSN || null,
         SENTRY_ENVIRONMENT: process.env.SENTRY_ENVIRONMENT || '',
-        SENTRY_PROJECT_ENV_PREFIX: 'dojo-frontend-app-learner-portal'
+        SENTRY_PROJECT_ENV_PREFIX: 'dojo-frontend-app-learner-portal',
       });
     },
   },
