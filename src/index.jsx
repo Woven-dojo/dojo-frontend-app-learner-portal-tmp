@@ -13,7 +13,7 @@ import { mergeConfig } from '@edx/frontend-platform/config';
 import { App } from './components/app';
 
 import './index.scss';
-import { SentryLoggingService } from './utils/errorHandling';
+import { SentryLoggingService } from './services';
 
 subscribe(APP_READY, () => {
   ReactDOM.render(<App />, document.getElementById('root'));
