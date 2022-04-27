@@ -64,6 +64,7 @@
     "coveralls": "3.1.0",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.6",
+    "husky": "^7.0.4",
     "match-media-mock": "0.1.1",
     "prettier": "2.2.1",
     "react-test-renderer": "16.14.0"
@@ -82,7 +83,8 @@
     "start": "fedx-scripts webpack-dev-server --progress",
     "start:with-theme": "THEME=npm:@edx/brand-edx.org@latest npm run install-theme && fedx-scripts webpack-dev-server --progress",
     "test": "fedx-scripts jest --coverage --passWithNoTests --maxWorkers=50%",
-    "install-theme": "npm install \"@edx/brand@${THEME}\" --no-save"
+    "install-theme": "npm install \"@edx/brand@${THEME}\" --no-save",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
