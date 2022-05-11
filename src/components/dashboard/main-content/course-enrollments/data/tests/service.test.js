@@ -23,7 +23,7 @@ describe('course enrollments service', () => {
 
 describe('program enrollment service', () => {
   it('fetches program enrollments', () => {
-    const url = 'http://localhost:18000/api/program-enrollment/user-enrollments/?enterprise_uuid=test-enterprise-id'
+    const url = 'http://localhost:18000/api/program-enrollment/user-enrollments/?enterprise_uuid=test-enterprise-id';
     fetchEnterpriseProgramEnrollments('test-enterprise-id');
     expect(axios.get).toBeCalledWith(url);
   });
