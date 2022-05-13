@@ -46,6 +46,7 @@ hooks.useCourseEnrollments.mockReturnValue({
     savedForLater: [savedForLaterCourseRun],
     requested: [requestedCourseRun],
   },
+  programEnrollments: [],
   updateCourseEnrollmentStatus: jest.fn(),
 });
 
@@ -57,8 +58,7 @@ const renderEnrollmentsComponent = () => render(
   </AppContext.Provider>,
 );
 
-// todo: [DP-100] fix test
-describe.skip('Course enrollments', () => {
+describe('Course enrollments', () => {
   beforeEach(() => {
     updateCourseCompleteStatusRequest.mockImplementation(() => ({ data: {} }));
   });

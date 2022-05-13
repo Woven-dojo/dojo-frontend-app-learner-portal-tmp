@@ -61,7 +61,6 @@ jest.mock('@edx/frontend-platform/config', () => ({
   getConfig: () => (APP_CONFIG),
 }));
 
-// todo: [DP-100] fix test
 describe.skip('course enrollments service', () => {
   beforeEach(() => {
     axiosMock.resetHistory();
