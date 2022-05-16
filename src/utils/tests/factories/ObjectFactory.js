@@ -1,5 +1,6 @@
 import { MockFactory } from './MockFactory';
 import { resolveFactoryValue } from './utils';
+import { MustBeObjectFactoryError } from './errors';
 
 export class ObjectFactory extends MockFactory {
   constructor(template) {
@@ -10,18 +11,30 @@ export class ObjectFactory extends MockFactory {
   create(mixin) {
     const result = {};
 
-    Object.entries(this.template).forEach(([key, item]) => {
-      result[key] = resolveFactoryValue(item);
-    });
+    const resolveTemplate = (template) => (
+      Object.entries(template).forEach(([key, item]) => {
+        result[key] = resolveFactoryValue(item);
+      })
+    );
 
-    const usedMixin = mixin instanceof ObjectFactory
-      ? mixin.create()
-      : mixin;
+    resolveTemplate(this.template);
 
-    return { ...result, ...usedMixin };
+    if (mixin) {
+      const usedMixin = mixin instanceof ObjectFactory
+        ? mixin.create()
+        : mixin;
+
+      resolveTemplate(usedMixin);
+    }
+
+    return result;
+
   }
 
   extend(mixin) {
+    if (!(mixin instanceof ObjectFactory)) {
+      throw new MustBeObjectFactoryError();
+    }
     return new this.constructor({ ...this.template, ...mixin });
   }
 }

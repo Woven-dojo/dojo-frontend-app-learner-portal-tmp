@@ -28,6 +28,7 @@ describe('IteratorFactory', () => {
 
   test('Empty iterator error', () => {
     const factory = new IteratorFactory([]);
+    expect.assertions(1);
     try {
       factory.create();
     } catch (error) {
