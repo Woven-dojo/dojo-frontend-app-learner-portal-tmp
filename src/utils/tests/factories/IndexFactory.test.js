@@ -17,4 +17,4 @@ describe('IndexFactory', () => {
 
     expect(results).toEqual(['n0', 'n1', 'n2']);
   });
-})
+});

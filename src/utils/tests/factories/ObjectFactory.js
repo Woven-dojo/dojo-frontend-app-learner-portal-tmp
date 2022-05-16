@@ -28,7 +28,6 @@ export class ObjectFactory extends MockFactory {
     }
 
     return result;
-
   }
 
   extend(mixin) {

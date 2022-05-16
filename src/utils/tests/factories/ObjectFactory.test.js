@@ -76,5 +76,4 @@ describe('ObjectFactory', () => {
       }
     });
   });
-
 });
