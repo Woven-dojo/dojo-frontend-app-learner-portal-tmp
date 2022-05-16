@@ -4,6 +4,7 @@ import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import { camelCaseObject } from '@edx/frontend-platform/utils';
 
 import ProgramService from '../service';
+import { createManyMocks, factory } from '../../../../utils/tests';
 
 const ENTERPRISE_UUID = '12345678-9000-0000-0000-123456789101';
 const PROGRAM_UUID = '12345678-9000-1111-1111-123456789101';
@@ -13,55 +14,42 @@ const APP_CONFIG = {
   ENTERPRISE_CATALOG_API_BASE_URL: 'http://localhost:18160',
 };
 const PROGRAM_API_ENDPOINT = `${APP_CONFIG.DISCOVERY_API_BASE_URL}/api/v1/programs/${PROGRAM_UUID}/`;
-const COURSE_KEY = 'edX+DemoX';
-const COURSE_KEY2 = 'edX+WowX';
-const PROGRAM_DATA = {
-  courses: [
+const PROGRAM_ENROLLMENT_API_ENDPOINT = `${APP_CONFIG.LMS_BASE_URL}/api/program-enrollment/user-enrollments/`;
+
+const courseFactory = factory.object({
+  key: factory.cycle(['edX+DemoX', 'edX+WowX']),
+  uuid: '12345678-be4c-4e1d-0000-2d60323db911',
+  title: 'Introduction to Cloud Computing',
+  activeCourseRun: undefined,
+  course_runs: [
     {
-      key: COURSE_KEY,
+      key: 'course-v1:edX+DemoX+2T2020',
       uuid: '12345678-be4c-4e1d-0000-2d60323db911',
       title: 'Introduction to Cloud Computing',
-      activeCourseRun: undefined,
-      course_runs: [
-        {
-          key: 'course-v1:edX+DemoX+2T2020',
-          uuid: '12345678-be4c-4e1d-0000-2d60323db911',
-          title: 'Introduction to Cloud Computing',
-          short_description: 'course run description',
-          start: '2020-07-21T16:00:00Z',
-        },
-      ],
-      short_description: 'course description',
-    },
-    {
-      key: COURSE_KEY2,
-      uuid: '12345678-be4c-4e1d-0000-2d60323db911',
-      title: 'Introduction to Cloud Computing',
-      activeCourseRun: undefined,
-      course_runs: [
-        {
-          key: 'course-v1:edX+DemoX+2T2020',
-          uuid: '12345678-be4c-4e1d-0000-2d60323db911',
-          title: 'Introduction to Cloud Computing',
-          short_description: 'course run description',
-          start: '2020-07-21T16:00:00Z',
-        },
-      ],
-      short_description: 'course description',
+      short_description: 'course run description',
+      start: '2020-07-21T16:00:00Z',
     },
   ],
+  short_description: 'course description',
+});
+
+const PROGRAM_DATA = {
+  courses: createManyMocks(2, courseFactory),
   catalogContainsProgram: true,
 };
 
 jest.mock('@edx/frontend-platform/auth');
 const axiosMock = new MockAdapter(axios);
 getAuthenticatedHttpClient.mockReturnValue(axios);
+
 axiosMock.onGet(PROGRAM_API_ENDPOINT).reply(200, PROGRAM_DATA);
+axiosMock.onGet(PROGRAM_ENROLLMENT_API_ENDPOINT).reply(200, {});
+
 jest.mock('@edx/frontend-platform/config', () => ({
   getConfig: () => (APP_CONFIG),
 }));
 
-describe.skip('course enrollments service', () => {
+describe('course enrollments service', () => {
   beforeEach(() => {
     axiosMock.resetHistory();
   });
@@ -90,10 +78,10 @@ describe.skip('course enrollments service', () => {
       program_uuids: PROGRAM_UUID,
     });
     const paramsWithCourseUuid = new URLSearchParams({
-      course_run_ids: COURSE_KEY,
+      course_run_ids: PROGRAM_DATA[0],
     });
     const paramsWithCourse2Uuid = new URLSearchParams({
-      course_run_ids: COURSE_KEY2,
+      course_run_ids: PROGRAM_DATA[1],
     });
     const CONTAINS_CONTENT_ITEMS_API_ENDPOINT_1 = `${APP_CONFIG.ENTERPRISE_CATALOG_API_BASE_URL}/api/v1/enterprise-customer/${ENTERPRISE_UUID}/contains_content_items/?${paramsWithProgramUuid.toString()}`;
     axiosMock.onGet(CONTAINS_CONTENT_ITEMS_API_ENDPOINT_1).reply(200, { contains_content_items: false });

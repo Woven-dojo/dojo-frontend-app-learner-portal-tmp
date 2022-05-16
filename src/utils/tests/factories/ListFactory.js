@@ -1,4 +1,5 @@
 import { MockFactory } from './MockFactory';
+import { createManyMocks } from './utils';
 
 export class ListFactory extends MockFactory {
   constructor(length, itemFactory) {
@@ -12,6 +13,6 @@ export class ListFactory extends MockFactory {
   }
 
   create() {
-    return Array.from({ length: this.getLength() }, () => this.itemFactory.create());
+    return createManyMocks(this.getLength(), this.itemFactory);
   }
 }

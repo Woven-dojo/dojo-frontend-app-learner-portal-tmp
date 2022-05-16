@@ -1,4 +1,5 @@
 import { MockFactory } from './MockFactory';
+import { resolveFactoryValue } from './utils';
 
 export class ObjectFactory extends MockFactory {
   constructor(template) {
@@ -10,12 +11,7 @@ export class ObjectFactory extends MockFactory {
     const result = {};
 
     Object.entries(this.template).forEach(([key, item]) => {
-      if (item instanceof MockFactory) {
-        result[key] = item.create();
-        return;
-      }
-
-      result[key] = item;
+      result[key] = resolveFactoryValue(item);
     });
 
     const usedMixin = mixin instanceof ObjectFactory
