@@ -17,12 +17,26 @@ describe('IteratorFactory', () => {
 
     const factory = new IteratorFactory(iterable);
 
-    const result = createManyMocks(2, factory);
+    const result = createManyMocks(iterable.length * 3, factory);
 
     expect(result).toEqual([
       ...iterable,
       ...iterable,
       ...iterable,
+    ]);
+  });
+
+  test('Fill in the rest with factory', () => {
+    const iterable = [1, 2, 3];
+
+    const factory = new IteratorFactory(iterable, new TestMockFactory());
+
+    const result = createManyMocks(iterable.length + 2, factory);
+
+    expect(result).toEqual([
+      ...iterable,
+      TestMockFactory.OUTPUT,
+      TestMockFactory.OUTPUT,
     ]);
   });
 

@@ -1,31 +1,44 @@
 import { MockFactory } from './MockFactory';
-import { resolveFactoryValue } from './utils';
+import { getIterator, resolveFactoryValue } from './utils';
 import { EmptyIteratorFactoryError } from './errors';
 
 export class IteratorFactory extends MockFactory {
-  constructor(iterable) {
+  constructor(iterable, restFactory) {
     super();
 
     this.iterable = iterable;
-    this.startIteration();
+    this.iterator = getIterator(this.iterable);
+    this.isFillingTheRest = false;
+    this.restFactory = restFactory;
   }
 
-  startIteration() {
-    this.iterator = this.iterable[Symbol.iterator]();
+  restartIterationAndGetFirst() {
+    this.iterator = getIterator(this.iterable);
+    const { done, value } = this.iterator.next();
+
+    if (done) {
+      throw new EmptyIteratorFactoryError();
+    }
+
+    return value;
   }
 
   create() {
-    let iteration = this.iterator.next();
-
-    if (iteration.done) {
-      this.startIteration();
-      iteration = this.iterator.next();
-
-      if (iteration.done) {
-        throw new EmptyIteratorFactoryError();
-      }
+    if (this.isFillingTheRest) {
+      return this.restFactory.create();
     }
 
-    return resolveFactoryValue(iteration.value);
+    const { done, value } = this.iterator.next();
+
+    if (!done) {
+      return resolveFactoryValue(value);
+    }
+
+    if (this.restFactory) {
+      this.isFillingTheRest = true;
+      return this.restFactory.create();
+    }
+
+    return resolveFactoryValue(this.restartIterationAndGetFirst());
   }
 }

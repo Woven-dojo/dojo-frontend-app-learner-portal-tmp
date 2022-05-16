@@ -9,3 +9,5 @@ export const resolveFactoryValue = (item) => (
 export const createManyMocks = (length, factory) => (
   Array.from({ length }, () => factory.create())
 );
+
+export const getIterator = (iterable) => iterable[Symbol.iterator]();

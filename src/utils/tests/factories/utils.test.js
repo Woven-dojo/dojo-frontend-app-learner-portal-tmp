@@ -1,4 +1,4 @@
-import { createManyMocks, resolveFactoryValue } from './utils';
+import { createManyMocks, getIterator, resolveFactoryValue } from './utils';
 import { MockFactory } from './MockFactory';
 
 class TestMockFactory extends MockFactory {
@@ -34,5 +34,22 @@ describe('createManyMocks', () => {
       TestMockFactory.OUTPUT,
       TestMockFactory.OUTPUT,
     ]);
+  });
+});
+
+describe('getIterator', () => {
+  test('From array', () => {
+    const first = 1;
+    const last = 2;
+    const list = [first, last];
+
+    const expectIteratorToWork = (iterator) => {
+      expect(iterator.next()).toEqual({ value: first, done: false });
+      expect(iterator.next()).toEqual({ value: last, done: false });
+      expect(iterator.next()).toEqual({ done: true });
+    };
+
+    expectIteratorToWork(getIterator(list));
+    expectIteratorToWork(getIterator(list));
   });
 });
