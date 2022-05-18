@@ -1,15 +1,21 @@
 import { MockFactory } from './MockFactory';
-import { getIterator, resolveFactoryValue } from './utils';
+import { cloneMock, getIterator, resolveFactoryValue } from './utils';
 import { EmptyIteratorFactoryError } from './errors';
 
 export class IteratorFactory extends MockFactory {
-  constructor(iterable, restFactory) {
+  constructor(iterable, fillFactory) {
     super();
 
     this.iterable = iterable;
     this.iterator = getIterator(this.iterable);
     this.isFillingTheRest = false;
-    this.restFactory = restFactory;
+    this.fillFactory = fillFactory !== undefined
+      ? cloneMock(fillFactory)
+      : undefined;
+  }
+
+  clone() {
+    return new this.constructor(this.iterable, this.fillFactory);
   }
 
   restartIterationAndGetFirst() {
@@ -25,20 +31,20 @@ export class IteratorFactory extends MockFactory {
 
   create() {
     if (this.isFillingTheRest) {
-      return this.restFactory.create();
+      return resolveFactoryValue(this.fillFactory);
     }
 
     const { done, value } = this.iterator.next();
 
     if (!done) {
-      return resolveFactoryValue(value);
+      return value;
     }
 
-    if (this.restFactory) {
+    if (this.fillFactory !== undefined) {
       this.isFillingTheRest = true;
-      return this.restFactory.create();
+      return resolveFactoryValue(this.fillFactory);
     }
 
-    return resolveFactoryValue(this.restartIterationAndGetFirst());
+    return this.restartIterationAndGetFirst();
   }
 }

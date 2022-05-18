@@ -1,15 +1,7 @@
 import { IteratorFactory } from './IteratorFactory';
+import { CloneTestFactory, TestMockFactory } from './testFactories';
 import { createManyMocks } from './utils';
-import { MockFactory } from './MockFactory';
 import { EmptyIteratorFactoryError } from './errors';
-
-class TestMockFactory extends MockFactory {
-  static OUTPUT = 'factory_output';
-
-  create() {
-    return this.constructor.OUTPUT;
-  }
-}
 
 describe('IteratorFactory', () => {
   test('Starting over if ran out of elements', () => {
@@ -50,16 +42,21 @@ describe('IteratorFactory', () => {
     }
   });
 
-  test('Factory Resolution', () => {
-    const plainObject = { id: 2 };
+  test('Clone is independent from original', () => {
+    const iterable = [1, 2];
+    const expectedResult = [
+      ...iterable,
+      CloneTestFactory.NOT_USED,
+    ];
 
-    const factory = new IteratorFactory([
-      new TestMockFactory(),
-      plainObject,
-    ]);
+    const factory = new IteratorFactory(iterable, new CloneTestFactory());
+    const clone = factory.clone();
 
-    const result = createManyMocks(2, factory);
+    const length = iterable.length + 1;
+    const factoryResult = createManyMocks(length, factory);
 
-    expect(result).toEqual([TestMockFactory.OUTPUT, plainObject]);
+    expect(factoryResult).toEqual(expectedResult);
+
+    expect(factoryResult).toEqual(createManyMocks(length, clone));
   });
 });

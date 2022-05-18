@@ -1,11 +1,19 @@
 import { MockFactory } from './MockFactory';
-import { resolveFactoryValue } from './utils';
-import { MustBeObjectFactoryError } from './errors';
+import { resolveFactoryValue, cloneMock } from './utils';
 
 export class ObjectFactory extends MockFactory {
   constructor(template) {
     super();
-    this.template = template;
+
+    // so if you pass other factory, it won't mutate it's state on creation
+    this.template = {};
+    Object.entries(template).forEach(([key, item]) => {
+      this.template[key] = cloneMock(item);
+    });
+  }
+
+  clone() {
+    return new this.constructor(this.template);
   }
 
   create(mixin) {
@@ -31,9 +39,9 @@ export class ObjectFactory extends MockFactory {
   }
 
   extend(mixin) {
-    if (!(mixin instanceof ObjectFactory)) {
-      throw new MustBeObjectFactoryError();
-    }
-    return new this.constructor({ ...this.template, ...mixin });
+    const mixinTemplate = mixin instanceof ObjectFactory
+      ? mixin.template
+      : mixin;
+    return new this.constructor({ ...this.template, ...mixinTemplate });
   }
 }

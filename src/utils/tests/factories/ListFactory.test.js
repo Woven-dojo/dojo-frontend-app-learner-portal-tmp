@@ -1,14 +1,6 @@
-import { MockFactory } from './MockFactory';
+import { TestMockFactory, CloneTestFactory } from './testFactories';
 import { ListFactory } from './ListFactory';
 import { createManyMocks } from './utils';
-
-class TestMockFactory extends MockFactory {
-  static OUTPUT = 'factory_output';
-
-  create() {
-    return this.constructor.OUTPUT;
-  }
-}
 
 describe('ListFactory', () => {
   const threeMocks = [
@@ -44,5 +36,22 @@ describe('ListFactory', () => {
       threeMocks,
       [],
     ]);
+  });
+
+  test('Clone is independent from original', () => {
+    const expectedResult = [
+      CloneTestFactory.NOT_USED,
+      // it uses the same instance of factory for each iteration
+      // but it must not share instance with the copy
+      CloneTestFactory.USED,
+    ];
+
+    const factory = new ListFactory(2, new CloneTestFactory());
+    const clone = factory.clone();
+
+    const factoryResult = factory.create();
+
+    expect(factoryResult).toEqual(expectedResult);
+    expect(factoryResult).toEqual(clone.create());
   });
 });

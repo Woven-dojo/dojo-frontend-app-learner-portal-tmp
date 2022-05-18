@@ -17,4 +17,11 @@ describe('IndexFactory', () => {
 
     expect(results).toEqual(['n0', 'n1', 'n2']);
   });
+
+  test('Clone and original are independent', () => {
+    const factory = new IndexFactory((i) => `n${i}`);
+    const clone = factory.clone();
+
+    expect(factory.create()).toEqual(clone.create());
+  });
 });

@@ -9,7 +9,11 @@ export class ListFactory extends MockFactory {
       ? length
       : () => length;
 
-    this.itemFactory = itemFactory;
+    this.itemFactory = itemFactory.clone();
+  }
+
+  clone() {
+    return new this.constructor(this.getLength, this.itemFactory);
   }
 
   create() {

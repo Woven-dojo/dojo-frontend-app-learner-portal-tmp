@@ -1,17 +1,5 @@
-import { MockFactory } from './MockFactory';
+import { TestPassValueFactory, CloneTestFactory } from './testFactories';
 import { ObjectFactory } from './ObjectFactory';
-import { MustBeObjectFactoryError } from './errors';
-
-class TestPassValueFactory extends MockFactory {
-  constructor(value) {
-    super();
-    this.value = value;
-  }
-
-  create() {
-    return this.value;
-  }
-}
 
 describe('ObjectFactory', () => {
   test('Create without mixin', () => {
@@ -28,6 +16,7 @@ describe('ObjectFactory', () => {
     const template = {
       id: 1,
       test: new TestPassValueFactory('old'),
+      notUsed: new CloneTestFactory(),
     };
 
     const mixin = {
@@ -39,6 +28,7 @@ describe('ObjectFactory', () => {
       id: template.id,
       test: mixin.test.value,
       name: mixin.name,
+      notUsed: CloneTestFactory.NOT_USED,
     };
 
     test('Create with mixin', () => {
@@ -62,18 +52,31 @@ describe('ObjectFactory', () => {
 
       const extendedFactory = factory.extend(mixinFactory);
 
-      expect(extendedFactory).toEqual(expectedResult);
+      expect(extendedFactory.create()).toEqual(expectedResult);
     });
 
     test('Extend from non factory', () => {
       const factory = new ObjectFactory(template);
-      expect.assertions(1);
 
-      try {
-        factory.extend(mixin);
-      } catch (error) {
-        expect(error).toBeInstanceOf(MustBeObjectFactoryError);
-      }
+      const extendedFactory = factory.extend(mixin);
+
+      expect(extendedFactory.create()).toEqual(expectedResult);
     });
+  });
+
+  test('Clone is independent from original', () => {
+    const factory = new ObjectFactory({
+      id: 1,
+      notUsed: new CloneTestFactory(),
+    });
+    const clone = factory.clone();
+
+    const factoryResult = factory.create();
+
+    expect(factoryResult).toEqual({
+      id: 1,
+      notUsed: CloneTestFactory.NOT_USED,
+    });
+    expect(factoryResult).toEqual(clone.create());
   });
 });
