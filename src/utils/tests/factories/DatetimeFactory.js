@@ -30,7 +30,7 @@ export class DatetimeFactory extends MockFactory {
     }
 
     if (this.decrement) {
-      this.currentDateTime.add(this.decrement);
+      this.currentDateTime.subtract(this.decrement);
     }
 
     return result;
