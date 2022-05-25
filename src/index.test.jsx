@@ -5,6 +5,7 @@ import axios from 'axios';
 import { mergeConfig, getConfig, setConfig } from '@edx/frontend-platform/config';
 import { initializeMockApp, history } from '@edx/frontend-platform';
 import { App } from './components/app';
+import { delay } from './utils/common';
 
 const mergeTestConfig = () => mergeConfig({
   USE_API_CACHE: process.env.USE_API_CACHE || null,
@@ -40,7 +41,7 @@ const SUBSCRIPTION_UUID = ENTERPRISE_UUID;
 const ENTERPRISE_CUSTOMER_UUID = ENTERPRISE_UUID;
 const ENTERPRISE_CATALOG_UUID = 'f62ce957-8f5a-452d-bc79-b5ef2651aab8';
 
-const TEST_ENTERPRISE = {
+const ENTERPRISE = {
   uuid: ENTERPRISE_UUID,
   name: 'Test Enterprise',
   slug: ENTERPRISE_SLUG,
@@ -86,10 +87,10 @@ const ENTERPRISE_CUSTOMER_REPLY = {
   num_pages: 1,
   current_page: 1,
   start: 0,
-  results: [TEST_ENTERPRISE],
+  results: [ENTERPRISE],
 };
-axiosMock.onGet(`${LMS_BASE_URL}/enterprise/api/v1/enterprise-customer/`)
-  .reply(ENTERPRISE_CUSTOMER_REPLY);
+axiosMock.onGet(new RegExp(`${LMS_BASE_URL}/enterprise/api/v1/enterprise-customer/*`))
+  .reply(200, ENTERPRISE_CUSTOMER_REPLY);
 
 const OFFER_ASSIGNMENT_SUMMARY_REPLY = {
   count: 0,
@@ -101,7 +102,7 @@ const OFFER_ASSIGNMENT_SUMMARY_REPLY = {
   start: 0,
 };
 axiosMock.onGet(`${ECOMMERCE_BASE_URL}/offer_assignment_summary/`)
-  .reply(OFFER_ASSIGNMENT_SUMMARY_REPLY);
+  .reply(200, OFFER_ASSIGNMENT_SUMMARY_REPLY);
 
 const CATALOGS_REPLY = {
   enterprise_uuid: ENTERPRISE_UUID,
@@ -109,7 +110,7 @@ const CATALOGS_REPLY = {
   subscription_uuid: SUBSCRIPTION_UUID,
 };
 axiosMock.onGet(new RegExp(`${LMS_BASE_URL}/api/catalogs/*`))
-  .reply(CATALOGS_REPLY);
+  .reply(200, CATALOGS_REPLY);
 
 const CUSTOMER_AGREEMENT_REPLY = {
   count: 0,
@@ -118,7 +119,31 @@ const CUSTOMER_AGREEMENT_REPLY = {
   results: [],
 };
 axiosMock.onGet(`${LICENSE_MANAGER_URL}/api/v1/customer-agreement/`)
-  .reply(CUSTOMER_AGREEMENT_REPLY);
+  .reply(200, CUSTOMER_AGREEMENT_REPLY);
+
+const generateProfileImage = () => {
+  const profileImage = { hasImage: false };
+  const sizes = {
+    largeUrlFull: 500,
+    largeUrlLarge: 100,
+    largeUrlMedium: 50,
+    largeUrlSmall: 30,
+  };
+
+  Object.entries(sizes).forEach(([field, size]) => {
+    profileImage[field] = `${LMS_BASE_URL}/static/images/profile/default_${size}.png`;
+  });
+
+  return profileImage;
+};
+
+jest.mock('./colors.scss', () => ({
+  dark: 'grey',
+  white: 'white',
+  primary: 'blue',
+  info100: 'blue',
+  info500: 'blue',
+}));
 
 describe('Smoke test', () => {
   let prevConfig = {};
@@ -136,7 +161,7 @@ describe('Smoke test', () => {
     setConfig(prevConfig);
   });
 
-  it('Page renders', () => {
+  it('Page renders', async () => {
     history.push({ pathname: ENTERPRISE_SLUG });
 
     initializeMockApp({
@@ -145,10 +170,15 @@ describe('Smoke test', () => {
         username: 'jobread',
         name: 'John Doe',
         roles: [],
+        profileImage: generateProfileImage(),
       },
     });
 
     render(<App />);
-    expect(screen.getByText('Welcome, Johm!'));
+
+    // wait for loading;
+    await delay(5000);
+
+    expect(screen.getByText(ENTERPRISE.name));
   });
 });

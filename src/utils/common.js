@@ -73,3 +73,7 @@ export const formatStringAsNumber = (str, radix = 10) => {
   const num = parseInt(str, radix);
   return num.toLocaleString();
 };
+
+export const delay = (delayDuration) => (
+  new Promise(resolve => setTimeout(resolve, delayDuration))
+);
