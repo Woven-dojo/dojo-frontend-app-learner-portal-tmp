@@ -1,0 +1,83 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[Smoke] Smoke test Dashboard renders 1`] = `
+Array [
+  <div
+    className="position-absolute"
+  >
+    <a
+      className="skip-nav-link sr-only sr-only-focusable btn btn-primary mt-3 ml-2"
+      href="/test-enterprise-id#content"
+      onClick={[Function]}
+    >
+      Skip to main content
+    </a>
+  </div>,
+  <main
+    id="content"
+  >
+    <div
+      className="enterprise-banner bg-brand-secondary"
+    >
+      <div
+        className="container-mw-lg container-fluid"
+      >
+        <div
+          className="row banner-content"
+        >
+          <h1
+            className="h2 mb-0 py-3 pl-3 border-brand-tertiary text-brand-secondary"
+          >
+            Test Enterprise
+          </h1>
+        </div>
+      </div>
+    </div>
+    <div
+      className="py-5 container-fluid"
+    >
+      <div
+        className="loading-spinner d-flex justify-content-center align-items-center"
+      >
+        <div
+          className="spinner-border text-primary"
+          role="status"
+        >
+          <span
+            className="sr-only"
+          >
+            loading your edX benefits from your organization
+          </span>
+        </div>
+      </div>
+    </div>
+  </main>,
+  <footer
+    aria-label="edX Home"
+    className="footer d-flex border-top py-3 px-4"
+    role="contentinfo"
+  >
+    <div
+      className="container-fluid d-flex"
+    >
+      <a
+        aria-label="edX Home"
+        className="d-block"
+        href="https://open.edx.org"
+      >
+        <img
+          alt="Powered by Open edX"
+          style={
+            Object {
+              "maxHeight": 45,
+            }
+          }
+        />
+      </a>
+      <div
+        className="flex-grow-1"
+      />
+    </div>
+  </footer>,
+]
+`;
