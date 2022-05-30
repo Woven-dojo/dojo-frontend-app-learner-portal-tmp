@@ -138,7 +138,7 @@ const SUBSIDY_CONTEXT = {
   },
 };
 
-describe.skip('Course', () => {
+describe('Course', () => {
   afterAll(() => {
     jest.resetAllMocks();
   });
