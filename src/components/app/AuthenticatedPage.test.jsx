@@ -33,7 +33,6 @@ describe('AuthenticatedPage tests', () => {
           <div>Your Child, I am but I won&apos;t be rendered!</div>
         </AuthenticatedPage>,
       );
-
     });
 
     expect(tree.toJSON()).toMatchSnapshot();
