@@ -25,6 +25,10 @@ const LoginRefreshWithContext = ({ roles = [] }) => (
 ); /* eslint-enable react/prop-types */
 
 describe('<LoginRefresh />', () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('should call loginRefresh if the user has no roles', async () => {
     await act(async () => render(
       <LoginRefreshWithContext />,
