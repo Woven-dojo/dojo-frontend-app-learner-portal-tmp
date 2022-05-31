@@ -1,7 +1,7 @@
 # frontend-app-learner-portal-enterprise
 
 ![Build Status](https://github.com/reustleco/dojo-frontend-app-learner-portal/actions/workflows/ci.yml/badge.svg)
-![Coveralls](https://img.shields.io/coveralls/github/reustleco/dojo-frontend-app-learner-portal.svg?branch=master)
+![Coveralls](https://img.shields.io/coveralls/github/reustleco/dojo-frontend-app-learner-portal.svg?branch=feature/87_increase_coverage)
 
 ## Overview
 The edX learning platform's frontend for enterprise learners.
