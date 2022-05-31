@@ -26,14 +26,16 @@ describe('AuthenticatedPage tests', () => {
   });
 
   test('should render the expected HTML', async () => {
+    let tree;
     await renderer.act(async () => {
-      const tree = await renderer.create(
+      tree = await renderer.create(
         <AuthenticatedPage>
           <div>Your Child, I am but I won&apos;t be rendered!</div>
         </AuthenticatedPage>,
       );
 
-      expect(tree.toJSON()).toMatchSnapshot();
     });
+
+    expect(tree.toJSON()).toMatchSnapshot();
   });
 });

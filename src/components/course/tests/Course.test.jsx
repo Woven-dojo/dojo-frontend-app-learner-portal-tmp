@@ -145,9 +145,10 @@ describe('Course', () => {
 
   it('should render the expected HTML', async () => {
     const url = `/${ORG_SLUG}/course/${COURSE_KEY}?course_run_key=run-key`;
+    let tree;
 
     await renderer.act(async () => {
-      const tree = await renderer.create(
+      tree = await renderer.create(
         <AppContext.Provider value={APP_CONTEXT}>
           <ToastsContext.Provider value={TOAST_CONTEXT}>
             <UserSubsidyContext.Provider value={SUBSIDY_CONTEXT}>
@@ -165,8 +166,8 @@ describe('Course', () => {
           </ToastsContext.Provider>
         </AppContext.Provider>,
       );
-
-      expect(tree.toJSON()).toMatchSnapshot();
     });
+
+    expect(tree.toJSON()).toMatchSnapshot();
   });
 });

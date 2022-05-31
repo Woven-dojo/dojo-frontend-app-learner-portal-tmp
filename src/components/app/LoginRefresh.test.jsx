@@ -46,12 +46,13 @@ describe('<LoginRefresh />', () => {
   });
 
   it('should render the expected HTML', async () => {
+    let tree;
     await renderer.act(async () => {
-      const tree = await renderer.create(
+      tree = await renderer.create(
         <LoginRefreshWithContext />,
       );
-
-      expect(tree.toJSON()).toMatchSnapshot();
     });
+
+    expect(tree.toJSON()).toMatchSnapshot();
   });
 });
