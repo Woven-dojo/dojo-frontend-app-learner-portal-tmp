@@ -19,13 +19,15 @@ describe('<EnterpriseBanner />', () => {
       pathname: '/slug/search',
     }));
 
+    const name = 'Dojo Alpha';
+
     render(
       <AppContext.Provider
         value={{
           enterpriseConfig: {
             slug: 'slug',
             uuid: 'uuid',
-            name: 'test enterprise',
+            name,
           },
         }}
       >
@@ -33,6 +35,6 @@ describe('<EnterpriseBanner />', () => {
       </AppContext.Provider>,
     );
 
-    expect(screen.getByText('test enterprise'));
+    expect(screen.getByText(name));
   });
 });

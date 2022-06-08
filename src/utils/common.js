@@ -77,3 +77,5 @@ export const formatStringAsNumber = (str, radix = 10) => {
 export const delay = (delayDuration) => (
   new Promise(resolve => setTimeout(resolve, delayDuration))
 );
+
+export const waitForAsync = () => new Promise(resolve => setImmediate(resolve));
