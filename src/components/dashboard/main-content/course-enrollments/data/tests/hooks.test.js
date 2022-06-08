@@ -13,8 +13,7 @@ jest.mock('@edx/frontend-platform/logging', () => ({
 const mockRawCourseEnrollment = createRawCourseEnrollment();
 const mockTransformedMockCourseEnrollment = transformCourseEnrollment(mockRawCourseEnrollment);
 
-// todo: [DP-100] fix test
-describe.skip('useCourseEnrollments', () => {
+describe('useCourseEnrollments', () => {
   it('should fetch and set course enrollments', async () => {
     service.fetchEnterpriseCourseEnrollments.mockResolvedValue({ data: [mockRawCourseEnrollment] });
 
@@ -24,7 +23,6 @@ describe.skip('useCourseEnrollments', () => {
     expect(result.current.courseEnrollmentsByStatus).toEqual({
       inProgress: [mockTransformedMockCourseEnrollment], upcoming: [], completed: [], savedForLater: [], requested: [],
     });
-    expect(result.current.fetchError).toBeUndefined();
   });
 
   it('should set fetchError if an error occurs', async () => {

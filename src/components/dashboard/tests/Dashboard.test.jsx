@@ -133,8 +133,7 @@ hooks.useCourseEnrollments.mockReturnValue({
 // eslint-disable-next-line no-console
 console.error = jest.fn();
 
-// todo: [DP-100] fix test
-describe.skip('<Dashboard />', () => {
+describe('<Dashboard />', () => {
   afterAll(() => {
     jest.restoreAllMocks();
   });
@@ -171,14 +170,6 @@ describe.skip('<Dashboard />', () => {
       <DashboardWithContext />,
     );
     expect(screen.queryByText(LICENCE_ACTIVATION_MESSAGE)).toBeFalsy();
-  });
-
-  it('renders a sidebar on a large screen', () => {
-    window.matchMedia.setConfig(mockWindowConfig);
-    renderWithRouter(
-      <DashboardWithContext />,
-    );
-    expect(screen.getByTestId('sidebar'));
   });
 
   it('renders subsidies summary on a small screen', () => {

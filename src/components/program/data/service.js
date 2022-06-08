@@ -20,8 +20,7 @@ export default class ProgramService {
     const programDataRaw = await Promise.all([
       this.fetchProgramDetails(),
       this.fetchEnterpriseCatalogData(),
-    ])
-      .then((responses) => responses.map(res => res.data));
+    ]).then((responses) => responses.map(res => res.data));
 
     const programData = camelCaseObject(programDataRaw);
     const programDetails = programData[0];

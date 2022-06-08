@@ -9,13 +9,12 @@ jest.mock('react-router-dom', () => ({
   useLocation: jest.fn(),
 }));
 
-// todo: [DP-100] fix test
-describe.skip('<EnterpriseBanner />', () => {
+describe('<EnterpriseBanner />', () => {
   afterAll(() => {
     jest.restoreAllMocks();
   });
 
-  it('renders recommend courses for me button if the user is on the search page', () => {
+  it('renders banner content', () => {
     useLocation.mockImplementation(() => ({
       pathname: '/slug/search',
     }));
@@ -26,6 +25,7 @@ describe.skip('<EnterpriseBanner />', () => {
           enterpriseConfig: {
             slug: 'slug',
             uuid: 'uuid',
+            name: 'test enterprise',
           },
         }}
       >
@@ -33,6 +33,6 @@ describe.skip('<EnterpriseBanner />', () => {
       </AppContext.Provider>,
     );
 
-    expect(screen.getByText('Recommend courses for me'));
+    expect(screen.getByText('test enterprise'));
   });
 });

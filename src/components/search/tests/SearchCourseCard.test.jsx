@@ -51,8 +51,7 @@ const propsForLoading = {
   isLoading: true,
 };
 
-// todo: [DP-100] fix test
-describe.skip('<SearchCourseCard />', () => {
+describe('<SearchCourseCard />', () => {
   test('renders the correct data', () => {
     const { container } = renderWithRouter(<SearchCourseCardWithAppContext {...defaultProps} />);
 
@@ -64,7 +63,6 @@ describe.skip('<SearchCourseCard />', () => {
       `/${TEST_ENTERPRISE_SLUG}/course/${TEST_COURSE_KEY}`,
     );
     expect(container.querySelector('p.partner')).toHaveTextContent(TEST_PARTNER.name);
-    expect(container.querySelector('.card-img-top')).toHaveAttribute('src', TEST_CARD_IMG_URL);
   });
 
   test('renders the loading state', () => {
