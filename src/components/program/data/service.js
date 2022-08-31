@@ -19,10 +19,9 @@ export default class ProgramService {
   async fetchAllProgramData() {
     const responses = await Promise.all([
       this.fetchProgramDetails(),
-      this.fetchEnterpriseCatalogData(),
     ]);
 
-    const [programDetails, catalogData] = responses.map(
+    const [programDetails] = responses.map(
       ({ data }) => camelCaseObject(data),
     );
 
@@ -35,16 +34,7 @@ export default class ProgramService {
       };
     });
 
-    programDetails.catalogContainsProgram = Boolean(
-      catalogData.programs?.some(({ uuid }) => uuid === programDetails.uuid),
-    );
-
     return { programDetails };
-  }
-
-  fetchEnterpriseCatalogData() {
-    const url = `${this.config.LMS_BASE_URL}/api/catalogs/${this.enterpriseUuid}/`;
-    return this.cachedAuthenticatedHttpClient.get(url);
   }
 
   fetchProgramDetails() {

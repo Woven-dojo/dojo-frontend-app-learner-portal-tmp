@@ -33,18 +33,11 @@ export default class CourseService {
       this.fetchUserEnrollments(),
       this.fetchUserEntitlements(),
       this.fetchEnterpriseCustomerContainsContent(),
-      this.fetchEnterpriseCatalogData(),
     ])
       .then((responses) => responses.map(res => res.data));
 
     const courseData = camelCaseObject(courseDataRaw);
     const courseDetails = courseData[0];
-    const catalogData = courseData[4];
-    const allAvailableCourses = [].concat(
-      ...catalogData.programs.map((program) => program.courses.map((course) => course.key)),
-    );
-    // Whether course is included in current catalog
-    courseData[3].containsContentItems = allAvailableCourses.includes(this.courseKey);
 
     // Get the user subsidy (by license, codes, or any other means) that the user may have for the active course run
     this.activeCourseRun = this.activeCourseRun || getActiveCourseRun(courseDetails);
@@ -90,11 +83,6 @@ export default class CourseService {
   fetchUserEntitlements() {
     const url = `${this.config.LMS_BASE_URL}/api/entitlements/v1/entitlements/`;
     return this.authenticatedHttpClient.get(url);
-  }
-
-  fetchEnterpriseCatalogData() {
-    const url = `${this.config.LMS_BASE_URL}/api/catalogs/${this.enterpriseUuid}/`;
-    return this.cachedAuthenticatedHttpClient.get(url);
   }
 
   fetchEnterpriseCustomerContainsContent() {

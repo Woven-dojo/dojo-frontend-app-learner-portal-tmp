@@ -36,9 +36,3 @@ export const rawCourseEnrollmentFactory = factory.object({
 });
 
 export const createRawCourseEnrollment = () => rawCourseEnrollmentFactory.create();
-
-export const programEnrollmentFactory = factory.object({
-  programUuid: factory.index(),
-  id: factory.index(),
-  enterpriseCourseEnrollments: factory.list(2, rawCourseEnrollmentFactory),
-});

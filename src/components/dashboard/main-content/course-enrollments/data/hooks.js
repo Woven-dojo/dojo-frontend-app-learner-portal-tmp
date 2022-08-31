@@ -10,7 +10,6 @@ import { groupCourseEnrollmentsByStatus, transformCourseEnrollment } from './uti
 
 export const useCourseEnrollments = (enterpriseUUID) => {
   const [courseEnrollmentsByStatus, setCourseEnrollmentsByStatus] = useState(groupCourseEnrollmentsByStatus([]));
-  const [programEnrollments, setProgramEnrollments] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [fetchError, setFetchError] = useState();
 
@@ -23,17 +22,9 @@ export const useCourseEnrollments = (enterpriseUUID) => {
       setCourseEnrollmentsByStatus(enrollmentsByStatus);
     };
 
-    const fetchProgramEnrollments = async () => {
-      const response = await service.fetchEnterpriseProgramEnrollments(enterpriseUUID);
-      setProgramEnrollments(response.data);
-    };
-
     const fetchData = async () => {
       try {
-        await Promise.all([
-          fetchProgramEnrollments(),
-          fetchEnterpriseCourseEnrollments(),
-        ]);
+        await fetchEnterpriseCourseEnrollments();
       } catch (error) {
         logError(error);
         setFetchError(error);
@@ -74,7 +65,6 @@ export const useCourseEnrollments = (enterpriseUUID) => {
 
   return {
     courseEnrollmentsByStatus,
-    programEnrollments,
     isLoading,
     fetchError,
     updateCourseEnrollmentStatus,

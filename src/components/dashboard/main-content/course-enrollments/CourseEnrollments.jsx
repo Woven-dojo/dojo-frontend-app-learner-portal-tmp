@@ -13,33 +13,15 @@ export const COURSE_SECTION_TITLES = {
   savedForLater: 'Saved for later',
 };
 
-const filterCourseRuns = (courseEnrollments, courses) => (
-  courseEnrollments.filter(({ courseRunId }) => courses.includes(courseRunId))
-);
-
 const CourseEnrollments = ({ children }) => {
   const {
     courseEnrollmentsByStatus,
-    programEnrollments,
     fetchCourseEnrollmentsError,
     showMarkCourseCompleteSuccess,
     showMoveToInProgressCourseSuccess,
     setShowMarkCourseCompleteSuccess,
     setShowMoveToInProgressCourseSuccess,
   } = useContext(CourseEnrollmentsContext);
-
-  const currentCourseEnrollments = useMemo(
-    () => sortedEnrollmentsByEnrollmentDate([
-      ...courseEnrollmentsByStatus.inProgress,
-      ...courseEnrollmentsByStatus.upcoming,
-      ...courseEnrollmentsByStatus.requested,
-    ]),
-    [
-      courseEnrollmentsByStatus.inProgress,
-      courseEnrollmentsByStatus.upcoming,
-      courseEnrollmentsByStatus.requested,
-    ],
-  );
 
   const completedCourseEnrollments = useMemo(
     () => sortedEnrollmentsByEnrollmentDate(courseEnrollmentsByStatus.completed),
@@ -88,15 +70,6 @@ const CourseEnrollments = ({ children }) => {
           gets displayed if the user does not have any course enrollments.
       */}
       {!hasCourseEnrollments && children}
-      {programEnrollments.map((programEnrollment) => (
-        <CourseSection
-          title={programEnrollment.program_title}
-          courseRuns={filterCourseRuns(
-            currentCourseEnrollments,
-            programEnrollment.courses,
-          )}
-        />
-      ))}
       <CourseSection
         title={COURSE_SECTION_TITLES.completed}
         courseRuns={completedCourseEnrollments}

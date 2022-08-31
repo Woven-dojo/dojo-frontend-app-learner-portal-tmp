@@ -70,7 +70,6 @@ const {
 
 const ENTERPRISE_SLUG = 'test-enterprise-id';
 const ENTERPRISE_UUID = '55b3a044-c9f9-4550-9ce4-3ab366b2e9a6';
-const SUBSCRIPTION_UUID = ENTERPRISE_UUID;
 const ENTERPRISE_CUSTOMER_UUID = ENTERPRISE_UUID;
 const ENTERPRISE_CATALOG_UUID = 'f62ce957-8f5a-452d-bc79-b5ef2651aab8';
 
@@ -124,14 +123,6 @@ const ENTERPRISE_CUSTOMER_REPLY = {
 };
 axiosMock.onGet(new RegExp(`${LMS_BASE_URL}/enterprise/api/v1/enterprise-customer/*`))
   .reply(200, ENTERPRISE_CUSTOMER_REPLY);
-
-const CATALOGS_REPLY = {
-  enterprise_uuid: ENTERPRISE_UUID,
-  programs: [],
-  subscription_uuid: SUBSCRIPTION_UUID,
-};
-axiosMock.onGet(new RegExp(`${LMS_BASE_URL}/api/catalogs/*`))
-  .reply(200, CATALOGS_REPLY);
 
 const COURSE_ENROLLMENTS = [
   createCourseEnrollmentWithStatus(COURSE_STATUSES.inProgress),
