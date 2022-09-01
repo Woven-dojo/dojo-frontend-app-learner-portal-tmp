@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import classNames from 'classnames';
 import {
   Breadcrumb,
@@ -14,10 +14,6 @@ import CourseEnrollmentFailedAlert from './CourseEnrollmentFailedAlert';
 import CourseRunCards from './CourseRunCards';
 
 import {
-  getDefaultProgram,
-  formatProgramType,
-} from './data/utils';
-import {
   useCourseSubjects,
   useCoursePartners,
 } from './data/hooks';
@@ -28,11 +24,6 @@ export default function CourseHeader() {
   const { enterpriseConfig } = useContext(AppContext);
   const { primarySubject } = useCourseSubjects(course);
   const [partners] = useCoursePartners(course);
-
-  const defaultProgram = useMemo(
-    () => getDefaultProgram(course.programs),
-    [course],
-  );
 
   return (
     <div className="course-header">
@@ -86,11 +77,6 @@ export default function CourseHeader() {
             {catalog.containsContentItems ? (
               <>
                 <CourseRunCards />
-                {defaultProgram && (
-                  <p className="font-weight-bold mt-3 mb-0">
-                    This course is part of a {formatProgramType(defaultProgram.type)}.
-                  </p>
-                )}
               </>
             ) : (
               <p className="font-weight-bold mt-3 mb-0">

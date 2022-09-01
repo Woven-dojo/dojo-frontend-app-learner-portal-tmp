@@ -133,15 +133,6 @@ const COURSE_ENROLLMENTS_REPLY = COURSE_ENROLLMENTS;
 axiosMock.onGet(new RegExp(`${LMS_BASE_URL}/enterprise_learner_portal/api/v1/enterprise_course_enrollments/*`))
   .reply(200, COURSE_ENROLLMENTS_REPLY);
 
-const PROGRAM_UUID = '82ac4932-d0e2-475a-9d03-877ef772e9ba';
-
-const PROGRAM_ENROLLMENTS_REPLY = [{
-  programUuid: PROGRAM_UUID,
-  id: 1,
-  enterpriseCourseEnrollments: COURSE_ENROLLMENTS,
-}];
-axiosMock.onGet(new RegExp(`${LMS_BASE_URL}/api/program-enrollment/user-enrollments/*`))
-  .reply(200, PROGRAM_ENROLLMENTS_REPLY);
 const LOADING_DELAY = 100;
 
 const generateProfileImage = () => {

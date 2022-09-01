@@ -16,7 +16,6 @@ import { Hyperlink } from '@edx/paragon';
 import { AppContext } from '@edx/frontend-platform/react';
 import { CourseContext } from './CourseContextProvider';
 import CourseSidebarListItem from './CourseSidebarListItem';
-import CourseAssociatedPrograms from './CourseAssociatedPrograms';
 import CourseSidebarPrice from './CourseSidebarPrice';
 
 import { isDefinedAndNotNull, hasTruthyValue } from '../../utils/common';
@@ -143,9 +142,6 @@ export default function CourseSidebar() {
           />
         )}
       </ul>
-      {course?.programs.length > 0 && (
-        <CourseAssociatedPrograms />
-      )}
       {course.prerequisitesRaw && (
         <div className="prerequisites mb-5">
           <h3>Prerequisites</h3>

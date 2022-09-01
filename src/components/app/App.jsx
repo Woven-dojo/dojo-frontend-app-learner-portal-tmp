@@ -10,12 +10,8 @@ import {
 } from '../enterprise-redirects';
 import { DashboardPage } from '../dashboard';
 import { CoursePage } from '../course';
-import { ProgramPage } from '../program';
-import ProgramProgressPage from '../program-progress/ProgramProgressPage';
-import { SkillsQuizPage } from '../skills-quiz';
 import { EnterpriseInvitePage } from '../enterprise-invite';
 
-import { features } from '../../config';
 import { ToastsProvider } from '../Toasts';
 
 export default function App() {
@@ -36,11 +32,6 @@ export default function App() {
             <PageRoute exact path="/" component={DashboardPage} />
             <Redirect from="/search" to="/" />
             <PageRoute exact path="/:enterpriseSlug/course/:courseKey" component={CoursePage} />
-            {features.ENABLE_PROGRAMS && (
-              <PageRoute exact path="/:enterpriseSlug/program/:programUuid" component={ProgramPage} />
-            )}
-            <PageRoute exact path="/:enterpriseSlug/program-progress/:programUUID" component={ProgramProgressPage} />
-            <PageRoute exact path="/:enterpriseSlug/skills-quiz" component={SkillsQuizPage} />
             <PageRoute path="*" component={NotFoundPage} />
           </Switch>
         </ToastsProvider>

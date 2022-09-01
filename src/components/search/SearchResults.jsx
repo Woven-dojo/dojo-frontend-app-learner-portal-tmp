@@ -11,9 +11,6 @@ import SearchNoResults from './SearchNoResults';
 import SearchError from './SearchError';
 
 import { isDefinedAndNotNull } from '../../utils/common';
-import {
-  PROGRAM_TITLE,
-} from './constants';
 import { getContentTypeFromTitle, getNoOfResultsFromTitle, getSkeletonCardFromTitle } from '../utils/search';
 
 const SearchResults = ({
@@ -30,12 +27,9 @@ const SearchResults = ({
   const linkText = `Show (${nbHits}) >`;
 
   // To prevent from showing same error twice, we only render the StatusAlert when course results are zero */
-  const showMessage = (type, heading) => {
+  const showMessage = (type) => {
     if (isDefinedAndNotNull(type)) {
       return true;
-    }
-    if (!isDefinedAndNotNull(type) && heading === PROGRAM_TITLE) {
-      return false;
     }
     return true;
   };
@@ -130,7 +124,7 @@ const SearchResults = ({
         {!isSearchStalled && nbHits === 0 && (
           <SearchNoResults title={title} />
         )}
-        {!isSearchStalled && isDefinedAndNotNull(error) && showMessage(contentType, title) && (
+        {!isSearchStalled && isDefinedAndNotNull(error) && showMessage(contentType) && (
           <SearchError title={title} />
         )}
       </>

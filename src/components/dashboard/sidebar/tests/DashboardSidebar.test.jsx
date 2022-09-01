@@ -27,7 +27,6 @@ jest.mock('../../main-content/course-enrollments/data/hooks', () => ({
     fetchError: null,
     updateCourseEnrollmentStatus: () => {
     },
-    programEnrollments: [],
   })),
 }));
 

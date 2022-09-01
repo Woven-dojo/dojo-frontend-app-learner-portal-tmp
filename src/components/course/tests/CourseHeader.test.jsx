@@ -52,7 +52,6 @@ describe('<CourseHeader />', () => {
       shortDescription: 'Course short description.',
       title: 'Test Course Title',
       owners: [TEST_OWNER],
-      programs: [],
       image: {
         src: 'http://test-image.url',
       },
@@ -255,48 +254,4 @@ describe('<CourseHeader />', () => {
         .toBeInTheDocument();
     },
   );
-
-  describe('renders program messaging', () => {
-    const courseStateWithProgramType = (type) => ({
-      ...initialCourseState,
-      course: {
-        ...initialCourseState.course,
-        programs: [{
-          type,
-        }],
-      },
-    });
-
-    test('MicroMasters', () => {
-      const micromasters = 'MicroMasters';
-
-      render(
-        <CourseHeaderWithContext
-          initialAppState={initialAppState}
-          initialCourseState={courseStateWithProgramType(micromasters)}
-          initialUserSubsidyState={initialUserSubsidyState}
-        />,
-      );
-
-      const messaging = `This course is part of a ${micromasters}`;
-      expect(screen.queryByText(messaging, { exact: false }))
-        .toBeInTheDocument();
-    });
-
-    test('Professional Certificate', () => {
-      const profCert = 'Professional Certificate';
-
-      render(
-        <CourseHeaderWithContext
-          initialAppState={initialAppState}
-          initialCourseState={courseStateWithProgramType(profCert)}
-          initialUserSubsidyState={initialUserSubsidyState}
-        />,
-      );
-
-      const messaging = `This course is part of a ${profCert}`;
-      expect(screen.queryByText(messaging, { exact: false }))
-        .toBeInTheDocument();
-    });
-  });
 });

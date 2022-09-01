@@ -127,7 +127,6 @@ hooks.useCourseEnrollments.mockReturnValue({
     savedForLater: [],
     requested: [],
   },
-  programEnrollments: [],
 });
 
 // eslint-disable-next-line no-console

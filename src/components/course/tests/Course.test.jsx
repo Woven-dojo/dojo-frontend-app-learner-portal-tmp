@@ -64,7 +64,6 @@ jest.mock('../data/hooks', () => ({
             marketingUrl: 'sponsor-url',
           },
         ],
-        programs: [],
         skills: [],
       },
     };
