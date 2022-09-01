@@ -25,7 +25,11 @@ export default function DashboardDrawer({
 }
 
 DashboardDrawer.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+};
+
+DashboardDrawer.defaultProps = {
+  children: null,
 };

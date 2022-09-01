@@ -179,7 +179,7 @@ export default function Dashboard() {
               details={[
                 {
                   key: 'Time investment',
-                  value: `${activeCourse.hours_required} hours`,
+                  value: activeCourse.hours_required && `${activeCourse.hours_required} hours`,
                   icon: <Alarm />,
                 },
                 {
@@ -207,7 +207,7 @@ export default function Dashboard() {
                   value: activeCourse.prerequisites,
                   icon: <Checklist />,
                 },
-              ]}
+              ].filter(item => !!item.value)}
               buttons={[
                 {
                   type: 'outline-primary',
