@@ -9,14 +9,16 @@ import PropTypes from 'prop-types';
 import { CourseCard } from '@reustleco/dojo-frontend-common';
 
 import emptyStateImage from '../../assets/images/empty-state.svg';
+import noResultsImage from '../../assets/images/no-results.svg';
+
 import DashboardPanel from './DashboardPanel';
 import { UserSubsidyContext } from '../enterprise-user-subsidy';
 import { Filter, ActiveFilter } from '../filter/Filter';
 
-function EmptyState({ title, text }) {
+function EmptyState({ title, text, type = 'empty' }) {
   return (
     <div className="dashboard-empty-state">
-      <img src={emptyStateImage} alt="" />
+      <img src={type === 'empty' ? emptyStateImage : noResultsImage} alt="" />
       {title && (
         <h3 className="dashboard-empty-state-title">
           {title}
@@ -34,11 +36,13 @@ function EmptyState({ title, text }) {
 EmptyState.propTypes = {
   title: PropTypes.string,
   text: PropTypes.node,
+  type: PropTypes.string,
 };
 
 EmptyState.defaultProps = {
   title: '',
   text: null,
+  type: 'empty',
 };
 
 const COURSES_PER_CATALOG_PAGE = 12;
@@ -131,6 +135,7 @@ export default function Dashboard() {
               <ActiveFilter filter={filter} />
               {catalogCoursesOnActivePage.length === 0 && (
                 <EmptyState
+                  type="noResults"
                   title="Can't find what you're looking for?"
                   text={<>Get in touch with us at #dojo-help or <a href="mailto:dojo@woven-planet.global">dojo@woven-planet.global</a></>}
                 />
