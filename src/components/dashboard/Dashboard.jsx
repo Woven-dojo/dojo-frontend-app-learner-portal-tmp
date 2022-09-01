@@ -79,6 +79,10 @@ export default function Dashboard() {
     }
   }, []);
 
+  useEffect(() => {
+    setActiveCatalogPage(1);
+  }, [filter.current]);
+
   const userFirstName = authenticatedUser?.name.split(' ').shift();
 
   return (
