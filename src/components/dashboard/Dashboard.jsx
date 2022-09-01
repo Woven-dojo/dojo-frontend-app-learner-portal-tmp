@@ -6,14 +6,23 @@ import {
 } from '@edx/paragon';
 import { AppContext } from '@edx/frontend-platform/react';
 import PropTypes from 'prop-types';
-import { CourseCard } from '@reustleco/dojo-frontend-common';
+import { CourseCard, CourseDetails } from '@reustleco/dojo-frontend-common';
 
 import emptyStateImage from '../../assets/images/empty-state.svg';
 import noResultsImage from '../../assets/images/no-results.svg';
 
 import DashboardPanel from './DashboardPanel';
+import DashboardDrawer from './DashboardDrawer';
 import { UserSubsidyContext } from '../enterprise-user-subsidy';
 import { Filter, ActiveFilter } from '../filter/Filter';
+import {
+  Alarm,
+  Baseline,
+  Certificate,
+  Checklist,
+  Dash,
+  World,
+} from './data/svg';
 
 function EmptyState({ title, text, type = 'empty' }) {
   return (
@@ -67,6 +76,7 @@ export default function Dashboard() {
     (activeCatalogPage - 1) * COURSES_PER_CATALOG_PAGE,
     (activeCatalogPage - 1) * COURSES_PER_CATALOG_PAGE + COURSES_PER_CATALOG_PAGE,
   ) ?? [];
+  const [activeCourse, setActiveCourse] = useState(null);
 
   useEffect(() => {
     if (state?.activationSuccess) {
@@ -84,6 +94,7 @@ export default function Dashboard() {
   }, [filter.current]);
 
   const userFirstName = authenticatedUser?.name.split(' ').shift();
+  const onDrawerClose = () => setActiveCourse(null);
 
   return (
     <>
@@ -95,7 +106,8 @@ export default function Dashboard() {
         </h2>
         <p className="mb-5 small">Today is a great day for education.</p>
         <DashboardPanel
-          title={learningPathName}
+          title="My learning path"
+          subtitle={learningPathName}
           headerAside={(
             <div>
               <div className="small text-dark-400">
@@ -119,11 +131,13 @@ export default function Dashboard() {
                 {courses?.map((course) => (
                   <Col xs={12} md={6} lg={4} key={course.id} className="mb-4">
                     <CourseCard
+                      active={activeCourse?.id === course.id}
                       title={course.title}
                       hours={course.hours_required}
                       languages={[course.primary_language]}
                       skills={[course.difficulty_level]}
                       bgKey={course.id % 10}
+                      onClick={() => setActiveCourse(course)}
                     />
                   </Col>
                 ))}
@@ -156,6 +170,7 @@ export default function Dashboard() {
                           languages={[course.primary_language]}
                           skills={[course.difficulty_level]}
                           bgKey={course.id % 10}
+                          onClick={() => setActiveCourse(course)}
                         />
                       </Col>
                     ))}
@@ -180,6 +195,58 @@ export default function Dashboard() {
             </Col>
           </Row>
         </DashboardPanel>
+        <DashboardDrawer open={activeCourse !== null} onClose={onDrawerClose}>
+          { activeCourse && (
+            <CourseDetails
+              title={activeCourse.title}
+              description={activeCourse.full_description}
+              details={[
+                {
+                  key: 'Time investment',
+                  value: activeCourse.hours_required && `${activeCourse.hours_required} hours`,
+                  icon: <Alarm />,
+                },
+                {
+                  key: 'Certificate',
+                  value: activeCourse.has_certificate ? 'Avaliable' : 'Not avaliable',
+                  icon: <Certificate />,
+                },
+                {
+                  key: 'Difficulty level',
+                  value: activeCourse.difficulty_level,
+                  icon: <Dash />,
+                },
+                {
+                  key: 'Primary language',
+                  value: activeCourse.primary_language,
+                  icon: <World />,
+                },
+                {
+                  key: 'Subtitles',
+                  value: activeCourse.subtitles_available ? 'Available' : 'Not avaliable',
+                  icon: <Baseline />,
+                },
+                {
+                  key: 'Prerequisites',
+                  value: activeCourse.prerequisites,
+                  icon: <Checklist />,
+                },
+              ].filter(item => !!item.value)}
+              buttons={[
+                {
+                  type: 'outline-primary',
+                  text: 'Close',
+                  onClick: onDrawerClose,
+                },
+                {
+                  type: 'primary',
+                  text: 'Start course',
+                  onClick: () => window.open(activeCourse.course_link, '_blank'),
+                },
+              ]}
+            />
+          )}
+        </DashboardDrawer>
       </Container>
     </>
   );
