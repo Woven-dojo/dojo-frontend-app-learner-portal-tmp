@@ -8,7 +8,6 @@ import { AppContext } from '@edx/frontend-platform/react';
 import PropTypes from 'prop-types';
 import { CourseCard, CourseDetails } from '@reustleco/dojo-frontend-common';
 
-import _isEmpty from 'lodash.isempty';
 import emptyStateImage from '../../assets/images/empty-state.svg';
 import DashboardPanel from './DashboardPanel';
 import DashboardDrawer from './DashboardDrawer';
@@ -72,7 +71,7 @@ export default function Dashboard() {
     (activeCatalogPage - 1) * COURSES_PER_CATALOG_PAGE,
     (activeCatalogPage - 1) * COURSES_PER_CATALOG_PAGE + COURSES_PER_CATALOG_PAGE,
   ) ?? [];
-  const [activeCourse, setActiveCourse] = useState({});
+  const [activeCourse, setActiveCourse] = useState(null);
 
   useEffect(() => {
     if (state?.activationSuccess) {
@@ -86,8 +85,7 @@ export default function Dashboard() {
   }, []);
 
   const userFirstName = authenticatedUser?.name.split(' ').shift();
-  const onClick = (chosenCourse) => setActiveCourse(chosenCourse);
-  const onDraweClose = () => setActiveCourse({});
+  const onDrawerClose = () => setActiveCourse(null);
 
   return (
     <>
@@ -129,7 +127,7 @@ export default function Dashboard() {
                       languages={[course.primary_language]}
                       skills={[course.difficulty_level]}
                       bgKey={course.id % 10}
-                      onClick={() => onClick(course)}
+                      onClick={() => setActiveCourse(course)}
                     />
                   </Col>
                 ))}
@@ -153,7 +151,7 @@ export default function Dashboard() {
                       languages={[course.primary_language]}
                       skills={[course.difficulty_level]}
                       bgKey={course.id % 10}
-                      onClick={() => onClick(course)}
+                      onClick={() => setActiveCourse(course)}
                     />
                   </Col>
                 ))}
@@ -173,7 +171,7 @@ export default function Dashboard() {
             )}
           </div>
         </DashboardPanel>
-        <DashboardDrawer open={!(_isEmpty(activeCourse))} onClose={onDraweClose}>
+        <DashboardDrawer open={activeCourse !== null} onClose={onDrawerClose}>
           { activeCourse && (
             <CourseDetails
               title={activeCourse.title}
@@ -214,7 +212,7 @@ export default function Dashboard() {
                 {
                   type: 'outline-primary',
                   text: 'Close',
-                  onClick: onDraweClose,
+                  onClick: onDrawerClose,
                 },
                 {
                   type: 'primary',
