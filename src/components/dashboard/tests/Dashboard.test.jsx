@@ -62,7 +62,6 @@ const defaultCourseState = {
     shortDescription: 'Course short description.',
     title: 'Test Course Title',
     owners: [TEST_OWNER],
-    programs: [],
     image: {
       src: 'http://test-image.url',
     },

@@ -8,17 +8,13 @@ import SearchCourseCard from '../SearchCourseCard';
 import { UserSubsidyContext } from '../../enterprise-user-subsidy';
 
 import {
-  NUM_RESULTS_COURSE,
-  COURSE_TITLE,
-  CONTENT_TYPE_COURSE,
-  PATHWAY_TITLE, CONTENT_TYPE_PATHWAY, NUM_RESULTS_PATHWAY,
+  NUM_RESULTS_COURSE, COURSE_TITLE, CONTENT_TYPE_COURSE,
 } from '../constants';
 import { TEST_ENTERPRISE_SLUG, TEST_IMAGE_URL } from './constants';
 
 import {
   renderWithRouter,
 } from '../../../utils/tests';
-import SearchPathwayCard from '../../pathway/SearchPathwayCard';
 import { getNoResultsMessage, getSearchErrorMessage } from '../../utils/search';
 
 jest.mock('react-loading-skeleton', () => ({
@@ -148,20 +144,6 @@ describe('<SearchResults />', () => {
     expect(screen.getByText('HIT')).toBeInTheDocument();
   });
 
-  test('renders correct results for pathways', () => {
-    const propsForPathwayResults = {
-      ...propsForCourseResults,
-      hitComponent: SearchPathwayCard,
-      title: PATHWAY_TITLE,
-      contentType: CONTENT_TYPE_PATHWAY,
-    };
-    renderWithRouter(
-      <SearchResultsWithContext {...propsForPathwayResults} />,
-    );
-    // Algolia Hits widget is mocked to return 'HIT'
-    expect(screen.getByText('HIT')).toBeInTheDocument();
-  });
-
   test('renders loading component for courses correctly when search is stalled', () => {
     const propsForLoadingCourses = { ...propsForCourseResults, isSearchStalled: true };
     renderWithRouter(
@@ -169,21 +151,6 @@ describe('<SearchResults />', () => {
     );
     const titles = screen.queryAllByTestId('course-title-loading');
     expect(titles.length).toEqual(NUM_RESULTS_COURSE);
-  });
-
-  test('renders loading component for pathways correctly when search is stalled', () => {
-    const propsForLoadingPathway = {
-      ...propsForCourseResults,
-      isSearchStalled: true,
-      hitComponent: SearchPathwayCard,
-      title: PATHWAY_TITLE,
-      contentType: CONTENT_TYPE_PATHWAY,
-    };
-    renderWithRouter(
-      <SearchResultsWithContext {...propsForLoadingPathway} />,
-    );
-    const elements = screen.queryAllByTestId('pathway-title-loading');
-    expect(elements.length).toEqual(NUM_RESULTS_PATHWAY);
   });
 
   test('renders an alert in case of an error for courses', () => {
@@ -195,32 +162,10 @@ describe('<SearchResults />', () => {
     expect(screen.getByText(new RegExp(searchErrorMessage.messageContent, 'i'))).toBeTruthy();
   });
 
-  test('renders an alert in case of an error for pathways', () => {
-    const propsForErrorPathway = { ...propsForError, contentType: CONTENT_TYPE_PATHWAY, title: PATHWAY_TITLE };
-    const searchErrorMessage = getSearchErrorMessage(PATHWAY_TITLE);
-    renderWithRouter(
-      <SearchResultsWithContext {...propsForErrorPathway} />,
-    );
-    expect(screen.getByText(new RegExp(searchErrorMessage.messageTitle, 'i'))).toBeTruthy();
-    expect(screen.getByText(new RegExp(searchErrorMessage.messageContent, 'i'))).toBeTruthy();
-  });
-
   test('renders an alert in case of no results for courses', () => {
     const noResultsMessage = getNoResultsMessage(COURSE_TITLE);
     renderWithRouter(
       <SearchResultsWithContext {...propsForNoResults} />,
-    );
-    expect(screen.getByText(new RegExp(noResultsMessage.messageTitle, 'i'))).toBeTruthy();
-    expect(screen.getByText(new RegExp(noResultsMessage.messageContent, 'i'))).toBeTruthy();
-  });
-
-  test('renders an alert in case of no results for pathways', () => {
-    const propsForNoResultsPathway = {
-      ...propsForNoResults, hitComponent: SearchPathwayCard, title: PATHWAY_TITLE, contentType: CONTENT_TYPE_PATHWAY,
-    };
-    const noResultsMessage = getNoResultsMessage(PATHWAY_TITLE);
-    renderWithRouter(
-      <SearchResultsWithContext {...propsForNoResultsPathway} />,
     );
     expect(screen.getByText(new RegExp(noResultsMessage.messageTitle, 'i'))).toBeTruthy();
     expect(screen.getByText(new RegExp(noResultsMessage.messageContent, 'i'))).toBeTruthy();
