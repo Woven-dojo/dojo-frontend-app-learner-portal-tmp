@@ -30,19 +30,10 @@ const UserSubsidy = ({ children }) => {
   const toggleFilter = useCallback((group, options) => {
     setCatalogFilter(currentFilter => {
       let newFilterValues = [...currentFilter[group]];
-      options.forEach(option => {
-        if (newFilterValues.includes(option)) {
-          newFilterValues = newFilterValues.filter(value => {
-            if (filterOptionsExpanded[group]) {
-              return !filterOptionsExpanded[group][option].includes(value);
-            }
-            return value !== option;
-          });
-        } else {
-          newFilterValues = newFilterValues.concat(
-            filterOptionsExpanded[group] ? filterOptionsExpanded[group][options] : option,
-          );
-        }
+      const allOptions = filterOptionsExpanded[group] ? filterOptionsExpanded[group][options] : options;
+      allOptions.forEach(option => {
+        newFilterValues = newFilterValues.includes(option)
+          ? newFilterValues.filter(value => value !== option) : [...newFilterValues, option];
       });
       return {
         ...currentFilter,

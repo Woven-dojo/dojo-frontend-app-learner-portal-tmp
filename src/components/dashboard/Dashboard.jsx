@@ -24,10 +24,10 @@ import {
   World,
 } from './data/svg';
 
-function EmptyState({ title, text, type = 'empty' }) {
+function EmptyState({ title, text, image = emptyStateImage }) {
   return (
     <div className="dashboard-empty-state">
-      <img src={type === 'empty' ? emptyStateImage : noResultsImage} alt="" />
+      {image && <img src={image} alt="" />}
       {title && (
         <h3 className="dashboard-empty-state-title">
           {title}
@@ -45,13 +45,13 @@ function EmptyState({ title, text, type = 'empty' }) {
 EmptyState.propTypes = {
   title: PropTypes.string,
   text: PropTypes.node,
-  type: PropTypes.string,
+  image: PropTypes.string,
 };
 
 EmptyState.defaultProps = {
   title: '',
   text: null,
-  type: 'empty',
+  image: emptyStateImage,
 };
 
 const COURSES_PER_CATALOG_PAGE = 12;
@@ -153,7 +153,7 @@ export default function Dashboard() {
               <ActiveFilter filter={filter} />
               {catalogCoursesOnActivePage.length === 0 && (
                 <EmptyState
-                  type="noResults"
+                  image={noResultsImage}
                   title="Can't find what you're looking for?"
                   text={<>Get in touch with us at #dojo-help or <a href="mailto:dojo@woven-planet.global">dojo@woven-planet.global</a></>}
                 />
