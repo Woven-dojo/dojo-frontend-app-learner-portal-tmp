@@ -13,6 +13,7 @@ import Dashboard from '../Dashboard';
 import { TEST_OWNER } from '../../course/tests/data/constants';
 import { COURSE_PACING_MAP } from '../../course/data/constants';
 import CourseEnrollmentsContextProvider from '../main-content/course-enrollments/CourseEnrollmentsContextProvider';
+import { filterInitial, filterOptions } from '../../enterprise-user-subsidy/data/constants';
 
 const mockAuthenticatedUser = { username: 'myspace-tom', name: 'John Doe' };
 
@@ -36,9 +37,20 @@ const defaultCatalogData = {
   courses_metadata: [],
 };
 
+const filterMock = {
+  current: filterInitial,
+  options: filterOptions,
+  set: jest.fn(),
+};
+
+const defaultCatalog = {
+  data: defaultCatalogData,
+  filter: filterMock,
+};
+
 const defaultUserSubsidyState = {
   learningPathData: defaultLearningPathData,
-  catalogData: defaultCatalogData,
+  catalog: defaultCatalog,
 };
 
 const defaultCourseState = {
@@ -151,7 +163,7 @@ describe('<Dashboard />', () => {
   it('shows empty state when no courses on learning path', () => {
     const userSubsidyState = {
       learningPathData: { ...defaultLearningPathData, courses: [], count: 0 },
-      catalogData: defaultCatalogData,
+      catalog: defaultCatalog,
     };
     renderWithRouter(<DashboardWithContext initialUserSubsidyState={userSubsidyState} />);
     expect(screen.getByText("You don't have a course in Learning path yet"));
@@ -160,7 +172,7 @@ describe('<Dashboard />', () => {
   it('shows 0 available courses on learning path with empty learning path', () => {
     const userSubsidyState = {
       learningPathData: { ...defaultLearningPathData, courses: [], count: 0 },
-      catalogData: defaultCatalogData,
+      catalog: defaultCatalog,
     };
     renderWithRouter(<DashboardWithContext initialUserSubsidyState={userSubsidyState} />);
     expect(screen.getByText('0 courses'));
@@ -177,7 +189,7 @@ describe('<Dashboard />', () => {
         }],
         count: 1,
       },
-      catalogData: defaultCatalogData,
+      catalog: defaultCatalog,
     };
     renderWithRouter(<DashboardWithContext initialUserSubsidyState={userSubsidyState} />);
     expect(screen.getByText('1 course'));
@@ -194,7 +206,7 @@ describe('<Dashboard />', () => {
         }],
         count: 1,
       },
-      catalogData: defaultCatalogData,
+      catalog: defaultCatalog,
     };
     renderWithRouter(<DashboardWithContext initialUserSubsidyState={userSubsidyState} />);
     expect(screen.getByText('How to train your dragon'));
@@ -205,19 +217,23 @@ describe('<Dashboard />', () => {
   it('shows 2 cards in the course catalog', async () => {
     const userSubsidyState = {
       learningPathData: defaultLearningPathData,
-      catalogData: {
-        courses_metadata: [
-          {
-            title: 'How to train your dragon',
-            primary_language: 'en',
-            hours_required: 42,
-          },
-          {
-            title: 'Large numbers in Python',
-            primaryLanguage: 'en',
-            hours_required: 13,
-          },
-        ],
+      catalog: {
+        ...defaultCatalog,
+        data: {
+          ...defaultCatalog.data,
+          courses_metadata: [
+            {
+              title: 'How to train your dragon',
+              primary_language: 'en',
+              hours_required: 42,
+            },
+            {
+              title: 'Large numbers in Python',
+              primaryLanguage: 'en',
+              hours_required: 13,
+            },
+          ],
+        },
       },
     };
     renderWithRouter(<DashboardWithContext initialUserSubsidyState={userSubsidyState} />);

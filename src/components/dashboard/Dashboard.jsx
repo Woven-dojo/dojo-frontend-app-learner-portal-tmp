@@ -9,9 +9,12 @@ import PropTypes from 'prop-types';
 import { CourseCard, CourseDetails } from '@reustleco/dojo-frontend-common';
 
 import emptyStateImage from '../../assets/images/empty-state.svg';
+import noResultsImage from '../../assets/images/no-results.svg';
+
 import DashboardPanel from './DashboardPanel';
 import DashboardDrawer from './DashboardDrawer';
 import { UserSubsidyContext } from '../enterprise-user-subsidy';
+import { Filter, ActiveFilter } from '../filter/Filter';
 import {
   Alarm,
   Baseline,
@@ -21,10 +24,10 @@ import {
   World,
 } from './data/svg';
 
-function EmptyState({ title, text }) {
+function EmptyState({ title, text, image = emptyStateImage }) {
   return (
     <div className="dashboard-empty-state">
-      <img src={emptyStateImage} alt="" />
+      {image && <img src={image} alt="" />}
       {title && (
         <h3 className="dashboard-empty-state-title">
           {title}
@@ -42,11 +45,13 @@ function EmptyState({ title, text }) {
 EmptyState.propTypes = {
   title: PropTypes.string,
   text: PropTypes.node,
+  image: PropTypes.string,
 };
 
 EmptyState.defaultProps = {
   title: '',
   text: null,
+  image: emptyStateImage,
 };
 
 const COURSES_PER_CATALOG_PAGE = 12;
@@ -62,7 +67,7 @@ export default function Dashboard() {
   const history = useHistory();
   const {
     learningPathData: { learning_path_name: learningPathName, courses, count = 0 },
-    catalogData: { courses_metadata: catalogCourses },
+    catalog: { data: { courses_metadata: catalogCourses }, filter },
   } = useContext(UserSubsidyContext);
 
   const catalogPageCount = Math.ceil(catalogCourses.length / COURSES_PER_CATALOG_PAGE);
@@ -83,6 +88,10 @@ export default function Dashboard() {
       });
     }
   }, []);
+
+  useEffect(() => {
+    setActiveCatalogPage(1);
+  }, [filter.current]);
 
   const userFirstName = authenticatedUser?.name.split(' ').shift();
   const onDrawerClose = () => setActiveCourse(null);
@@ -139,38 +148,52 @@ export default function Dashboard() {
           title="Course catalog"
         >
           <hr />
-          <div className="dashboard-catalog-wrap">
-            <TransitionReplace>
-              <Row key={activeCatalogPage} className="dashboard-catalog-page">
-                {catalogCoursesOnActivePage.map((course) => (
-                  <Col xs={12} md={6} lg={4} key={course.id} className="mb-4">
-                    <CourseCard
-                      active={activeCourse?.id === course.id}
-                      key={course.id}
-                      title={course.title}
-                      hours={course.hours_required}
-                      languages={[course.primary_language]}
-                      skills={[course.difficulty_level]}
-                      bgKey={course.id % 10}
-                      onClick={() => setActiveCourse(course)}
-                    />
-                  </Col>
-                ))}
-              </Row>
-            </TransitionReplace>
-            {catalogPageCount > 1 && (
-              <Row>
-                <Col className="d-flex justify-content-center">
-                  <Pagination
-                    paginationLabel={`Page ${activeCatalogPage} of ${catalogPageCount}`}
-                    pageCount={catalogPageCount}
-                    currentPage={activeCatalogPage}
-                    onPageSelect={(pageNumber) => setActiveCatalogPage(pageNumber)}
-                  />
-                </Col>
-              </Row>
-            )}
-          </div>
+          <Row>
+            <Col lg={8}>
+              <ActiveFilter filter={filter} />
+              {catalogCoursesOnActivePage.length === 0 && (
+                <EmptyState
+                  image={noResultsImage}
+                  title="Can't find what you're looking for?"
+                  text={<>Get in touch with us at #dojo-help or <a href="mailto:dojo@woven-planet.global">dojo@woven-planet.global</a></>}
+                />
+              )}
+              <div className="dashboard-catalog-wrap">
+                <TransitionReplace>
+                  <Row key={activeCatalogPage} className="dashboard-catalog-page">
+                    {catalogCoursesOnActivePage.map((course) => (
+                      <Col xs={12} md={6} key={course.id} className="mb-4">
+                        <CourseCard
+                          key={course.id}
+                          title={course.title}
+                          hours={course.hours_required}
+                          languages={[course.primary_language]}
+                          skills={[course.difficulty_level]}
+                          bgKey={course.id % 10}
+                          onClick={() => setActiveCourse(course)}
+                        />
+                      </Col>
+                    ))}
+                  </Row>
+                </TransitionReplace>
+                {catalogPageCount > 1 && (
+                  <Row>
+                    <Col className="d-flex justify-content-center">
+                      <Pagination
+                        paginationLabel={`Page ${activeCatalogPage} of ${catalogPageCount}`}
+                        pageCount={catalogPageCount}
+                        currentPage={activeCatalogPage}
+                        onPageSelect={(pageNumber) => setActiveCatalogPage(pageNumber)}
+                      />
+                    </Col>
+                  </Row>
+                )}
+              </div>
+            </Col>
+            <Col lg={4}>
+              <Filter filter={filter} />
+            </Col>
+          </Row>
         </DashboardPanel>
         <DashboardDrawer open={activeCourse !== null} onClose={onDrawerClose}>
           { activeCourse && (
