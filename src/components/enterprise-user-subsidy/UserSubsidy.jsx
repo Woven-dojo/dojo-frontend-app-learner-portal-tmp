@@ -1,5 +1,5 @@
 import React, {
-  createContext, useContext, useMemo, useState,
+  createContext, useCallback, useContext, useMemo, useState,
 } from 'react';
 import PropTypes from 'prop-types';
 import { AppContext } from '@edx/frontend-platform/react';
@@ -10,7 +10,9 @@ import { LoadingSpinner } from '../loading-spinner';
 import {
   useCatalogData, useLearningPathData,
 } from './data/hooks';
-import { LOADING_SCREEN_READER_TEXT, filterInitial, filterOptions } from './data/constants';
+import {
+  LOADING_SCREEN_READER_TEXT, filterInitial, filterOptions, filterOptionsExpanded,
+} from './data/constants';
 
 export const UserSubsidyContext = createContext();
 
@@ -24,6 +26,30 @@ const UserSubsidy = ({ children }) => {
   const [learningPathData, isLoadingLearningPathdata] = useLearningPathData();
 
   const isLoading = isLoadingCatalogData || isLoadingLearningPathdata;
+
+  const toggleFilter = useCallback((group, options) => {
+    setCatalogFilter(currentFilter => {
+      let newFilterValues = [...currentFilter[group]];
+      options.forEach(option => {
+        if (newFilterValues.includes(option)) {
+          newFilterValues = newFilterValues.filter(value => {
+            if (filterOptionsExpanded[group]) {
+              return !filterOptionsExpanded[group][option].includes(value);
+            }
+            return value !== option;
+          });
+        } else {
+          newFilterValues = newFilterValues.concat(
+            filterOptionsExpanded[group] ? filterOptionsExpanded[group][options] : option,
+          );
+        }
+      });
+      return {
+        ...currentFilter,
+        [group]: newFilterValues,
+      };
+    });
+  }, []);
   const contextValue = useMemo(
     () => {
       if (isLoading) {
@@ -37,7 +63,7 @@ const UserSubsidy = ({ children }) => {
           filter: {
             current: catalogFilter,
             options: filterOptions,
-            set: setCatalogFilter,
+            toggle: toggleFilter,
           },
         },
       };

@@ -13,7 +13,7 @@ const FilterGroup = ({
     {options.map((option) => (
       <div key={option.value} className="filter-group__item">
         <Form.Checkbox
-          checked={active.includes(option.value.toString())}
+          checked={active.includes(option.value)}
           onChange={onChange}
           value={option.value}
         >
@@ -26,13 +26,7 @@ const FilterGroup = ({
 
 export const Filter = ({ filter }) => {
   const handleChange = (group) => (event) => {
-    const { value, checked } = event.target;
-    let newGroup = [...filter.current[group]];
-    if (checked) { newGroup = newGroup.concat(value); } else { newGroup = newGroup.filter((item) => item !== value); }
-    filter.set({
-      ...filter.current,
-      [group]: newGroup,
-    });
+    filter.toggle(group, [event.target.value]);
   };
   return (
     <>
@@ -67,22 +61,19 @@ const ActiveFilterTag = ({ children, onClick }) => (
 export const ActiveFilter = ({ filter }) => {
   const activeFilters = filterGroups.reduce((accumulator, group) => accumulator.concat(
     filter.options[group.id]
-      .filter((option) => filter.current[group.id].includes(option.value.toString()))
+      .filter((option) => filter.current[group.id].includes(option.value))
       .map((item) => ({ ...item, group: group.id })),
   ), []);
 
   const handleChange = (group, value) => {
-    filter.set({
-      ...filter.current,
-      [group]: filter.current[group].filter((item) => item !== value),
-    });
+    filter.toggle(group, [value]);
   };
 
   return (
     <div className="active-filter">
       {activeFilters.map((item) => (
         <ActiveFilterTag
-          onClick={() => handleChange(item.group, item.value.toString())}
+          onClick={() => handleChange(item.group, item.value)}
           key={`${item.group}-${item.value}`}
         >
           {item.label}
@@ -93,10 +84,10 @@ export const ActiveFilter = ({ filter }) => {
 };
 
 const filterPropTypes = PropTypes.shape({
-  set: PropTypes.func.isRequired,
-  current: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number]))).isRequired,
+  toggle: PropTypes.func.isRequired,
+  current: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
   options: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.string,
     label: PropTypes.string,
   }))).isRequired,
 });
@@ -107,12 +98,12 @@ Filter.propTypes = {
 
 FilterGroup.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    value: PropTypes.string,
     label: PropTypes.string,
   })).isRequired,
   label: PropTypes.node.isRequired,
   onChange: PropTypes.func.isRequired,
-  active: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+  active: PropTypes.arrayOf(PropTypes.string),
 };
 
 FilterGroup.defaultProps = {

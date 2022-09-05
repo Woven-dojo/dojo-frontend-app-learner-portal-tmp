@@ -16,22 +16,36 @@ export const filterGroups = [
   { id: 'deliveryMethods', label: 'Delivery methods' },
 ];
 
+/**
+ * As we want to group skills like "Data Science 1" and "Data Science 2" into one group for the
+ * end user, we need to have some mapping. We should discuss moving this solution to the backend
+ * so it becomes easier to maintain (e.g. by adding skill_group field).
+ */
+export const filterOptionsExpanded = {
+  learningPaths: {
+    1: ['1'],
+    2: ['2'],
+    3: ['3', '10', '11', '12', '13'],
+    4: ['4'],
+    5: ['5'],
+    6: ['6', '14'],
+    7: ['7'],
+    8: ['8'],
+    9: ['9'],
+  },
+};
+
 export const filterOptions = {
   learningPaths: [
-    { value: 1, label: 'Product Management' },
-    { value: 2, label: 'Software Development' },
-    { value: 3, label: 'Data Science 1' },
-    { value: 4, label: 'QA/QC Engineering' },
-    { value: 5, label: 'Industrial Engineering' },
-    { value: 6, label: 'Machine Learning 1' },
-    { value: 7, label: 'Systems Engineering' },
-    { value: 8, label: 'Software Architecture' },
-    { value: 9, label: 'Test Engineering' },
-    { value: 10, label: 'Data Science 2' },
-    { value: 11, label: 'Data Science 3' },
-    { value: 12, label: 'Data Science 4' },
-    { value: 13, label: 'Data Science 5' },
-    { value: 14, label: 'Machine Learning 2' },
+    { value: '1', label: 'Product Management' },
+    { value: '2', label: 'Software Development' },
+    { value: '3', label: 'Data Science' },
+    { value: '4', label: 'QA/QC Engineering' },
+    { value: '5', label: 'Industrial Engineering' },
+    { value: '6', label: 'Machine Learning' },
+    { value: '7', label: 'Systems Engineering' },
+    { value: '8', label: 'Software Architecture' },
+    { value: '9', label: 'Test Engineering' },
   ],
   languages: [
     {
