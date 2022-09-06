@@ -6,6 +6,7 @@ import {
   hasTruthyValue,
   hasValidStartExpirationDates,
   fixedEncodeURIComponent,
+  languageCodeToLabel,
 } from './common';
 
 function assertTestCaseEquals(testCase, expectedValue) {
@@ -168,5 +169,14 @@ describe('hasValidStartExpirationDates', () => {
     };
     const result = hasValidStartExpirationDates(invalidExp);
     expect(result).toBeFalsy();
+  });
+});
+
+describe('languageCodeToLabel helper', () => {
+  it('properly translates known labels', () => {
+    expect(languageCodeToLabel('en')).toEqual('ENG');
+  });
+  it('returns the value, capitalized, when the code is unsupported', () => {
+    expect(languageCodeToLabel('pl')).toEqual('PL');
   });
 });

@@ -1,5 +1,7 @@
 // eslint-disable-next-line import/prefer-default-export
 
+import { languageCodeToLabel } from '../../../utils/common';
+
 export const LOADING_SCREEN_READER_TEXT = 'loading your edX benefits from your organization';
 
 export const filterInitial = {
@@ -50,11 +52,11 @@ export const filterOptions = {
   languages: [
     {
       value: 'en',
-      label: 'EN',
+      label: languageCodeToLabel('en'),
     },
     {
       value: 'jp',
-      label: '日本',
+      label: languageCodeToLabel('jp'),
     },
   ],
   difficultyLevels: [
