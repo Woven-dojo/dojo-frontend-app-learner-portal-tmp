@@ -229,7 +229,7 @@ describe('<Dashboard />', () => {
             },
             {
               title: 'Large numbers in Python',
-              primaryLanguage: 'en',
+              primary_language: 'en',
               hours_required: 13,
             },
           ],
