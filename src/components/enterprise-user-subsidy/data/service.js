@@ -12,3 +12,12 @@ export const fetchLearningPathData = () => {
   const url = `${config.LMS_BASE_URL}/dojo_enterprise_catalog/api/learner-courses/`;
   return getAuthenticatedHttpClient().get(url);
 };
+
+export const requestCourse = (courseId) => {
+  const config = getConfig();
+  const url = `${config.LMS_BASE_URL}/dojo_enterprise_catalog/api/learner-courses/request-access/`;
+  return getAuthenticatedHttpClient().post(
+    url,
+    { course_id: courseId },
+  );
+};

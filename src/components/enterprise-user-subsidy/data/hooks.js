@@ -1,9 +1,9 @@
 import {
-  useState, useEffect,
+  useState, useEffect, useCallback,
 } from 'react';
 
 import {
-  fetchEnterpriseCatalogData, fetchLearningPathData,
+  fetchEnterpriseCatalogData, fetchLearningPathData, requestCourse,
 } from './service';
 
 /**
@@ -56,10 +56,21 @@ export function useCatalogData({ enterpriseId, filter = {} }) {
 
     fetchCatalogData();
   }, [enterpriseId]);
+
+  const requestCourseHandler = useCallback(async (courseId) => {
+    await requestCourse(courseId);
+    setCatalogData(data => ({
+      ...data,
+      courses_metadata: data.courses_metadata.map(course => ({
+        ...course,
+        user_requested_access: course.id === courseId ? true : course.user_requested_access,
+      })),
+    }));
+  }, []);
   return [{
     ...catalogData,
     courses_metadata: applyFilter(catalogData.courses_metadata, filter),
-  }, isLoading];
+  }, isLoading, requestCourseHandler];
 }
 
 export function useLearningPathData() {

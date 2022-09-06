@@ -19,7 +19,7 @@ export const UserSubsidyContext = createContext();
 const UserSubsidy = ({ children }) => {
   const { enterpriseConfig } = useContext(AppContext);
   const [catalogFilter, setCatalogFilter] = useState(filterInitial);
-  const [catalogData, isLoadingCatalogData] = useCatalogData({
+  const [catalogData, isLoadingCatalogData, requestCourse] = useCatalogData({
     enterpriseId: enterpriseConfig.uuid,
     filter: catalogFilter,
   });
@@ -56,6 +56,7 @@ const UserSubsidy = ({ children }) => {
             options: filterOptions,
             toggle: toggleFilter,
           },
+          requestCourse,
         },
       };
     },
