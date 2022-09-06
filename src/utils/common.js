@@ -79,3 +79,14 @@ export const delay = (delayDuration) => (
 );
 
 export const waitForAsync = () => new Promise(resolve => setImmediate(resolve));
+
+export const languageCodeToLabel = (languageCode) => {
+  switch (languageCode.toLowerCase()) {
+    case 'en':
+      return 'ENG';
+    case 'jp':
+      return '日本';
+    default:
+      return languageCode.toUpperCase();
+  }
+};

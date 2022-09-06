@@ -24,6 +24,8 @@ import {
   World,
 } from './data/svg';
 
+import { languageCodeToLabel } from '../../utils/common';
+
 function EmptyState({ title, text, image = emptyStateImage }) {
   return (
     <div className="dashboard-empty-state">
@@ -127,14 +129,14 @@ export default function Dashboard() {
               />
             )
             : (
-              <Row>
+              <Row data-testid="learningPath">
                 {courses?.map((course) => (
                   <Col xs={12} md={6} lg={4} key={course.id} className="mb-4">
                     <CourseCard
                       active={activeCourse?.id === course.id}
                       title={course.title}
                       hours={course.hours_required}
-                      languages={[course.primary_language]}
+                      languages={[course.primary_language].map(languageCodeToLabel)}
                       skills={[course.difficulty_level]}
                       bgKey={course.id % 10}
                       onClick={() => setActiveCourse(course)}
@@ -149,7 +151,7 @@ export default function Dashboard() {
         >
           <hr />
           <Row>
-            <Col lg={8}>
+            <Col lg={8} data-testid="courseCatalog">
               <ActiveFilter filter={filter} />
               {catalogCoursesOnActivePage.length === 0 && (
                 <EmptyState
@@ -167,7 +169,7 @@ export default function Dashboard() {
                           key={course.id}
                           title={course.title}
                           hours={course.hours_required}
-                          languages={[course.primary_language]}
+                          languages={[course.primary_language].map(languageCodeToLabel)}
                           skills={[course.difficulty_level]}
                           bgKey={course.id % 10}
                           onClick={() => setActiveCourse(course)}
@@ -218,7 +220,7 @@ export default function Dashboard() {
                 },
                 {
                   key: 'Primary language',
-                  value: activeCourse.primary_language,
+                  value: languageCodeToLabel(activeCourse.primary_language),
                   icon: <World />,
                 },
                 {

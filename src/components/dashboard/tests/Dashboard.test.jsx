@@ -1,6 +1,6 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import { AppContext } from '@edx/frontend-platform/react';
 import { UserSubsidyContext } from '../../enterprise-user-subsidy';
 import { CourseContextProvider } from '../../course/CourseContextProvider';
@@ -195,7 +195,7 @@ describe('<Dashboard />', () => {
     expect(screen.getByText('1 course'));
   });
 
-  it('shows course card on learning path with 1 course', () => {
+  it('shows course card on learning path with 1 course', async () => {
     const userSubsidyState = {
       learningPathData: {
         ...defaultLearningPathData,
@@ -209,9 +209,10 @@ describe('<Dashboard />', () => {
       catalog: defaultCatalog,
     };
     renderWithRouter(<DashboardWithContext initialUserSubsidyState={userSubsidyState} />);
-    expect(screen.getByText('How to train your dragon'));
-    expect(screen.getByText('en'));
-    expect(screen.getByText('42h'));
+    const learningPathContainer = within(screen.getByTestId('learningPath'));
+    expect(learningPathContainer.getByText('How to train your dragon'));
+    expect(learningPathContainer.getByText('ENG'));
+    expect(learningPathContainer.getByText('42h'));
   });
 
   it('shows 2 cards in the course catalog', async () => {
@@ -229,7 +230,7 @@ describe('<Dashboard />', () => {
             },
             {
               title: 'Large numbers in Python',
-              primaryLanguage: 'en',
+              primary_language: 'en',
               hours_required: 13,
             },
           ],
@@ -237,10 +238,11 @@ describe('<Dashboard />', () => {
       },
     };
     renderWithRouter(<DashboardWithContext initialUserSubsidyState={userSubsidyState} />);
-    expect(screen.getByText('How to train your dragon'));
-    expect(screen.getByText('42h'));
-    expect(screen.getByText('Large numbers in Python'));
-    expect(screen.getByText('13h'));
-    expect((await screen.findAllByText('en')).length === 2);
+    const courseCatalogContainer = within(screen.getByTestId('courseCatalog'));
+    expect(courseCatalogContainer.getByText('How to train your dragon'));
+    expect(courseCatalogContainer.getByText('42h'));
+    expect(courseCatalogContainer.getByText('Large numbers in Python'));
+    expect(courseCatalogContainer.getByText('13h'));
+    expect((await courseCatalogContainer.findAllByText('ENG')).length === 2);
   });
 });
