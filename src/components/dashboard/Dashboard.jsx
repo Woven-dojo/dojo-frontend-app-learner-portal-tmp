@@ -129,7 +129,7 @@ export default function Dashboard() {
               />
             )
             : (
-              <Row>
+              <Row data-testid="learningPath">
                 {courses?.map((course) => (
                   <Col xs={12} md={6} lg={4} key={course.id} className="mb-4">
                     <CourseCard
@@ -151,7 +151,7 @@ export default function Dashboard() {
         >
           <hr />
           <Row>
-            <Col lg={8}>
+            <Col lg={8} data-testid="courseCatalog">
               <ActiveFilter filter={filter} />
               {catalogCoursesOnActivePage.length === 0 && (
                 <EmptyState
