@@ -83,7 +83,7 @@ export const waitForAsync = () => new Promise(resolve => setImmediate(resolve));
 export const languageCodeToLabel = (languageCode) => {
   switch (languageCode.toLowerCase()) {
     case 'en':
-      return 'ENG';
+      return 'English';
     case 'jp':
       return '日本';
     default:

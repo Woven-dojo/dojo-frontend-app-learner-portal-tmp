@@ -174,7 +174,7 @@ describe('hasValidStartExpirationDates', () => {
 
 describe('languageCodeToLabel helper', () => {
   it('properly translates known labels', () => {
-    expect(languageCodeToLabel('en')).toEqual('ENG');
+    expect(languageCodeToLabel('en')).toEqual('English');
   });
   it('returns the value, capitalized, when the code is unsupported', () => {
     expect(languageCodeToLabel('pl')).toEqual('PL');
