@@ -84,8 +84,6 @@ export const languageCodeToLabel = (languageCode = '') => {
   switch (languageCode.toLowerCase()) {
     case 'en':
       return 'ENG';
-    case 'jp':
-      return '日本';
     case 'ja':
       return '日本';
     case '':

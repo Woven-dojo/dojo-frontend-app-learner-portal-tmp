@@ -55,8 +55,8 @@ export const filterOptions = {
       label: languageCodeToLabel('en'),
     },
     {
-      value: 'jp',
-      label: languageCodeToLabel('jp'),
+      value: 'ja',
+      label: languageCodeToLabel('ja'),
     },
   ],
   difficultyLevels: [
