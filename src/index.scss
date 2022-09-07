@@ -2,7 +2,6 @@
 @import "@edx/brand/paragon/variables";
 @import "@edx/paragon/scss/core/core";
 // frontend-enterprise-* imports must come before the paragon overrides for correct styling
-@import "~@edx/frontend-enterprise-catalog-search";
 @import "@edx/brand/paragon/overrides";
 
 $fa-font-path: "~font-awesome/fonts";
@@ -20,7 +19,6 @@ $fa-font-path: "~font-awesome/fonts";
 @import "./components/dashboard/styles/Dashboard";
 @import "./components/dashboard/styles/DashboardDrawer";
 @import "./components/dashboard/styles/Pagination";
-@import "./components/search/styles/";
 @import "./components/site-header/styles/Header";
 @import "./components/preview-expand/styles/PreviewExpand";
 @import "./components/error-page/styles/ErrorPage";

@@ -32,8 +32,6 @@ export function useEnterpriseCustomerConfig(enterpriseSlug, useCache = true) {
         const config = results.pop();
         if (config?.enableLearnerPortal) {
           const brandingConfiguration = config.brandingConfiguration || defaultBrandingConfig;
-          const disableSearch = !!(!config?.enableIntegratedCustomerLearnerPortalSearch && config?.identityProvider);
-          const showIntegrationWarning = !!(!disableSearch && config?.identityProvider);
           const {
             logo,
             primaryColor,
@@ -57,8 +55,6 @@ export function useEnterpriseCustomerConfig(enterpriseSlug, useCache = true) {
             hideCourseOriginalPrice,
             hideLaborMarketData,
             identityProvider,
-            disableSearch,
-            showIntegrationWarning,
             branding: {
               logo,
               colors: {

@@ -18,7 +18,6 @@ const defaultAppState = {
   enterpriseConfig: {
     name: 'BearsRUs',
     uuid: 'BearsRUs',
-    disableSearch: false,
   },
   config: {
     LMS_BASE_URL: process.env.LMS_BASE_URL,
