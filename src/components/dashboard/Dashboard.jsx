@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
-  Container, Row, Col, Pagination, TransitionReplace,
+  Container, Row, Col, Pagination, TransitionReplace, Button, Hyperlink,
 } from '@edx/paragon';
 import { AppContext } from '@edx/frontend-platform/react';
 import PropTypes from 'prop-types';
@@ -68,7 +68,9 @@ export default function Dashboard() {
   const { state } = useLocation();
   const history = useHistory();
   const {
-    learningPathData: { learning_path_name: learningPathName, courses, count = 0 },
+    learningPathData: {
+      learning_path_name: learningPathName, kickoff_survey: kickoffSurvey, courses, count = 0,
+    },
     catalog: { data: { courses_metadata: catalogCourses }, filter },
   } = useContext(UserSubsidyContext);
 
@@ -103,10 +105,26 @@ export default function Dashboard() {
       <Helmet title={`Dashboard - ${name}`} />
 
       <Container size="lg" className="py-5">
-        <h2 className="h2">
-          {userFirstName ? `Welcome, ${userFirstName}!` : 'Welcome!'}
-        </h2>
-        <p className="mb-5 small">Today is a great day for education.</p>
+        <Row className="align-items-center mb-5">
+          <Col sm={6}>
+            <h2 className="h2">
+              {userFirstName ? `Welcome, ${userFirstName}!` : 'Welcome!'}
+            </h2>
+            <p className="small">Today is a great day for education.</p>
+          </Col>
+          <Col sm={6} className="text-center text-md-right">
+            {kickoffSurvey && (
+              <Button
+                as={Hyperlink}
+                target="_blank"
+                showLaunchIcon={false}
+                destination={kickoffSurvey}
+                variant="primary"
+              >Start learning survey
+              </Button>
+            )}
+          </Col>
+        </Row>
         <DashboardPanel
           title="My learning path"
           subtitle={learningPathName}
