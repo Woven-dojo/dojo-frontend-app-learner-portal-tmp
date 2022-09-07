@@ -35,7 +35,6 @@ jest.unmock('@edx/frontend-platform/auth');
 
 const mergeTestConfig = () => mergeConfig({
   USE_API_CACHE: process.env.USE_API_CACHE || null,
-  ENTERPRISE_CATALOG_API_BASE_URL: process.env.ENTERPRISE_CATALOG_API_BASE_URL || null,
   ALGOLIA_APP_ID: process.env.ALGOLIA_APP_ID || null,
   ALGOLIA_SEARCH_API_KEY: process.env.ALGOLIA_SEARCH_API_KEY || null,
   ALGOLIA_INDEX_NAME: process.env.ALGOLIA_INDEX_NAME || null,
@@ -53,7 +52,6 @@ const mergeTestConfig = () => mergeConfig({
   ACCESS_TOKEN_COOKIE_NAME: 'dojo-access-token',
   CREDENTIALS_BASE_URL: 'http://example-cred.com',
   CSRF_TOKEN_API_PATH: 'http://exaple-csrf-token-api.com',
-  DISCOVERY_API_BASE_URL: 'http://exapmle-discovery-base-url.com',
   PUBLISHER_BASE_URL: 'http://example-publisher-url.com',
   IGNORED_ERROR_REGEX: '',
   LANGUAGE_PREFERENCE_COOKIE_NAME: 'dojo-language',

@@ -9,7 +9,6 @@ import {
   EnterprisePageRedirect,
 } from '../enterprise-redirects';
 import { DashboardPage } from '../dashboard';
-import { CoursePage } from '../course';
 import { EnterpriseInvitePage } from '../enterprise-invite';
 
 import { ToastsProvider } from '../Toasts';
@@ -31,7 +30,6 @@ export default function App() {
             <PageRoute exact path="/invite/:enterpriseCustomerInviteKey" component={EnterpriseInvitePage} />
             <PageRoute exact path="/" component={DashboardPage} />
             <Redirect from="/search" to="/" />
-            <PageRoute exact path="/:enterpriseSlug/course/:courseKey" component={CoursePage} />
             <PageRoute path="*" component={NotFoundPage} />
           </Switch>
         </ToastsProvider>

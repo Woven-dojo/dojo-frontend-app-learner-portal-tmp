@@ -28,7 +28,6 @@ initialize({
     config: () => {
       mergeConfig({
         USE_API_CACHE: process.env.USE_API_CACHE || null,
-        ENTERPRISE_CATALOG_API_BASE_URL: process.env.ENTERPRISE_CATALOG_API_BASE_URL || null,
         ALGOLIA_APP_ID: process.env.ALGOLIA_APP_ID || null,
         ALGOLIA_SEARCH_API_KEY: process.env.ALGOLIA_SEARCH_API_KEY || null,
         ALGOLIA_INDEX_NAME: process.env.ALGOLIA_INDEX_NAME || null,

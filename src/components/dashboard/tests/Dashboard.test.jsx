@@ -3,15 +3,12 @@ import '@testing-library/jest-dom/extend-expect';
 import { screen, within } from '@testing-library/react';
 import { AppContext } from '@edx/frontend-platform/react';
 import { UserSubsidyContext } from '../../enterprise-user-subsidy';
-import { CourseContextProvider } from '../../course/CourseContextProvider';
 import * as hooks from '../main-content/course-enrollments/data/hooks';
 
 import {
   renderWithRouter,
 } from '../../../utils/tests';
 import Dashboard from '../Dashboard';
-import { TEST_OWNER } from '../../course/tests/data/constants';
-import { COURSE_PACING_MAP } from '../../course/data/constants';
 import CourseEnrollmentsContextProvider from '../main-content/course-enrollments/CourseEnrollmentsContextProvider';
 import { filterInitial, filterOptions } from '../../enterprise-user-subsidy/data/constants';
 
@@ -53,34 +50,6 @@ const defaultUserSubsidyState = {
   catalog: defaultCatalog,
 };
 
-const defaultCourseState = {
-  course: {
-    subjects: [{
-      name: 'Test Subject 1',
-      slug: 'test-subject-slug',
-    }],
-    shortDescription: 'Course short description.',
-    title: 'Test Course Title',
-    owners: [TEST_OWNER],
-    image: {
-      src: 'http://test-image.url',
-    },
-  },
-  activeCourseRun: {
-    isEnrollable: true,
-    key: 'test-course-run-key',
-    pacingType: COURSE_PACING_MAP.SELF_PACED,
-    start: '2020-09-09T04:00:00Z',
-    availability: 'Current',
-    courseUuid: 'Foo',
-  },
-  userEnrollments: [],
-  userEntitlements: [],
-  catalog: {
-    containsContentItems: true,
-  },
-};
-
 const mockLocation = {
   pathname: '/welcome',
   hash: '',
@@ -92,14 +61,11 @@ const mockLocation = {
 const DashboardWithContext = ({
   initialAppState = defaultAppState,
   initialUserSubsidyState = defaultUserSubsidyState,
-  initialCourseState = defaultCourseState,
 }) => (
   <AppContext.Provider value={initialAppState}>
     <UserSubsidyContext.Provider value={initialUserSubsidyState}>
       <CourseEnrollmentsContextProvider>
-        <CourseContextProvider initialState={initialCourseState}>
-          <Dashboard />
-        </CourseContextProvider>
+        <Dashboard />
       </CourseEnrollmentsContextProvider>
     </UserSubsidyContext.Provider>
   </AppContext.Provider>
