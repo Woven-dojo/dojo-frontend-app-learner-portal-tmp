@@ -66,7 +66,7 @@ export const loginRefresh = async () => {
   }
 };
 
-export const fixedEncodeURIComponent = (str) => encodeURIComponent(str).replace(/[!()*]/g, (c) => `%${ c.charCodeAt(0).toString(16)}`);
+export const fixedEncodeURIComponent = (str) => encodeURIComponent(str).replace(/[!()*]/g, (c) => `%${c.charCodeAt(0).toString(16)}`);
 
 export const formatStringAsNumber = (str, radix = 10) => {
   // converts a string into a number and format it with separated commas
@@ -80,12 +80,16 @@ export const delay = (delayDuration) => (
 
 export const waitForAsync = () => new Promise(resolve => setImmediate(resolve));
 
-export const languageCodeToLabel = (languageCode) => {
+export const languageCodeToLabel = (languageCode = '') => {
   switch (languageCode.toLowerCase()) {
     case 'en':
       return 'ENG';
     case 'jp':
       return '日本';
+    case 'ja':
+      return '日本';
+    case '':
+      return '-';
     default:
       return languageCode.toUpperCase();
   }
