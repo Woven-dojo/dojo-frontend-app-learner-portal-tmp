@@ -182,5 +182,4 @@ describe('languageCodeToLabel helper', () => {
   it('returns default value for null cases', () => {
     expect(languageCodeToLabel(null)).toEqual('-');
   });
-
 });
