@@ -179,4 +179,8 @@ describe('languageCodeToLabel helper', () => {
   it('returns the value, capitalized, when the code is unsupported', () => {
     expect(languageCodeToLabel('pl')).toEqual('PL');
   });
+  it('returns default value for null cases', () => {
+    expect(languageCodeToLabel(null)).toEqual('-');
+  });
+
 });
