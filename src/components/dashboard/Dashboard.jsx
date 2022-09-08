@@ -111,7 +111,7 @@ export default function Dashboard() {
 
   const getCourseCTAButton = useCallback(() => {
     if (!activeCourse) { return null; }
-    if (activeCourse.course_link) {
+    if (activeCourse.edx_course_id && activeCourse.course_link) {
       return {
         type: 'primary',
         text: 'Start course',
