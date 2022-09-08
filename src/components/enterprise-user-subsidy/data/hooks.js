@@ -18,7 +18,7 @@ const applyFilter = (courses = [], filter = {}) => {
   if (filter.learningPaths.length) {
     filteredCourses = filteredCourses.filter(
       course => course.learning_path.find(
-        path => filter.learningPaths.includes(path.toString()),
+        path => filter.learningPaths.includes(path.internal_id?.toString()),
       ),
     );
   }
