@@ -221,9 +221,9 @@ export default function Dashboard() {
               />
             )
             : (
-              <Row data-testid="learningPath">
+              <Row data-testid="learningPath" className="dashboard-coursecard-grid">
                 {courses?.map((course) => (
-                  <Col xs={12} md={6} lg={4} key={course.id} className="mb-4">
+                  <Col xs={12} md={6} lg={4} key={course.id}>
                     <CourseCard
                       active={activeCourse?.id === course.id}
                       title={course.title}
@@ -254,9 +254,9 @@ export default function Dashboard() {
               )}
               <div className="dashboard-catalog-wrap">
                 <TransitionReplace>
-                  <Row key={activeCatalogPage} className="dashboard-catalog-page">
+                  <Row key={activeCatalogPage} className="dashboard-catalog-page dashboard-coursecard-grid">
                     {catalogCoursesOnActivePage.map((course) => (
-                      <Col xs={12} md={6} key={course.id} className="mb-4">
+                      <Col xs={12} md={6} key={course.id}>
                         <CourseCard
                           key={course.id}
                           title={course.title}
