@@ -1,8 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+  useContext, useEffect, useState, useCallback, useMemo,
+} from 'react';
 import { Helmet } from 'react-helmet';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
-  Container, Row, Col, Pagination, TransitionReplace, Button, Hyperlink,
+  Container, Row, Col, Pagination, TransitionReplace, Button, Hyperlink, Toast, Spinner,
 } from '@edx/paragon';
 import { AppContext } from '@edx/frontend-platform/react';
 import PropTypes from 'prop-types';
@@ -71,7 +73,7 @@ export default function Dashboard() {
     learningPathData: {
       learning_path_name: learningPathName, kickoff_survey: kickoffSurvey, courses, count = 0,
     },
-    catalog: { data: { courses_metadata: catalogCourses }, filter },
+    catalog: { data: { courses_metadata: catalogCourses }, filter, requestCourse },
   } = useContext(UserSubsidyContext);
 
   const catalogPageCount = Math.ceil(catalogCourses.length / COURSES_PER_CATALOG_PAGE);
@@ -80,7 +82,14 @@ export default function Dashboard() {
     (activeCatalogPage - 1) * COURSES_PER_CATALOG_PAGE,
     (activeCatalogPage - 1) * COURSES_PER_CATALOG_PAGE + COURSES_PER_CATALOG_PAGE,
   ) ?? [];
-  const [activeCourse, setActiveCourse] = useState(null);
+  const [activeCourseId, setActiveCourse] = useState(null);
+  const [toastBody, setToastBody] = useState(null);
+  const [isLoading, setLoading] = useState(false);
+
+  const activeCourse = useMemo(() => {
+    if (!activeCourseId) { return null; }
+    return [...courses || [], ...catalogCourses || []].find(course => course.id === activeCourseId);
+  }, [activeCourseId, courses, catalogCourses]);
 
   useEffect(() => {
     if (state?.activationSuccess) {
@@ -100,10 +109,75 @@ export default function Dashboard() {
   const userFirstName = authenticatedUser?.name.split(' ').shift();
   const onDrawerClose = () => setActiveCourse(null);
 
+  const getCourseCTAButton = useCallback(() => {
+    if (!activeCourse) { return null; }
+    if (activeCourse.course_link) {
+      return {
+        type: 'primary',
+        text: 'Start course',
+        onClick: () => window.open(activeCourse.course_link),
+      };
+    }
+    if (activeCourse.in_learning_path) {
+      return {
+        type: 'primary',
+        text: 'Start learning survey',
+        onClick: () => window.open(kickoffSurvey),
+      };
+    }
+    if (activeCourse.user_requested_access) {
+      return {
+        type: 'primary',
+        text: 'Access requested',
+        onClick: () => {
+          setToastBody(
+            <>
+              <span className="d-block h5 mb-2 text-white">
+                We&apos;re working on it!
+              </span>
+              We have received your request and are working on preparing this course for you,
+              feel free to reach out to us on #dojo&#8209;platform&#8209;support
+            </>,
+          );
+        },
+      };
+    }
+    return {
+      type: 'primary',
+      text: isLoading ? <Spinner animation="border" /> : 'Request access',
+      onClick: async () => {
+        try {
+          setLoading(true);
+          await requestCourse(activeCourse.id);
+          setToastBody(
+            <>
+              <span className="d-block h5 mb-2 text-white">
+                Thanks for reaching out. Dojo staff will contact you soon!
+              </span>
+              Meanwhile, if you have any questions, feel free to reach out to us on
+              #dojo&#8209;platform&#8209;support
+            </>,
+          );
+        } catch {
+          setToastBody(
+            <>
+              <span className="d-block h5 mb-2 text-white">
+                Unexpected error
+              </span>
+              An error occurred when requesting access, feel free to reach out to us on
+              #dojo&#8209;platform&#8209;support
+            </>,
+          );
+        } finally {
+          setLoading(false);
+        }
+      },
+    };
+  }, [activeCourse, isLoading]);
+
   return (
     <>
       <Helmet title={`Dashboard - ${name}`} />
-
       <Container size="lg" className="py-5">
         <Row className="align-items-center mb-5">
           <Col sm={6}>
@@ -157,7 +231,7 @@ export default function Dashboard() {
                       languages={[course.primary_language].map(languageCodeToLabel)}
                       skills={[course.difficulty_level]}
                       bgKey={course.id % 10}
-                      onClick={() => setActiveCourse(course)}
+                      onClick={() => setActiveCourse(course.id)}
                     />
                   </Col>
                 ))}
@@ -190,7 +264,7 @@ export default function Dashboard() {
                           languages={[course.primary_language].map(languageCodeToLabel)}
                           skills={[course.difficulty_level]}
                           bgKey={course.id % 10}
-                          onClick={() => setActiveCourse(course)}
+                          onClick={() => setActiveCourse(course.id)}
                         />
                       </Col>
                     ))}
@@ -258,16 +332,18 @@ export default function Dashboard() {
                   text: 'Close',
                   onClick: onDrawerClose,
                 },
-                {
-                  type: 'primary',
-                  text: 'Start course',
-                  onClick: () => window.open(activeCourse.course_link, '_blank'),
-                },
-              ]}
+                getCourseCTAButton(),
+              ].filter(Boolean)}
             />
           )}
         </DashboardDrawer>
       </Container>
+      <Toast
+        onClose={() => setToastBody(null)}
+        show={!!toastBody}
+      >
+        {toastBody || ''}
+      </Toast>
     </>
   );
 }
