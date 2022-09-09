@@ -229,7 +229,7 @@ export default function Dashboard() {
                 {courses?.map((course) => (
                   <Col xs={12} md={6} lg={4} key={course.id}>
                     <CourseCard
-                      active={activeCourse?.id === course.id && activeCourseParams.type === LEARNING_PATH}
+                      active={activeCourse?.id === course.id && activeCourseParams?.type === LEARNING_PATH}
                       title={course.title}
                       hours={course.hours_required}
                       languages={[course.primary_language].map(languageCodeToLabel)}
@@ -262,7 +262,7 @@ export default function Dashboard() {
                     {catalogCoursesOnActivePage.map((course) => (
                       <Col xs={12} md={6} key={course.id}>
                         <CourseCard
-                          active={activeCourse?.id === course.id && activeCourseParams.type === CATALOG_COURSE}
+                          active={activeCourse?.id === course.id && activeCourseParams?.type === CATALOG_COURSE}
                           title={course.title}
                           hours={course.hours_required}
                           languages={[course.primary_language].map(languageCodeToLabel)}
