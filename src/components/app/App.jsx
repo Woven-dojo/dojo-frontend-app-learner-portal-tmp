@@ -16,7 +16,7 @@ import { SkillsQuizPage } from '../skills-quiz';
 import { EnterpriseInvitePage } from '../enterprise-invite';
 
 import { features } from '../../config';
-import { ToastsProvider, Toasts } from '../Toasts';
+import { ToastsProvider } from '../Toasts';
 
 export default function App() {
   if (process.env.HOTJAR_APP_ID) {
@@ -30,7 +30,6 @@ export default function App() {
     <AppProvider>
       <NoticesProvider>
         <ToastsProvider>
-          <Toasts />
           <Switch>
             <AuthenticatedPageRoute exact path="/r/:redirectPath+" component={EnterprisePageRedirect} />
             <PageRoute exact path="/invite/:enterpriseCustomerInviteKey" component={EnterpriseInvitePage} />

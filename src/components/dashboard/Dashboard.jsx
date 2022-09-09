@@ -4,7 +4,7 @@ import React, {
 import { Helmet } from 'react-helmet';
 import { useHistory, useLocation } from 'react-router-dom';
 import {
-  Container, Row, Col, Pagination, TransitionReplace, Button, Hyperlink, Toast, Spinner,
+  Container, Row, Col, Pagination, TransitionReplace, Button, Hyperlink, Spinner,
 } from '@edx/paragon';
 import { AppContext } from '@edx/frontend-platform/react';
 import PropTypes from 'prop-types';
@@ -27,6 +27,7 @@ import {
 } from './data/svg';
 import { COURSES_PER_CATALOG_PAGE, LEARNING_PATH, CATALOG_COURSE } from './data/constants';
 import { languageCodeToLabel } from '../../utils/common';
+import { useToast } from '../Toasts/hooks';
 
 function EmptyState({ title, text, image = emptyStateImage }) {
   return (
@@ -74,6 +75,8 @@ export default function Dashboard() {
     catalog: { data: { courses_metadata: catalogCourses }, filter, requestCourse },
   } = useContext(UserSubsidyContext);
 
+  const toast = useToast();
+
   const catalogPageCount = Math.ceil(catalogCourses.length / COURSES_PER_CATALOG_PAGE);
   const [activeCatalogPage, setActiveCatalogPage] = useState(1);
   const catalogCoursesOnActivePage = catalogCourses?.slice(
@@ -81,7 +84,6 @@ export default function Dashboard() {
     (activeCatalogPage - 1) * COURSES_PER_CATALOG_PAGE + COURSES_PER_CATALOG_PAGE,
   ) ?? [];
   const [activeCourseParams, setActiveCourseParams] = useState(null);
-  const [toastBody, setToastBody] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
   const activeCourse = useMemo(() => {
@@ -134,7 +136,7 @@ export default function Dashboard() {
         type: 'primary',
         text: 'Access requested',
         onClick: () => {
-          setToastBody(
+          toast.addToast(
             <>
               <span className="d-block h5 mb-2 text-white">
                 We&apos;re working on it!
@@ -153,7 +155,7 @@ export default function Dashboard() {
         try {
           setLoading(true);
           await requestCourse(activeCourse.id);
-          setToastBody(
+          toast.addToast(
             <>
               <span className="d-block h5 mb-2 text-white">
                 Thanks for reaching out. Dojo staff will contact you soon!
@@ -163,7 +165,7 @@ export default function Dashboard() {
             </>,
           );
         } catch {
-          setToastBody(
+          toast.addToast(
             <>
               <span className="d-block h5 mb-2 text-white">
                 Unexpected error
@@ -255,7 +257,7 @@ export default function Dashboard() {
                 <EmptyState
                   image={noResultsImage}
                   title="Can't find what you're looking for?"
-                  text={<>Get in touch with us at #dojo-help or <a href="mailto:dojo@woven-planet.global">dojo@woven-planet.global</a></>}
+                  text={<>Get in touch with us at #dojo-platform-support on Slack</>}
                 />
               )}
               <div className="dashboard-catalog-wrap">
@@ -344,12 +346,6 @@ export default function Dashboard() {
           )}
         </DashboardDrawer>
       </Container>
-      <Toast
-        onClose={() => setToastBody(null)}
-        show={!!toastBody}
-      >
-        {toastBody || ''}
-      </Toast>
     </>
   );
 }
