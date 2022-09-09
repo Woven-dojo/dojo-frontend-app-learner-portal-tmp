@@ -202,6 +202,7 @@ export default function Dashboard() {
         <DashboardPanel
           title="My learning path"
           subtitle={learningPathName}
+          id="learning-path"
           headerAside={(
             <div>
               <div className="small text-dark-400">
@@ -240,6 +241,7 @@ export default function Dashboard() {
         </DashboardPanel>
         <DashboardPanel
           title="Course catalog"
+          id="course-catalog"
         >
           <hr />
           <Row>
