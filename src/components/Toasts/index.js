@@ -1,5 +1,4 @@
 export { default as Toasts } from './Toasts';
-export {
-  default as ToastsProvider,
-  ToastsContext,
-} from './ToastsProvider';
+export { default as ToastsProvider } from './ToastsProvider';
+
+export { ToastsContext } from './utils';
