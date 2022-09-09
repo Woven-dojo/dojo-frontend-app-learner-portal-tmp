@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function DashboardPanel({
-  children, title, subtitle, headerAside,
+  children, title, subtitle, headerAside, id,
 }) {
   const isHeaderVisible = !!title || !!subtitle || !!headerAside;
   return (
 
-    <div className="dashboard-panel">
+    <div className="dashboard-panel" id={id}>
       {isHeaderVisible && (
         <div className="dashboard-panel-header">
           <div>
@@ -33,10 +33,12 @@ DashboardPanel.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
   headerAside: PropTypes.node,
+  id: PropTypes.string,
 };
 
 DashboardPanel.defaultProps = {
   title: null,
   subtitle: null,
   headerAside: null,
+  id: null,
 };
