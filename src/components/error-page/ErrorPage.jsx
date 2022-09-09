@@ -4,8 +4,8 @@ import {
   Col,
   Container,
 } from '@edx/paragon';
-import SiteFooter from '@edx/frontend-component-footer';
 
+import { Footer } from '@reustleco/dojo-frontend-common/dist/components';
 import ErrorPageHeader from './ErrorPageHeader';
 
 /**
@@ -33,7 +33,7 @@ const ErrorPage = ({
         </Col>
       </Container>
     </main>
-    {showSiteFooter && <SiteFooter />}
+    {showSiteFooter && <Footer left={`Copyright ${(new Date()).getFullYear()} Dojo. All rights reserved`} className="dojo-footer" />}
   </>
 );
 

@@ -2,9 +2,9 @@ import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { IntlProvider } from 'react-intl';
-import SiteFooter from '@edx/frontend-component-footer';
 import { AppContext } from '@edx/frontend-platform/react';
 
+import { Footer } from '@reustleco/dojo-frontend-common/dist/components';
 import { SystemWideWarningBanner } from '../system-wide-banner';
 import { SiteHeader } from '../site-header';
 import { useStylesForCustomBrandColors } from './data/hooks';
@@ -57,7 +57,7 @@ export default function Layout({ children }) {
         <main id="content">
           {children}
         </main>
-        <SiteFooter />
+        <Footer left={`Copyright ${(new Date()).getFullYear()} Dojo. All rights reserved`} className="dojo-footer" />
       </>
     </IntlProvider>
   );
