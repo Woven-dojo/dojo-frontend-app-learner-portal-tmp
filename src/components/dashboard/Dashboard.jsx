@@ -179,12 +179,12 @@ export default function Dashboard() {
     <>
       <Helmet title={`Dashboard - ${name}`} />
       <Container size="lg" className="py-5">
-        <Row className="align-items-center mb-5">
+        <Row className="align-items-center mb-4">
           <Col sm={6}>
-            <h2 className="h2">
+            <h2 className="h2 pb-1.5">
               {userFirstName ? `Welcome, ${userFirstName}!` : 'Welcome!'}
             </h2>
-            <p className="small">Today is a great day for education.</p>
+            <p className="dashboard-welcome-subtitle">Today is a great day for education.</p>
           </Col>
           <Col sm={6} className="text-center text-md-right">
             {kickoffSurvey && (

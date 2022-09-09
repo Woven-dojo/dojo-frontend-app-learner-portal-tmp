@@ -1,4 +1,8 @@
 .dashboard {
+  &-welcome-subtitle {
+    font-size: 0.875rem;
+  }
+
   &-panel {
     @include pgn-box-shadow(2, "down");
     padding: 32px;
