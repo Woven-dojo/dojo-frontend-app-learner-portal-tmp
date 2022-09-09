@@ -20,8 +20,22 @@ exports[`Layout should render the expected HTML 1`] = `
       Content
     </div>
   </main>
-  <footer>
-    SiteFooter
+  <footer
+    className="master-footer dojo-footer"
+  >
+    <div
+      className="container"
+    >
+      <div
+        className="align-items-center row"
+      >
+        <div
+          className="d-flex justify-content-sm-center justify-content-lg-start col-lg-6"
+        >
+          Copyright 2022 Dojo. All rights reserved
+        </div>
+      </div>
+    </div>
   </footer>
 </div>
 `;
