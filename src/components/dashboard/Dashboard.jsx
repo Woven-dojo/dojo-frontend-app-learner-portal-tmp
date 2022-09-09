@@ -25,7 +25,7 @@ import {
   Dash,
   World,
 } from './data/svg';
-
+import { COURSES_PER_CATALOG_PAGE, LEARNING_PATH, CATALOG_COURSE } from './data/constants';
 import { languageCodeToLabel } from '../../utils/common';
 
 function EmptyState({ title, text, image = emptyStateImage }) {
@@ -58,8 +58,6 @@ EmptyState.defaultProps = {
   image: emptyStateImage,
 };
 
-const COURSES_PER_CATALOG_PAGE = 12;
-
 export default function Dashboard() {
   const {
     enterpriseConfig: {
@@ -82,14 +80,20 @@ export default function Dashboard() {
     (activeCatalogPage - 1) * COURSES_PER_CATALOG_PAGE,
     (activeCatalogPage - 1) * COURSES_PER_CATALOG_PAGE + COURSES_PER_CATALOG_PAGE,
   ) ?? [];
-  const [activeCourseId, setActiveCourse] = useState(null);
+  const [activeCourseParams, setActiveCourseParams] = useState(null);
   const [toastBody, setToastBody] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
   const activeCourse = useMemo(() => {
-    if (!activeCourseId) { return null; }
-    return [...courses || [], ...catalogCourses || []].find(course => course.id === activeCourseId);
-  }, [activeCourseId, courses, catalogCourses]);
+    if (!activeCourseParams) { return null; }
+    if (activeCourseParams.type === LEARNING_PATH) {
+      return courses.find(course => course.id === activeCourseParams.id);
+    }
+    if (activeCourseParams.type === CATALOG_COURSE) {
+      return catalogCourses.find(course => course.id === activeCourseParams.id);
+    }
+    return null;
+  }, [activeCourseParams, courses, catalogCourses]);
 
   useEffect(() => {
     if (state?.activationSuccess) {
@@ -107,7 +111,7 @@ export default function Dashboard() {
   }, [filter.current]);
 
   const userFirstName = authenticatedUser?.name.split(' ').shift();
-  const onDrawerClose = () => setActiveCourse(null);
+  const onDrawerClose = () => setActiveCourseParams(null);
 
   const getCourseCTAButton = useCallback(() => {
     if (!activeCourse) { return null; }
@@ -226,13 +230,13 @@ export default function Dashboard() {
                 {courses?.map((course) => (
                   <Col xs={12} md={6} lg={4} key={course.id}>
                     <CourseCard
-                      active={activeCourse?.id === course.id}
+                      active={activeCourse?.id === course.id && activeCourseParams?.type === LEARNING_PATH}
                       title={course.title}
                       hours={course.hours_required}
                       languages={[course.primary_language].map(languageCodeToLabel)}
                       skills={[course.difficulty_level]}
                       bgKey={course.id % 10}
-                      onClick={() => setActiveCourse(course.id)}
+                      onClick={() => setActiveCourseParams({ id: course.id, type: LEARNING_PATH })}
                     />
                   </Col>
                 ))}
@@ -260,13 +264,13 @@ export default function Dashboard() {
                     {catalogCoursesOnActivePage.map((course) => (
                       <Col xs={12} md={6} key={course.id}>
                         <CourseCard
-                          key={course.id}
+                          active={activeCourse?.id === course.id && activeCourseParams?.type === CATALOG_COURSE}
                           title={course.title}
                           hours={course.hours_required}
                           languages={[course.primary_language].map(languageCodeToLabel)}
                           skills={[course.difficulty_level]}
                           bgKey={course.id % 10}
-                          onClick={() => setActiveCourse(course.id)}
+                          onClick={() => setActiveCourseParams({ id: course.id, type: CATALOG_COURSE })}
                         />
                       </Col>
                     ))}
