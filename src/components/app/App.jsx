@@ -10,7 +10,6 @@ import {
 } from '../enterprise-redirects';
 import { DashboardPage } from '../dashboard';
 import { EnterpriseInvitePage } from '../enterprise-invite';
-
 import { ToastsProvider } from '../Toasts';
 
 export default function App() {
