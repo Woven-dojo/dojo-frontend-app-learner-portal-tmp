@@ -274,7 +274,7 @@ export default function Dashboard() {
                 </TransitionReplace>
                 {catalogPageCount > 1 && (
                   <Row>
-                    <Col className="d-flex justify-content-center">
+                    <Col className="d-flex justify-content-center mt-4">
                       <Pagination
                         paginationLabel={`Page ${activeCatalogPage} of ${catalogPageCount}`}
                         pageCount={catalogPageCount}
