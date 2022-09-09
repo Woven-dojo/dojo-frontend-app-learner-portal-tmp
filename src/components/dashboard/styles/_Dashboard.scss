@@ -21,7 +21,8 @@
   }
 
   &-panel-header-subtitle {
-    @extend .small;
+    font-size: $font-size-sm;
+    line-height: 2em;
     color: $dark-300;
     margin-bottom: 0;
   }
@@ -58,5 +59,9 @@
 
   &-catalog-page {
     padding: 32px 32px 0;
+  }
+
+  &-coursecard-grid {
+    gap: 24px 0;
   }
 }
