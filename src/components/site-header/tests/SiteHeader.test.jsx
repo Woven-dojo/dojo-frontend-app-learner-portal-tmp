@@ -53,7 +53,6 @@ describe('<SiteHeader />', () => {
       <SiteHeaderWithContext />,
     );
     expect(screen.getByTestId('header-logo-image-id'));
-    expect(screen.getByTestId('header-logo-link-id'));
   });
   test('renders regular logout link in absence of IDP', () => {
     renderWithRouter(
