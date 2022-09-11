@@ -22,14 +22,12 @@ export default function SiteHeader() {
 
   const renderEnterpriseLogo = () => (
     enterpriseConfig.branding.logo && (
-      <Link to="/" data-testid="header-logo-link-id">
-        <img
-          className="d-block logo"
-          src={enterpriseConfig.branding.logo}
-          alt={`${enterpriseConfig.name} logo`}
-          data-testid="header-logo-image-id"
-        />
-      </Link>
+      <img
+        className="d-block logo"
+        src={enterpriseConfig.branding.logo}
+        alt={`${enterpriseConfig.name} logo`}
+        data-testid="header-logo-image-id"
+      />
     )
   );
 
