@@ -240,9 +240,9 @@ describe('<Dashboard />', () => {
     renderWithRouter(<DashboardWithContext initialUserSubsidyState={userSubsidyState} />);
     const courseCatalogContainer = within(screen.getByTestId('courseCatalog'));
     expect(courseCatalogContainer.getByText('How to train your dragon'));
-    expect(courseCatalogContainer.getByText('42h'));
+    expect(courseCatalogContainer.getByText('42 h'));
     expect(courseCatalogContainer.getByText('Large numbers in Python'));
-    expect(courseCatalogContainer.getByText('13h'));
+    expect(courseCatalogContainer.getByText('13 h'));
     expect((await courseCatalogContainer.findAllByText('ENG')).length === 2);
   });
 });

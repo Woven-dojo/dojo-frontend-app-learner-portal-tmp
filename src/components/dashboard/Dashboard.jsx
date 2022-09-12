@@ -317,7 +317,7 @@ export default function Dashboard() {
                 },
                 {
                   key: 'Certificate',
-                  value: defCourseDetailValues(activeCourse, 'has_certificate', value => (value ? 'Avaliable' : 'Not avaliable')),
+                  value: defCourseDetailValues(activeCourse, 'has_certificate', value => (value ? 'Avaliable' : '-')),
                   icon: <Certificate />,
                 },
                 {
@@ -332,7 +332,7 @@ export default function Dashboard() {
                 },
                 {
                   key: 'Subtitles',
-                  value: defCourseDetailValues(activeCourse, 'subtitles_available', value => (value ? 'Avaliable' : 'Not avaliable')),
+                  value: defCourseDetailValues(activeCourse, 'subtitles_available', value => (value ? 'Avaliable' : '-')),
                   icon: <Baseline />,
                 },
                 {
