@@ -181,6 +181,13 @@ export default function Dashboard() {
     };
   }, [activeCourse, isLoading]);
 
+  const defCourseDetailValues = (item, key, callback) => {
+    if (!(key in item) || !item[key]) {
+      return '-';
+    }
+    return callback(item[key]);
+  };
+
   return (
     <>
       <Helmet title={`Dashboard - ${name}`} />
@@ -234,9 +241,9 @@ export default function Dashboard() {
                     <CourseCard
                       active={activeCourse?.id === course.id && activeCourseParams?.type === LEARNING_PATH}
                       title={course.title}
-                      hours={course.hours_required}
+                      hours={defCourseDetailValues(course, 'hours_required', value => `${value} h`)}
                       languages={[course.primary_language].map(languageCodeToLabel)}
-                      skills={[course.difficulty_level]}
+                      difficultyLevel={defCourseDetailValues(course, 'difficulty_level', value => value)}
                       bgKey={course.id % 10}
                       onClick={() => setActiveCourseParams({ id: course.id, type: LEARNING_PATH })}
                     />
@@ -268,9 +275,9 @@ export default function Dashboard() {
                         <CourseCard
                           active={activeCourse?.id === course.id && activeCourseParams?.type === CATALOG_COURSE}
                           title={course.title}
-                          hours={course.hours_required}
+                          hours={defCourseDetailValues(course, 'hours_required', value => `${value} h`)}
                           languages={[course.primary_language].map(languageCodeToLabel)}
-                          skills={[course.difficulty_level]}
+                          difficultyLevel={defCourseDetailValues(course, 'difficulty_level', value => value)}
                           bgKey={course.id % 10}
                           onClick={() => setActiveCourseParams({ id: course.id, type: CATALOG_COURSE })}
                         />
@@ -305,35 +312,35 @@ export default function Dashboard() {
               details={[
                 {
                   key: 'Time investment',
-                  value: activeCourse.hours_required && `${activeCourse.hours_required} hours`,
+                  value: defCourseDetailValues(activeCourse, 'hours_required', value => `${value} h`),
                   icon: <Alarm />,
                 },
                 {
                   key: 'Certificate',
-                  value: activeCourse.has_certificate ? 'Avaliable' : 'Not avaliable',
+                  value: defCourseDetailValues(activeCourse, 'has_certificate', () => 'Avaliable'),
                   icon: <Certificate />,
                 },
                 {
                   key: 'Difficulty level',
-                  value: activeCourse.difficulty_level,
+                  value: defCourseDetailValues(activeCourse, 'difficulty_level', value => value),
                   icon: <Dash />,
                 },
                 {
                   key: 'Primary language',
-                  value: languageCodeToLabel(activeCourse.primary_language),
+                  value: defCourseDetailValues(activeCourse, 'primary_language', value => languageCodeToLabel(value)),
                   icon: <World />,
                 },
                 {
                   key: 'Subtitles',
-                  value: activeCourse.subtitles_available ? 'Available' : 'Not avaliable',
+                  value: defCourseDetailValues(activeCourse, 'subtitles_available', () => 'Avaliable'),
                   icon: <Baseline />,
                 },
                 {
                   key: 'Prerequisites',
-                  value: activeCourse.prerequisites,
+                  value: defCourseDetailValues(activeCourse, 'prerequisites', value => value),
                   icon: <Checklist />,
                 },
-              ].filter(item => !!item.value)}
+              ]}
               buttons={[
                 {
                   type: 'outline-primary',
