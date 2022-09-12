@@ -182,7 +182,7 @@ export default function Dashboard() {
   }, [activeCourse, isLoading]);
 
   const defCourseDetailValues = (item, key, callback) => {
-    if (!(key in item) || item[key] === null || item[key] === undefined) {
+    if (!(key in item) || !item[key]) {
       return '-';
     }
     return callback(item[key]);
@@ -243,7 +243,7 @@ export default function Dashboard() {
                       title={course.title}
                       hours={defCourseDetailValues(course, 'hours_required', value => `${value} h`)}
                       languages={[course.primary_language].map(languageCodeToLabel)}
-                      difficultyLevel={course.difficulty_level || '-'}
+                      difficultyLevel={defCourseDetailValues(course, 'difficulty_level', value => value)}
                       bgKey={course.id % 10}
                       onClick={() => setActiveCourseParams({ id: course.id, type: LEARNING_PATH })}
                     />
@@ -277,7 +277,7 @@ export default function Dashboard() {
                           title={course.title}
                           hours={defCourseDetailValues(course, 'hours_required', value => `${value} h`)}
                           languages={[course.primary_language].map(languageCodeToLabel)}
-                          difficultyLevel={course.difficulty_level || '-'}
+                          difficultyLevel={defCourseDetailValues(course, 'difficulty_level', value => value)}
                           bgKey={course.id % 10}
                           onClick={() => setActiveCourseParams({ id: course.id, type: CATALOG_COURSE })}
                         />
@@ -317,12 +317,12 @@ export default function Dashboard() {
                 },
                 {
                   key: 'Certificate',
-                  value: defCourseDetailValues(activeCourse, 'has_certificate', value => (value ? 'Avaliable' : '-')),
+                  value: defCourseDetailValues(activeCourse, 'has_certificate', () => 'Avaliable'),
                   icon: <Certificate />,
                 },
                 {
                   key: 'Difficulty level',
-                  value: activeCourse.difficulty_level || '-',
+                  value: defCourseDetailValues(activeCourse, 'difficulty_level', value => value),
                   icon: <Dash />,
                 },
                 {
@@ -332,12 +332,12 @@ export default function Dashboard() {
                 },
                 {
                   key: 'Subtitles',
-                  value: defCourseDetailValues(activeCourse, 'subtitles_available', value => (value ? 'Avaliable' : '-')),
+                  value: defCourseDetailValues(activeCourse, 'subtitles_available', () => 'Avaliable'),
                   icon: <Baseline />,
                 },
                 {
                   key: 'Prerequisites',
-                  value: activeCourse.prerequisites || '-',
+                  value: defCourseDetailValues(activeCourse, 'prerequisites', value => value),
                   icon: <Checklist />,
                 },
               ]}

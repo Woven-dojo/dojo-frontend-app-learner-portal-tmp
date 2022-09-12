@@ -212,7 +212,7 @@ describe('<Dashboard />', () => {
     const learningPathContainer = within(screen.getByTestId('learningPath'));
     expect(learningPathContainer.getByText('How to train your dragon'));
     expect(learningPathContainer.getByText('ENG'));
-    expect(learningPathContainer.getByText('42h'));
+    expect(learningPathContainer.getByText('42 h'));
   });
 
   it('shows 2 cards in the course catalog', async () => {
