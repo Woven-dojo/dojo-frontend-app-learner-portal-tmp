@@ -108,13 +108,16 @@ export default function Dashboard() {
         state: updatedLocationState,
       });
     }
-  }, []);
+  }, [history, state]);
 
   useEffect(() => {
     setActiveCatalogPage(1);
     if (!activeCourse) {
       onDrawerClose();
     }
+    // `x.current` eslint rule is expecting that `x` contains reference obtained by `useRef`.
+    // As that's not case at this dependency array, the error is disabled.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter.current]);
 
   const userFirstName = authenticatedUser?.name.split(' ').shift();
@@ -183,7 +186,7 @@ export default function Dashboard() {
         }
       },
     };
-  }, [activeCourse, isLoading]);
+  }, [activeCourse, isLoading, kickoffSurvey, requestCourse, toast]);
 
   const defCourseDetailValues = (item, key, callback) => {
     if (!(key in item) || !item[key]) {

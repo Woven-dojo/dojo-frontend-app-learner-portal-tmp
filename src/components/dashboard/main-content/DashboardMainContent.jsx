@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import { AppContext } from '@edx/frontend-platform/react';
 import { breakpoints, MediaQuery } from '@edx/paragon';
 
@@ -14,7 +14,7 @@ const DashboardMainContent = () => {
     authenticatedUser,
   } = useContext(AppContext);
 
-  const userFirstName = useMemo(() => authenticatedUser?.name.split(' ').shift(), [authenticatedUser?.name]);
+  const userFirstName = authenticatedUser?.name.split(' ').shift();
 
   return (
     <>

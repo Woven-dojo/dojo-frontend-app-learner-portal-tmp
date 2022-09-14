@@ -13,12 +13,12 @@ import { EnterpriseInvitePage } from '../enterprise-invite';
 import { ToastsProvider } from '../Toasts';
 
 export default function App() {
-  if (process.env.HOTJAR_APP_ID) {
-    const { initHotjar } = useHotjar();
-    useEffect(() => {
+  const { initHotjar } = useHotjar();
+  useEffect(() => {
+    if (process.env.HOTJAR_APP_ID) {
       initHotjar(process.env.HOTJAR_APP_ID, process.env.HOTJAR_VERSION, process.env.HOTJAR_DEBUG);
-    }, [initHotjar]);
-  }
+    }
+  }, [initHotjar]);
 
   return (
     <AppProvider>
