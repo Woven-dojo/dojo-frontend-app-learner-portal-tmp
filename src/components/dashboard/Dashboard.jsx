@@ -113,7 +113,6 @@ export default function Dashboard() {
   }, [filter.current]);
 
   const userFirstName = authenticatedUser?.name.split(' ').shift();
-  const onDrawerClose = () => setActiveCourseParams(null);
 
   const getCourseCTAButton = useCallback(() => {
     if (!activeCourse) { return null; }
@@ -304,7 +303,7 @@ export default function Dashboard() {
             </Col>
           </Row>
         </DashboardPanel>
-        <DashboardDrawer open={activeCourse !== null} onClose={onDrawerClose}>
+        <DashboardDrawer open={activeCourse !== null}>
           { activeCourse && (
             <CourseDetails
               title={activeCourse.title}
@@ -345,7 +344,7 @@ export default function Dashboard() {
                 {
                   type: 'outline-primary',
                   text: 'Close',
-                  onClick: onDrawerClose,
+                  onClick: () => setActiveCourseParams(null),
                 },
                 getCourseCTAButton(),
               ].filter(Boolean)}
