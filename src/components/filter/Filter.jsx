@@ -24,9 +24,10 @@ const FilterGroup = ({
   </div>
 );
 
-export const Filter = ({ filter }) => {
+export const Filter = ({ filter, onClick }) => {
   const handleChange = (group) => (event) => {
     filter.toggle(group, [event.target.value]);
+    onClick();
   };
   return (
     <>
