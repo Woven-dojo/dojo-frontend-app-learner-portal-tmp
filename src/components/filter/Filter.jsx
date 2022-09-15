@@ -93,7 +93,7 @@ const filterPropTypes = PropTypes.shape({
 });
 
 Filter.propTypes = {
-  filter: filterPropTypes.isRequired
+  filter: filterPropTypes.isRequired,
 };
 
 FilterGroup.propTypes = {
