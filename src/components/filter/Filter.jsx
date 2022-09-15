@@ -24,10 +24,9 @@ const FilterGroup = ({
   </div>
 );
 
-export const Filter = ({ filter, onClick }) => {
+export const Filter = ({ filter }) => {
   const handleChange = (group) => (event) => {
     filter.toggle(group, [event.target.value]);
-    onClick();
   };
   return (
     <>
@@ -94,7 +93,7 @@ const filterPropTypes = PropTypes.shape({
 });
 
 Filter.propTypes = {
-  filter: filterPropTypes.isRequired,
+  filter: filterPropTypes.isRequired
 };
 
 FilterGroup.propTypes = {

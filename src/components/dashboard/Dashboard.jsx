@@ -97,6 +97,8 @@ export default function Dashboard() {
     return null;
   }, [activeCourseParams, courses, catalogCourses]);
 
+  const onDrawerClose = () => setActiveCourseParams(null);
+
   useEffect(() => {
     if (state?.activationSuccess) {
       const updatedLocationState = { ...state };
@@ -110,10 +112,10 @@ export default function Dashboard() {
 
   useEffect(() => {
     setActiveCatalogPage(1);
+    onDrawerClose();
   }, [filter.current]);
 
   const userFirstName = authenticatedUser?.name.split(' ').shift();
-  const onDrawerClose = () => setActiveCourseParams(null);
 
   const getCourseCTAButton = useCallback(() => {
     if (!activeCourse) { return null; }
@@ -300,7 +302,7 @@ export default function Dashboard() {
               </div>
             </Col>
             <Col lg={4}>
-              <Filter filter={filter} onClick={onDrawerClose}/>
+              <Filter filter={filter} />
             </Col>
           </Row>
         </DashboardPanel>
