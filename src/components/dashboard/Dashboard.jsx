@@ -112,7 +112,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     setActiveCatalogPage(1);
-    onDrawerClose();
+    if (!activeCourse) {
+      onDrawerClose();
+    }
   }, [filter.current]);
 
   const userFirstName = authenticatedUser?.name.split(' ').shift();
