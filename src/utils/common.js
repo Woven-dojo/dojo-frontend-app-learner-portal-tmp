@@ -86,7 +86,7 @@ export const languageCodeToLabel = (languageCode = '') => {
       case 'en':
         return 'ENG';
       case 'ja':
-        return '日本';
+        return '日本語';
       case '':
         return '-';
       default:
