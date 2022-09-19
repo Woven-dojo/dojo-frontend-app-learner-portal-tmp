@@ -9,6 +9,7 @@ import {
 import { AppContext } from '@edx/frontend-platform/react';
 import PropTypes from 'prop-types';
 import { CourseCard, CourseDetails } from '@reustleco/dojo-frontend-common';
+import { TourProvider, useTour } from '@reactour/tour';
 
 import emptyStateImage from '../../assets/images/empty-state.svg';
 import noResultsImage from '../../assets/images/no-results.svg';
@@ -85,6 +86,7 @@ export default function Dashboard() {
   ) ?? [];
   const [activeCourseParams, setActiveCourseParams] = useState(null);
   const [isLoading, setLoading] = useState(false);
+  const { setIsOpen } = useTour();
 
   const activeCourse = useMemo(() => {
     if (!activeCourseParams) { return null; }
@@ -190,6 +192,7 @@ export default function Dashboard() {
 
   return (
     <>
+      <button onClick={() => setIsOpen(true)} type="button">Start</button>
       <Helmet title={`Dashboard - ${name}`} />
       <Container size="lg" className="py-5">
         <Row className="align-items-center mb-4">
@@ -202,6 +205,7 @@ export default function Dashboard() {
           <Col sm={6} className="text-center text-md-right">
             {kickoffSurvey && (
               <Button
+                className="first-step"
                 as={Hyperlink}
                 target="_blank"
                 showLaunchIcon={false}
@@ -213,6 +217,7 @@ export default function Dashboard() {
           </Col>
         </Row>
         <DashboardPanel
+          className="second-step"
           title="My learning path"
           subtitle={learningPathName}
           id="learning-path"
