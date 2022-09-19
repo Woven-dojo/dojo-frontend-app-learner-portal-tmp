@@ -15,6 +15,7 @@
     "@fortawesome/free-regular-svg-icons": "5.15.1",
     "@fortawesome/free-solid-svg-icons": "5.15.1",
     "@fortawesome/react-fontawesome": "0.1.12",
+    "@reactour/tour": "^3.1.4",
     "@sentry/react": "^6.19.6",
     "@sentry/tracing": "^6.19.6",
     "@woven-dojo/dojo-frontend-common": "^1.1.12",
