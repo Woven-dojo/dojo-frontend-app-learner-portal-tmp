@@ -21,10 +21,9 @@ import { AppContext } from '@edx/frontend-platform/react';
 import PropTypes from 'prop-types';
 import { CourseCard, CourseDetails } from '@woven-dojo/dojo-frontend-common';
 import { useTour } from '@reactour/tour';
-
+import Cookies from 'universal-cookie';
 import emptyStateImage from '../../assets/images/empty-state.svg';
 import noResultsImage from '../../assets/images/no-results.svg';
-
 import DashboardPanel from './DashboardPanel';
 import DashboardDrawer from './DashboardDrawer';
 import { UserSubsidyContext } from '../enterprise-user-subsidy';
@@ -44,6 +43,8 @@ import {
 } from './data/constants';
 import { languageCodeToLabel } from '../../utils/common';
 import { useToast } from '../Toasts/hooks';
+import basicSteps from './data/steps';
+import { setDashIfEmpty, isElementInDOM } from './utils/common';
 
 function EmptyState({ title, text, image = emptyStateImage }) {
   return (
@@ -89,6 +90,9 @@ export default function Dashboard() {
   } = useContext(UserSubsidyContext);
 
   const toast = useToast();
+  const {
+    isOpen, currentStep, setSteps, setIsOpen,
+  } = useTour();
 
   const catalogPageCount = Math.ceil(
     catalogCourses.length / COURSES_PER_CATALOG_PAGE,
@@ -101,7 +105,7 @@ export default function Dashboard() {
   ) ?? [];
   const [activeCourseParams, setActiveCourseParams] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  const { setIsOpen } = useTour();
+  const [tutorialSteps, setTutorialSteps] = useState(basicSteps);
 
   const activeCourse = useMemo(() => {
     if (!activeCourseParams) {
@@ -117,6 +121,7 @@ export default function Dashboard() {
     }
     return null;
   }, [activeCourseParams, courses, catalogCourses]);
+  const cookies = new Cookies();
 
   const onDrawerClose = () => setActiveCourseParams(null);
 
@@ -130,6 +135,20 @@ export default function Dashboard() {
       });
     }
   }, [history, state]);
+
+  useEffect(() => {
+    const filtredTutorialSteps = tutorialSteps.filter(isElementInDOM);
+    setSteps(filtredTutorialSteps);
+    setTutorialSteps(filtredTutorialSteps);
+    if (cookies.get('firstLogin')) {
+      setIsOpen(false);
+    } else if (!cookies.get('firstLogin')) {
+      cookies.set('firstLogin', 'true', {
+        path: '/',
+      });
+      setIsOpen(true);
+    }
+  }, [setIsOpen, setSteps]);
 
   useEffect(() => {
     setActiveCatalogPage(1);
@@ -212,16 +231,14 @@ export default function Dashboard() {
     };
   }, [activeCourse, isLoading, kickoffSurvey, requestCourse, toast]);
 
-  const defCourseDetailValues = (item, key, callback) => {
-    if (!(key in item) || !item[key]) {
-      return '-';
-    }
-    return callback(item[key]);
-  };
-
   return (
     <>
-      <button onClick={() => setIsOpen(true)} type="button">Start</button>
+      {isOpen && (
+        <div className="reactour-header">
+          <p className="reactour-header-title">Toutorial step out {currentStep + 1} of {tutorialSteps.length}</p>
+          <button className="reactour-header-button" type="button" onClick={() => setIsOpen(false)}>Skip tutorial</button>
+        </div>
+      )}
       <Helmet title={`Dashboard - ${name}`} />
       <Container size="lg" className="py-5">
         <Row className="align-items-center mb-4">
@@ -235,24 +252,25 @@ export default function Dashboard() {
           </Col>
           <Col sm={6} className="text-center text-md-right">
             {kickoffSurvey && (
-              <Button
-                className="first-step"
-                as={Hyperlink}
-                target="_blank"
-                showLaunchIcon={false}
-                destination={kickoffSurvey}
-                variant="primary"
-              >
-                Start learning survey
-              </Button>
+              <div className="dashboard-start-btn step-1">
+                <Button
+                  as={Hyperlink}
+                  target="_blank"
+                  showLaunchIcon={false}
+                  destination={kickoffSurvey}
+                  variant="primary"
+                >Start learning survey
+                </Button>
+              </div>
             )}
           </Col>
         </Row>
+        <div className="step-2-top-position" /> {/* Needed for correct position of the reactour */}
         <DashboardPanel
-          className="second-step"
           title="My learning path"
           subtitle={learningPathName}
           id="learning-path"
+          className="step-2"
           headerAside={(
             <div>
               <div className="small text-dark-400">Available for kick-off</div>
@@ -262,49 +280,37 @@ export default function Dashboard() {
             </div>
           )}
         >
-          {count === 0 ? (
-            <EmptyState
-              title="You don't have a course in Learning path yet"
-              text="Check out our complete course catalog for courses that might interest you"
-            />
-          ) : (
-            <Row
-              data-testid="learningPath"
-              className="dashboard-coursecard-grid"
-            >
-              {courses?.map((course) => (
-                <Col xs={12} md={6} lg={4} key={course.id}>
-                  <CourseCard
-                    active={
-                      activeCourse?.id === course.id
-                      && activeCourseParams?.type === LEARNING_PATH
-                    }
-                    title={course.title}
-                    hours={defCourseDetailValues(
-                      course,
-                      'hours_required',
-                      (value) => `${value} h`,
-                    )}
-                    languages={[course.primary_language].map(
-                      languageCodeToLabel,
-                    )}
-                    difficultyLevel={defCourseDetailValues(
-                      course,
-                      'difficulty_level',
-                      (value) => value,
-                    )}
-                    bgKey={course.id % 10}
-                    onClick={() => setActiveCourseParams({
-                      id: course.id,
-                      type: LEARNING_PATH,
-                    })}
-                  />
-                </Col>
-              ))}
-            </Row>
-          )}
+          {count === 0
+            ? (
+              <EmptyState
+                title="You don't have a course in Learning path yet"
+                text="Check out our complete course catalog for courses that might interest you"
+              />
+            )
+            : (
+              <Row data-testid="learningPath" className="dashboard-coursecard-grid">
+                {courses?.map((course) => (
+                  <Col xs={12} md={6} lg={4} key={course.id}>
+                    <CourseCard
+                      active={activeCourse?.id === course.id && activeCourseParams?.type === LEARNING_PATH}
+                      title={course.title}
+                      hours={setDashIfEmpty(course, 'hours_required', value => `${value} h`)}
+                      languages={[course.primary_language].map(languageCodeToLabel)}
+                      difficultyLevel={setDashIfEmpty(course, 'difficulty_level', value => value)}
+                      bgKey={course.id % 10}
+                      onClick={() => setActiveCourseParams({ id: course.id, type: LEARNING_PATH })}
+                    />
+                  </Col>
+                ))}
+              </Row>
+            )}
         </DashboardPanel>
-        <DashboardPanel title="Course catalog" id="course-catalog">
+        <div className="step-3-top-position" /> {/* Needed for correct position of the reactour */}
+        <DashboardPanel
+          title="Course catalog"
+          id="course-catalog"
+          className="step-3"
+        >
           <hr />
           <Row>
             <Col lg={8} data-testid="courseCatalog">
@@ -332,19 +338,9 @@ export default function Dashboard() {
                             && activeCourseParams?.type === CATALOG_COURSE
                           }
                           title={course.title}
-                          hours={defCourseDetailValues(
-                            course,
-                            'hours_required',
-                            (value) => `${value} h`,
-                          )}
-                          languages={[course.primary_language].map(
-                            languageCodeToLabel,
-                          )}
-                          difficultyLevel={defCourseDetailValues(
-                            course,
-                            'difficulty_level',
-                            (value) => value,
-                          )}
+                          hours={setDashIfEmpty(course, 'hours_required', value => `${value} h`)}
+                          languages={[course.primary_language].map(languageCodeToLabel)}
+                          difficultyLevel={setDashIfEmpty(course, 'difficulty_level', value => value)}
                           bgKey={course.id % 10}
                           onClick={() => setActiveCourseParams({
                             id: course.id,
@@ -382,56 +378,32 @@ export default function Dashboard() {
               details={[
                 {
                   key: 'Time investment',
-                  value: defCourseDetailValues(
-                    activeCourse,
-                    'hours_required',
-                    (value) => `${value} h`,
-                  ),
+                  value: setDashIfEmpty(activeCourse, 'hours_required', value => `${value} h`),
                   icon: <Alarm />,
                 },
                 {
                   key: 'Certificate',
-                  value: defCourseDetailValues(
-                    activeCourse,
-                    'has_certificate',
-                    () => 'Avaliable',
-                  ),
+                  value: setDashIfEmpty(activeCourse, 'has_certificate', () => 'Avaliable'),
                   icon: <Certificate />,
                 },
                 {
                   key: 'Difficulty level',
-                  value: defCourseDetailValues(
-                    activeCourse,
-                    'difficulty_level',
-                    (value) => value,
-                  ),
+                  value: setDashIfEmpty(activeCourse, 'difficulty_level', value => value),
                   icon: <Dash />,
                 },
                 {
                   key: 'Primary language',
-                  value: defCourseDetailValues(
-                    activeCourse,
-                    'primary_language',
-                    (value) => languageCodeToLabel(value),
-                  ),
+                  value: setDashIfEmpty(activeCourse, 'primary_language', value => languageCodeToLabel(value)),
                   icon: <World />,
                 },
                 {
                   key: 'Subtitles',
-                  value: defCourseDetailValues(
-                    activeCourse,
-                    'subtitles_available',
-                    () => 'Avaliable',
-                  ),
+                  value: setDashIfEmpty(activeCourse, 'subtitles_available', () => 'Avaliable'),
                   icon: <Baseline />,
                 },
                 {
                   key: 'Prerequisites',
-                  value: defCourseDetailValues(
-                    activeCourse,
-                    'prerequisites',
-                    (value) => value,
-                  ),
+                  value: setDashIfEmpty(activeCourse, 'prerequisites', value => value),
                   icon: <Checklist />,
                 },
               ]}
