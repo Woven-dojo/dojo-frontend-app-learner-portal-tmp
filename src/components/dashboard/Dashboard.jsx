@@ -21,7 +21,6 @@ import { AppContext } from '@edx/frontend-platform/react';
 import PropTypes from 'prop-types';
 import { CourseCard, CourseDetails } from '@woven-dojo/dojo-frontend-common';
 import { useTour } from '@reactour/tour';
-import Cookies from 'universal-cookie';
 import emptyStateImage from '../../assets/images/empty-state.svg';
 import noResultsImage from '../../assets/images/no-results.svg';
 import DashboardPanel from './DashboardPanel';
@@ -121,7 +120,6 @@ export default function Dashboard() {
     }
     return null;
   }, [activeCourseParams, courses, catalogCourses]);
-  const cookies = new Cookies();
 
   const onDrawerClose = () => setActiveCourseParams(null);
 
@@ -140,12 +138,8 @@ export default function Dashboard() {
     const filtredTutorialSteps = tutorialSteps.filter(isElementInDOM);
     setSteps(filtredTutorialSteps);
     setTutorialSteps(filtredTutorialSteps);
-    if (cookies.get('firstLogin')) {
-      setIsOpen(false);
-    } else if (!cookies.get('firstLogin')) {
-      cookies.set('firstLogin', 'true', {
-        path: '/',
-      });
+    if (!localStorage.getItem('spotlightTutorialShown')) {
+      localStorage.setItem('spotlightTutorialShown', true);
       setIsOpen(true);
     }
   }, [setIsOpen, setSteps]);
@@ -235,7 +229,7 @@ export default function Dashboard() {
     <>
       {isOpen && (
         <div className="reactour-header">
-          <p className="reactour-header-title">Toutorial step out {currentStep + 1} of {tutorialSteps.length}</p>
+          <p className="reactour-header-title">Toutorial step {currentStep + 1} out of {tutorialSteps.length}</p>
           <button className="reactour-header-button" type="button" onClick={() => setIsOpen(false)}>Skip tutorial</button>
         </div>
       )}
@@ -252,7 +246,7 @@ export default function Dashboard() {
           </Col>
           <Col sm={6} className="text-center text-md-right">
             {kickoffSurvey && (
-              <div className="dashboard-start-btn step-1">
+              <div className="dashboard-start-btn tour-kickoff-survey">
                 <Button
                   as={Hyperlink}
                   target="_blank"
@@ -265,12 +259,12 @@ export default function Dashboard() {
             )}
           </Col>
         </Row>
-        <div className="step-2-top-position" /> {/* Needed for correct position of the reactour */}
+        <div className="tour-learning-path-top-position" /> {/* Needed for correct position of the reactour */}
         <DashboardPanel
           title="My learning path"
           subtitle={learningPathName}
           id="learning-path"
-          className="step-2"
+          className="tour-learning-path"
           headerAside={(
             <div>
               <div className="small text-dark-400">Available for kick-off</div>
@@ -305,11 +299,11 @@ export default function Dashboard() {
               </Row>
             )}
         </DashboardPanel>
-        <div className="step-3-top-position" /> {/* Needed for correct position of the reactour */}
+        <div className="tour-course-catalog-top-position" /> {/* Needed for correct position of the reactour */}
         <DashboardPanel
           title="Course catalog"
           id="course-catalog"
-          className="step-3"
+          className="tour-course-catalog"
         >
           <hr />
           <Row>

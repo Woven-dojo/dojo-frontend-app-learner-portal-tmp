@@ -5,7 +5,4 @@ export const setDashIfEmpty = (item, key, callback) => {
   return callback(item[key]);
 };
 
-export const isElementInDOM = (step) => {
-  const nodes = document.querySelectorAll(step.selector);
-  return nodes.length > 0;
-};
+export const isElementInDOM = (step) => !!document.querySelector(step.selector);

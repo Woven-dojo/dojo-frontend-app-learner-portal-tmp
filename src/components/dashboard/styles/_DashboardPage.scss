@@ -2,11 +2,11 @@
   &-step{
     margin-bottom: 0;
     vertical-align: middle;
-    &-1{
+    &-kickoff-survey{
       width: 24vw;
     }
-    &-2,
-    &-3{
+    &-learning-path,
+    &-course-catalog{
       display: inline-block;
       width: 41vw;
       &+div{

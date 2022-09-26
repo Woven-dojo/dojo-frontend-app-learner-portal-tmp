@@ -1,32 +1,32 @@
 const steps = [
   {
-    selector: '.step-1',
+    selector: '.tour-kickoff-survey',
     content: () => (
-      <p className="reactour-step reactour-step-1">To have access to courses within your interests, please first complete Kick-Off questionaire</p>
+      <p className="reactour-step reactour-step-kickoff-survey">To have access to courses within your interests, please first complete Kick-Off questionaire</p>
     ),
     position: 'left',
     padding: {
       mask: 10,
     },
-    resizeObservables: ['.step-1'],
+    resizeObservables: ['.tour-kickoff-survey'],
   },
   {
-    selector: '.step-2-top-position',
+    selector: '.tour-learning-path-top-position',
     content: () => (
-      <p className="reactour-step reactour-step-2">Here is the area that consist of courses that are pre-selected for you learning path. All of those courses are available for you to start right away</p>
+      <p className="reactour-step reactour-step-learning-path">Here is the area that consist of courses that are pre-selected for you learning path. All of those courses are available for you to start right away</p>
     ),
     position: 'top',
-    highlightedSelectors: ['.step-2'],
-    resizeObservables: ['.step-2'],
+    highlightedSelectors: ['.tour-learning-path'],
+    resizeObservables: ['.tour-learning-path'],
   },
   {
-    selector: '.step-3-top-position',
+    selector: '.tour-course-catalog-top-position',
     content: () => (
-      <p className="reactour-step reactour-step-3">Here you can find any courses you might be interested in. Just use the filter and find the right course for you</p>
+      <p className="reactour-step reactour-step-course-catalog">Here you can find any courses you might be interested in. Just use the filter and find the right course for you</p>
     ),
     position: 'top',
-    highlightedSelectors: ['.step-3'],
-    resizeObservables: ['.step-3'],
+    highlightedSelectors: ['.tour-course-catalog'],
+    resizeObservables: ['.tour-course-catalog'],
   },
 ];
 
