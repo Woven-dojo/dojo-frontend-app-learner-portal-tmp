@@ -1,9 +1,5 @@
 import React, {
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-  useMemo,
+  useContext, useEffect, useState, useCallback, useMemo, useLayoutEffect,
 } from 'react';
 import { Helmet } from 'react-helmet';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -134,14 +130,16 @@ export default function Dashboard() {
     }
   }, [history, state]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const filtredTutorialSteps = tutorialSteps.filter(isElementInDOM);
-    setSteps(filtredTutorialSteps);
-    setTutorialSteps(filtredTutorialSteps);
-    if (!localStorage.getItem('spotlightTutorialShown')) {
-      localStorage.setItem('spotlightTutorialShown', true);
-      setIsOpen(true);
-    }
+    setTimeout(() => {
+      setSteps(filtredTutorialSteps);
+      setTutorialSteps(filtredTutorialSteps);
+      if (!localStorage.getItem('spotlightTutorialShown')) {
+        localStorage.setItem('spotlightTutorialShown', true);
+        setIsOpen(true);
+      }
+    }, 500);
   }, [setIsOpen, setSteps]);
 
   useEffect(() => {
