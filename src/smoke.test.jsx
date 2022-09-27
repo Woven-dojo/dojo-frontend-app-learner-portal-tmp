@@ -35,10 +35,6 @@ jest.unmock('@edx/frontend-platform/auth');
 
 const mergeTestConfig = () => mergeConfig({
   USE_API_CACHE: process.env.USE_API_CACHE || null,
-  ALGOLIA_APP_ID: process.env.ALGOLIA_APP_ID || null,
-  ALGOLIA_SEARCH_API_KEY: process.env.ALGOLIA_SEARCH_API_KEY || null,
-  ALGOLIA_INDEX_NAME: process.env.ALGOLIA_INDEX_NAME || null,
-  ALGOLIA_INDEX_NAME_JOBS: process.env.ALGOLIA_INDEX_NAME_JOBS || null,
   INTEGRATION_WARNING_DISMISSED_COOKIE_NAME: process.env.INTEGRATION_WARNING_DISMISSED_COOKIE_NAME || null,
   IS_MAINTENANCE_ALERT_ENABLED: process.env.IS_MAINTENANCE_ALERT_ENABLED || null,
   MAINTENANCE_ALERT_MESSAGE: process.env.MAINTENANCE_ALERT_MESSAGE || null,
