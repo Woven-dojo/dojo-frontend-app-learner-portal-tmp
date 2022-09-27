@@ -17,14 +17,14 @@ export default function LoginRedirect({
   loadingDisplay: LoadingDisplay,
 }) {
   const user = getAuthenticatedUser();
+  const {
+    enterpriseCustomerInviteKey,
+  } = useParams();
 
   if (user) {
     return children;
   }
 
-  const {
-    enterpriseCustomerInviteKey,
-  } = useParams();
   const enterpriseSlug = window.location.host.split('.')[0];
   global.location.href = getLoginUrl(enterpriseSlug, enterpriseCustomerInviteKey);
   return LoadingDisplay;

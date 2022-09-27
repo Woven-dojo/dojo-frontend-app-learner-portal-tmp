@@ -5,7 +5,6 @@ import {
   fireEvent,
   act,
   waitFor,
-  within,
 } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { AppContext } from '@edx/frontend-platform/react';
@@ -53,21 +52,6 @@ const requestedCourseRun = createCourseEnrollmentWithStatus(
   COURSE_STATUSES.requested,
 );
 
-const getCourseRunIds = (courses) => courses.map(({ courseRunId }) => courseRunId);
-
-const PROGRAM_ENROLLMENTS = [
-  {
-    program_title: 'program_title',
-    courses: getCourseRunIds([
-      inProgCourseRun,
-      upcomingCourseRun,
-      completedCourseRun,
-      savedForLaterCourseRun,
-      requestedCourseRun,
-    ]),
-  },
-];
-
 hooks.useCourseEnrollments.mockReturnValue({
   courseEnrollmentsByStatus: {
     inProgress: [inProgCourseRun],
@@ -76,7 +60,6 @@ hooks.useCourseEnrollments.mockReturnValue({
     savedForLater: [savedForLaterCourseRun],
     requested: [requestedCourseRun],
   },
-  programEnrollments: PROGRAM_ENROLLMENTS,
   updateCourseEnrollmentStatus: jest.fn(),
 });
 
@@ -122,15 +105,6 @@ describe('Course enrollments', () => {
     await waitFor(() => expect(getByText('Your course was saved for later.')));
   });
 
-  it('renders in progress, upcoming, and requested course enrollments in the same section', async () => {
-    renderEnrollmentsComponent();
-    const programTitle = PROGRAM_ENROLLMENTS[0].program_title;
-    const currentCourses = screen.getByText(programTitle).closest('.course-section');
-    expect(within(currentCourses).getByText(inProgCourseRun.title));
-    expect(within(currentCourses).getByText(upcomingCourseRun.title));
-    expect(within(currentCourses).getByText(requestedCourseRun.title));
-  });
-
   it('renders courses enrollments within sections by created timestamp', async () => {
     const courseFactory = courseEnrollmentFactory.extend({
       title: factory.index(i => `title ${i}`),
@@ -155,21 +129,6 @@ describe('Course enrollments', () => {
     setCoursesStatus(inProgressCourses, COURSE_STATUSES.inProgress);
     setCoursesStatus(upcomingCourses, COURSE_STATUSES.upcoming);
 
-    const programCourses = [
-      [courses[0], courses[1], courses[2]],
-      [courses[3], courses[4]],
-    ];
-
-    const programEnrollmentFactory = factory.object({
-      program_title: factory.index(i => `Program ${i}`),
-    });
-
-    const programEnrollments = programCourses.map(courseList => (
-      programEnrollmentFactory.create({
-        courses: getCourseRunIds(courseList),
-      })
-    ));
-
     hooks.useCourseEnrollments.mockReturnValueOnce({
       courseEnrollmentsByStatus: {
         inProgress: inProgressCourses,
@@ -178,22 +137,8 @@ describe('Course enrollments', () => {
         savedForLater: [],
         requested: [],
       },
-      programEnrollments,
     });
 
     renderEnrollmentsComponent();
-
-    const getCourseTitles = coursesList => coursesList.map(course => course.title);
-
-    programEnrollments.forEach((programEnrollment, i) => {
-      const courseTitles = screen
-        .getByText(programEnrollment.program_title)
-        .closest('.course-section')
-        .querySelectorAll('.course-title');
-
-      expect(courseTitles.length).toBe(programCourses[i].length);
-      expect([...courseTitles].map(title => title.textContent))
-        .toEqual(getCourseTitles(programCourses[i]));
-    });
   });
 });

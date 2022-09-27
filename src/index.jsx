@@ -28,16 +28,10 @@ initialize({
     config: () => {
       mergeConfig({
         USE_API_CACHE: process.env.USE_API_CACHE || null,
-        ENTERPRISE_CATALOG_API_BASE_URL: process.env.ENTERPRISE_CATALOG_API_BASE_URL || null,
-        ALGOLIA_APP_ID: process.env.ALGOLIA_APP_ID || null,
-        ALGOLIA_SEARCH_API_KEY: process.env.ALGOLIA_SEARCH_API_KEY || null,
-        ALGOLIA_INDEX_NAME: process.env.ALGOLIA_INDEX_NAME || null,
-        ALGOLIA_INDEX_NAME_JOBS: process.env.ALGOLIA_INDEX_NAME_JOBS || null,
         INTEGRATION_WARNING_DISMISSED_COOKIE_NAME: process.env.INTEGRATION_WARNING_DISMISSED_COOKIE_NAME || null,
         IS_MAINTENANCE_ALERT_ENABLED: process.env.IS_MAINTENANCE_ALERT_ENABLED || null,
         MAINTENANCE_ALERT_MESSAGE: process.env.MAINTENANCE_ALERT_MESSAGE || null,
         MAINTENANCE_ALERT_START_TIMESTAMP: process.env.MAINTENANCE_ALERT_START_TIMESTAMP || null,
-        ENABLE_SKILLS_QUIZ: process.env.ENABLE_SKILLS_QUIZ || false,
         ENABLE_NOTICES: process.env.ENABLE_NOTICES || null,
         LEARNER_SUPPORT_URL: process.env.LEARNER_SUPPORT_URL || null,
         SENTRY_DSN: process.env.SENTRY_DSN || null,

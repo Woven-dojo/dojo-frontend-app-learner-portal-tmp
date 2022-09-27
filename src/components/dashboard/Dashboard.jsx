@@ -97,6 +97,8 @@ export default function Dashboard() {
     return null;
   }, [activeCourseParams, courses, catalogCourses]);
 
+  const onDrawerClose = () => setActiveCourseParams(null);
+
   useEffect(() => {
     if (state?.activationSuccess) {
       const updatedLocationState = { ...state };
@@ -106,14 +108,19 @@ export default function Dashboard() {
         state: updatedLocationState,
       });
     }
-  }, []);
+  }, [history, state]);
 
   useEffect(() => {
     setActiveCatalogPage(1);
+    if (!activeCourse) {
+      onDrawerClose();
+    }
+    // `x.current` eslint rule is expecting that `x` contains reference obtained by `useRef`.
+    // As that's not case at this dependency array, the error is disabled.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter.current]);
 
   const userFirstName = authenticatedUser?.name.split(' ').shift();
-  const onDrawerClose = () => setActiveCourseParams(null);
 
   const getCourseCTAButton = useCallback(() => {
     if (!activeCourse) { return null; }
@@ -179,7 +186,7 @@ export default function Dashboard() {
         }
       },
     };
-  }, [activeCourse, isLoading]);
+  }, [activeCourse, isLoading, kickoffSurvey, requestCourse, toast]);
 
   const defCourseDetailValues = (item, key, callback) => {
     if (!(key in item) || !item[key]) {
@@ -304,7 +311,7 @@ export default function Dashboard() {
             </Col>
           </Row>
         </DashboardPanel>
-        <DashboardDrawer open={activeCourse !== null} onClose={onDrawerClose}>
+        <DashboardDrawer open={activeCourse !== null}>
           { activeCourse && (
             <CourseDetails
               title={activeCourse.title}
