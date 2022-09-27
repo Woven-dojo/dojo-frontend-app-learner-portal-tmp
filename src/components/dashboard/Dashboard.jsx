@@ -257,12 +257,12 @@ export default function Dashboard() {
             )}
           </Col>
         </Row>
-        <div className="tour-learning-path-top-position" /> {/* Needed for correct position of the reactour */}
         <DashboardPanel
           title="My learning path"
           subtitle={learningPathName}
           id="learning-path"
           className="tour-learning-path"
+          tourClassNamePositionHelper="tour-learning-path-top-position"
           headerAside={(
             <div>
               <div className="small text-dark-400">Available for kick-off</div>
@@ -297,11 +297,11 @@ export default function Dashboard() {
               </Row>
             )}
         </DashboardPanel>
-        <div className="tour-course-catalog-top-position" /> {/* Needed for correct position of the reactour */}
         <DashboardPanel
           title="Course catalog"
           id="course-catalog"
           className="tour-course-catalog"
+          tourClassNamePositionHelper="tour-course-catalog-top-position"
         >
           <hr />
           <Row>
