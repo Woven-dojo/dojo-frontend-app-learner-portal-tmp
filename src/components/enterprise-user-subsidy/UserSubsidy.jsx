@@ -62,10 +62,11 @@ const UserSubsidy = ({ children }) => {
     },
     [
       isLoading,
-      enterpriseConfig.uuid,
       catalogData,
       learningPathData,
       catalogFilter,
+      requestCourse,
+      toggleFilter,
     ],
   );
 

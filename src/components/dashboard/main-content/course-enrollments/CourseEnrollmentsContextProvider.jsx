@@ -39,6 +39,7 @@ const CourseEnrollmentsContextProvider = ({ children }) => {
     fetchCourseEnrollmentsError,
     showMarkCourseCompleteSuccess,
     showMoveToInProgressCourseSuccess,
+    updateCourseEnrollmentStatus,
   ]);
 
   if (isLoading) {

@@ -77,7 +77,7 @@ export function useEnterpriseCustomerConfig(enterpriseSlug, useCache = true) {
         logError(new Error(`Error occurred while fetching the Enterprise Config: ${error}`));
         setFetchError(error);
       });
-  }, [enterpriseSlug]);
+  }, [enterpriseSlug, useCache]);
 
   return [enterpriseConfig, fetchError];
 }

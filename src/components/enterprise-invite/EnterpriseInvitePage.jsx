@@ -58,7 +58,7 @@ const EnterpriseInvitePage = () => {
       };
       linkEnterpriseLearner();
     }
-  }, [authenticatedUser?.id]);
+  }, [authenticatedUser.id, enterpriseCustomerInviteKey, history]);
 
   return (
     <LoginRedirect>
