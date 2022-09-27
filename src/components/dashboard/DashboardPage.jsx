@@ -25,6 +25,7 @@ export default function DashboardPage() {
         showNavigationNumber={false}
         scrollSmooth
         inViewThreshold={{ x: 10, y: 1000 }}
+        onClickMask={() => null}
         prevButton={(
           { currentStep, setCurrentStep },
         ) => (
