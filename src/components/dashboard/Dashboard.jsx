@@ -140,7 +140,7 @@ export default function Dashboard() {
         setIsOpen(true);
       }
     }, 500);
-  }, [setIsOpen, setSteps]);
+  }, [tutorialSteps, setIsOpen, setSteps]);
 
   useEffect(() => {
     setActiveCatalogPage(1);
