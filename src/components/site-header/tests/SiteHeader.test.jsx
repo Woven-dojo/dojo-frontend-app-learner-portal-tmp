@@ -17,7 +17,6 @@ const appState = {
     branding: {
       logo: 'the-logo',
     },
-    disableSearch: false,
   },
   config: {
     LMS_BASE_URL: process.env.LMS_BASE_URL,

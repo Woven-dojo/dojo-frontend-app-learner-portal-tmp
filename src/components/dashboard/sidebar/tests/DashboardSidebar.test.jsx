@@ -27,7 +27,6 @@ jest.mock('../../main-content/course-enrollments/data/hooks', () => ({
     fetchError: null,
     updateCourseEnrollmentStatus: () => {
     },
-    programEnrollments: [],
   })),
 }));
 
@@ -121,7 +120,7 @@ describe('<DashboardSidebar />', () => {
   test('Find a course button is not rendered when user has subsidy but customer has search disabled', () => {
     renderWithRouter(
       <DashboardSidebarWithContext
-        initialAppState={{ enterpriseConfig: { disableSearch: true } }}
+        initialAppState={{ enterpriseConfig: {} }}
         initialUserSubsidyState={userSubsidyStateWithSubscription}
       />,
     );

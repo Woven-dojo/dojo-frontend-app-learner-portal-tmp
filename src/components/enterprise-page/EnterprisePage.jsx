@@ -9,14 +9,12 @@ import { LoadingSpinner } from '../loading-spinner';
 import NotFoundPage from '../NotFoundPage';
 
 import { isDefined, isDefinedAndNull } from '../../utils/common';
-import { useAlgoliaSearch } from '../../utils/hooks';
 import { useEnterpriseCustomerConfig } from './data/hooks';
 
 export default function EnterprisePage({ children, useEnterpriseConfigCache }) {
   const enterpriseSlug = window.location.host.split('.')[0];
   const [enterpriseConfig, fetchError] = useEnterpriseCustomerConfig(enterpriseSlug, useEnterpriseConfigCache);
   const config = getConfig();
-  const [searchClient, searchIndex] = useAlgoliaSearch(config);
   const user = getAuthenticatedUser();
   const { profileImage } = user;
 
@@ -49,10 +47,6 @@ export default function EnterprisePage({ children, useEnterpriseConfigCache }) {
               hasMarkComplete: true,
             },
           },
-        },
-        algolia: {
-          client: searchClient,
-          index: searchIndex,
         },
       }}
     >

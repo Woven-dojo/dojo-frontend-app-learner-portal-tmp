@@ -2,7 +2,6 @@
 @import "@edx/brand/paragon/variables";
 @import "@edx/paragon/scss/core/core";
 // frontend-enterprise-* imports must come before the paragon overrides for correct styling
-@import "~@edx/frontend-enterprise-catalog-search";
 @import "@edx/brand/paragon/overrides";
 
 $fa-font-path: "~font-awesome/fonts";
@@ -13,10 +12,6 @@ $fa-font-path: "~font-awesome/fonts";
 @import "@reustleco/dojo-admin-brand/paragon/mixins";
 @import "@reustleco/dojo-admin-brand/paragon/overrides";
 
-@import "./components/course/styles/CourseHeader";
-@import "./components/course/styles/CourseSidebar";
-@import "./components/course/styles/ProgramSidebar";
-@import "./components/course/styles/CourseSkills";
 @import "./components/dashboard/main-content/course-enrollments/course-cards/styles/CourseCard";
 @import "./components/dashboard/main-content/course-enrollments/styles/CourseSection";
 @import "./components/dashboard/sidebar/styles/SidebarCard";
@@ -24,12 +19,9 @@ $fa-font-path: "~font-awesome/fonts";
 @import "./components/dashboard/styles/Dashboard";
 @import "./components/dashboard/styles/DashboardDrawer";
 @import "./components/dashboard/styles/Pagination";
-@import "./components/search/styles/";
-@import "./components/skills-quiz/styles/";
 @import "./components/site-header/styles/Header";
 @import "./components/preview-expand/styles/PreviewExpand";
 @import "./components/error-page/styles/ErrorPage";
-@import "./components/pathway/styles";
 @import "./components/filter/styles/Filter";
 
 body {

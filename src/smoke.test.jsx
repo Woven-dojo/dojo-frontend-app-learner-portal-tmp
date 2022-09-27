@@ -35,16 +35,10 @@ jest.unmock('@edx/frontend-platform/auth');
 
 const mergeTestConfig = () => mergeConfig({
   USE_API_CACHE: process.env.USE_API_CACHE || null,
-  ENTERPRISE_CATALOG_API_BASE_URL: process.env.ENTERPRISE_CATALOG_API_BASE_URL || null,
-  ALGOLIA_APP_ID: process.env.ALGOLIA_APP_ID || null,
-  ALGOLIA_SEARCH_API_KEY: process.env.ALGOLIA_SEARCH_API_KEY || null,
-  ALGOLIA_INDEX_NAME: process.env.ALGOLIA_INDEX_NAME || null,
-  ALGOLIA_INDEX_NAME_JOBS: process.env.ALGOLIA_INDEX_NAME_JOBS || null,
   INTEGRATION_WARNING_DISMISSED_COOKIE_NAME: process.env.INTEGRATION_WARNING_DISMISSED_COOKIE_NAME || null,
   IS_MAINTENANCE_ALERT_ENABLED: process.env.IS_MAINTENANCE_ALERT_ENABLED || null,
   MAINTENANCE_ALERT_MESSAGE: process.env.MAINTENANCE_ALERT_MESSAGE || null,
   MAINTENANCE_ALERT_START_TIMESTAMP: process.env.MAINTENANCE_ALERT_START_TIMESTAMP || null,
-  ENABLE_SKILLS_QUIZ: process.env.ENABLE_SKILLS_QUIZ || false,
   ENABLE_NOTICES: process.env.ENABLE_NOTICES || null,
   LEARNER_SUPPORT_URL: process.env.LEARNER_SUPPORT_URL || null,
   SENTRY_DSN: process.env.SENTRY_DSN || null,
@@ -54,7 +48,6 @@ const mergeTestConfig = () => mergeConfig({
   ACCESS_TOKEN_COOKIE_NAME: 'dojo-access-token',
   CREDENTIALS_BASE_URL: 'http://example-cred.com',
   CSRF_TOKEN_API_PATH: 'http://exaple-csrf-token-api.com',
-  DISCOVERY_API_BASE_URL: 'http://exapmle-discovery-base-url.com',
   PUBLISHER_BASE_URL: 'http://example-publisher-url.com',
   IGNORED_ERROR_REGEX: '',
   LANGUAGE_PREFERENCE_COOKIE_NAME: 'dojo-language',
@@ -70,7 +63,6 @@ const {
 
 const ENTERPRISE_SLUG = 'test-enterprise-id';
 const ENTERPRISE_UUID = '55b3a044-c9f9-4550-9ce4-3ab366b2e9a6';
-const SUBSCRIPTION_UUID = ENTERPRISE_UUID;
 const ENTERPRISE_CUSTOMER_UUID = ENTERPRISE_UUID;
 const ENTERPRISE_CATALOG_UUID = 'f62ce957-8f5a-452d-bc79-b5ef2651aab8';
 
@@ -125,14 +117,6 @@ const ENTERPRISE_CUSTOMER_REPLY = {
 axiosMock.onGet(new RegExp(`${LMS_BASE_URL}/enterprise/api/v1/enterprise-customer/*`))
   .reply(200, ENTERPRISE_CUSTOMER_REPLY);
 
-const CATALOGS_REPLY = {
-  enterprise_uuid: ENTERPRISE_UUID,
-  programs: [],
-  subscription_uuid: SUBSCRIPTION_UUID,
-};
-axiosMock.onGet(new RegExp(`${LMS_BASE_URL}/api/catalogs/*`))
-  .reply(200, CATALOGS_REPLY);
-
 const COURSE_ENROLLMENTS = [
   createCourseEnrollmentWithStatus(COURSE_STATUSES.inProgress),
   createCourseEnrollmentWithStatus(COURSE_STATUSES.completed),
@@ -142,15 +126,6 @@ const COURSE_ENROLLMENTS_REPLY = COURSE_ENROLLMENTS;
 axiosMock.onGet(new RegExp(`${LMS_BASE_URL}/enterprise_learner_portal/api/v1/enterprise_course_enrollments/*`))
   .reply(200, COURSE_ENROLLMENTS_REPLY);
 
-const PROGRAM_UUID = '82ac4932-d0e2-475a-9d03-877ef772e9ba';
-
-const PROGRAM_ENROLLMENTS_REPLY = [{
-  programUuid: PROGRAM_UUID,
-  id: 1,
-  enterpriseCourseEnrollments: COURSE_ENROLLMENTS,
-}];
-axiosMock.onGet(new RegExp(`${LMS_BASE_URL}/api/program-enrollment/user-enrollments/*`))
-  .reply(200, PROGRAM_ENROLLMENTS_REPLY);
 const LOADING_DELAY = 100;
 
 const generateProfileImage = () => {
