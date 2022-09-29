@@ -38,7 +38,6 @@ import {
 } from './data/constants';
 import { languageCodeToLabel } from '../../utils/common';
 import { useToast } from '../Toasts/hooks';
-import basicSteps from './data/steps';
 import { setDashIfEmpty, isElementInDOM } from './utils/common';
 
 function EmptyState({ title, text, image = emptyStateImage }) {
@@ -86,7 +85,7 @@ export default function Dashboard() {
 
   const toast = useToast();
   const {
-    isOpen, currentStep, setSteps, setIsOpen,
+    isOpen, currentStep, setSteps, setIsOpen, steps,
   } = useTour();
 
   const catalogPageCount = Math.ceil(
@@ -100,7 +99,6 @@ export default function Dashboard() {
   ) ?? [];
   const [activeCourseParams, setActiveCourseParams] = useState(null);
   const [isLoading, setLoading] = useState(false);
-  const [tutorialSteps, setTutorialSteps] = useState(basicSteps);
 
   const activeCourse = useMemo(() => {
     if (!activeCourseParams) {
@@ -131,16 +129,15 @@ export default function Dashboard() {
   }, [history, state]);
 
   useLayoutEffect(() => {
-    const filtredTutorialSteps = tutorialSteps.filter(isElementInDOM);
     setTimeout(() => {
-      setSteps(filtredTutorialSteps);
-      setTutorialSteps(filtredTutorialSteps);
       if (!localStorage.getItem('spotlightTutorialShown')) {
+        const filtredTutorialSteps = steps.filter(isElementInDOM);
+        setSteps(filtredTutorialSteps);
         localStorage.setItem('spotlightTutorialShown', true);
         setIsOpen(true);
       }
     }, 500);
-  }, [tutorialSteps, setIsOpen, setSteps]);
+  }, [steps, setIsOpen, setSteps]);
 
   useEffect(() => {
     setActiveCatalogPage(1);
@@ -227,7 +224,7 @@ export default function Dashboard() {
     <>
       {isOpen && (
         <div className="reactour-header">
-          <p className="reactour-header-title">Toutorial step {currentStep + 1} out of {tutorialSteps.length}</p>
+          <p className="reactour-header-title">Toutorial step {currentStep + 1} out of {steps.length}</p>
           <button className="reactour-header-button" type="button" onClick={() => setIsOpen(false)}>Skip tutorial</button>
         </div>
       )}

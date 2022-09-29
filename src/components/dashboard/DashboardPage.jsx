@@ -3,6 +3,7 @@ import React from 'react';
 import { TourProvider } from '@reactour/tour';
 import Dashboard from './Dashboard';
 import AuthenticatedUserSubsidyPage from '../app/AuthenticatedUserSubsidyPage';
+import steps from './data/steps';
 
 export default function DashboardPage() {
   const afterOpen = () => {
@@ -16,6 +17,7 @@ export default function DashboardPage() {
     <AuthenticatedUserSubsidyPage>
       <TourProvider
         className="reactour"
+        steps={steps}
         afterOpen={afterOpen}
         beforeClose={beforeClose}
         showButtons={false}
