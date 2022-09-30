@@ -2,13 +2,9 @@
 const { createConfig } = require('@edx/frontend-build');
 
 const config = createConfig('jest', {
-  setupFiles: [
-    '<rootDir>/src/setupTest.js',
-  ],
+  setupFiles: ['<rootDir>/src/setupTest.js'],
   transform: {
-    '^.+\\.[t|j]s?$': [
-      'babel-jest',
-    ],
+    '^.+\\.[t|j]s?$': ['babel-jest'],
   },
 });
 
@@ -22,5 +18,5 @@ const config = createConfig('jest', {
  *
  * https://github.com/react-dnd/react-dnd/issues/3443#issuecomment-1119863770
  */
-config.transformIgnorePatterns = ['/node_modules/(?!@edx|@reustleco)'];
+config.transformIgnorePatterns = ['/node_modules/(?!@edx|@woven-dojo)'];
 module.exports = config;

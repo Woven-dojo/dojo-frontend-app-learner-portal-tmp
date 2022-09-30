@@ -7,10 +7,10 @@
 $fa-font-path: "~font-awesome/fonts";
 @import "~font-awesome/scss/font-awesome";
 
-@import "@reustleco/dojo-admin-brand/paragon/fonts";
-@import "@reustleco/dojo-admin-brand/paragon/variables";
-@import "@reustleco/dojo-admin-brand/paragon/mixins";
-@import "@reustleco/dojo-admin-brand/paragon/overrides";
+@import "@woven-dojo/dojo-admin-brand/paragon/fonts";
+@import "@woven-dojo/dojo-admin-brand/paragon/variables";
+@import "@woven-dojo/dojo-admin-brand/paragon/mixins";
+@import "@woven-dojo/dojo-admin-brand/paragon/overrides";
 
 @import "./components/dashboard/main-content/course-enrollments/course-cards/styles/CourseCard";
 @import "./components/dashboard/main-content/course-enrollments/styles/CourseSection";

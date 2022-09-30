@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import { IntlProvider } from 'react-intl';
 import { AppContext } from '@edx/frontend-platform/react';
 
-import { Footer } from '@reustleco/dojo-frontend-common/dist/components';
+import { Footer } from '@woven-dojo/dojo-frontend-common/dist/components';
 import { SystemWideWarningBanner } from '../system-wide-banner';
 import { SiteHeader } from '../site-header';
 import { useStylesForCustomBrandColors } from './data/hooks';
@@ -22,9 +22,7 @@ export default function Layout({ children }) {
     if (!config) {
       return false;
     }
-    const isEnabledWithMessage = (
-      config.IS_MAINTENANCE_ALERT_ENABLED && config.MAINTENANCE_ALERT_MESSAGE
-    );
+    const isEnabledWithMessage = config.IS_MAINTENANCE_ALERT_ENABLED && config.MAINTENANCE_ALERT_MESSAGE;
     if (!isEnabledWithMessage) {
       return false;
     }
@@ -41,7 +39,9 @@ export default function Layout({ children }) {
         <Helmet titleTemplate={TITLE_TEMPLATE} defaultTitle={DEFAULT_TITLE}>
           <html lang="en" />
           {brandStyles.map(({ key, styles }) => (
-            <style key={key} type="text/css">{styles}</style>
+            <style key={key} type="text/css">
+              {styles}
+            </style>
           ))}
         </Helmet>
         {isMaintenanceAlertOpen && (
@@ -50,10 +50,11 @@ export default function Layout({ children }) {
           </SystemWideWarningBanner>
         )}
         <SiteHeader />
-        <main id="content">
-          {children}
-        </main>
-        <Footer left={`Copyright ${(new Date()).getFullYear()} Dojo. All rights reserved`} className="dojo-footer" />
+        <main id="content">{children}</main>
+        <Footer
+          left={`Copyright ${new Date().getFullYear()} Dojo. All rights reserved`}
+          className="dojo-footer"
+        />
       </>
     </IntlProvider>
   );
