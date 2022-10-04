@@ -1,22 +1,22 @@
-.reactour{
-  &-step{
+.reactour {
+  &-step {
     margin-bottom: 0;
     vertical-align: middle;
-    &-kickoff-survey{
+    &-kickoff-survey {
       width: 24vw;
     }
     &-learning-path,
-    &-course-catalog{
+    &-course-catalog {
       display: inline-block;
       width: 41vw;
-      &+div{
+      & + div {
         display: inline-block !important;
         margin-top: 0 !important;
         vertical-align: middle;
       }
     }
   }
-  &-button{
+  &-button {
     white-space: nowrap;
     font-style: normal;
     font-weight: $font-weight-semi-bold;
@@ -25,12 +25,12 @@
     padding: 0.625rem 1rem;
     border: none;
     border-radius: $btn-border-radius;
-    
-    &-next{
+
+    &-next {
       background: $white;
       color: $dark-500;
-      &:after{
-        content: "";
+      &:after {
+        content: '';
         display: inline-block;
         width: 0;
         height: 0;
@@ -38,24 +38,24 @@
         border-width: 7px 0 7px 11px;
         border-color: transparent transparent transparent $dark-500;
       }
-      &:hover{
+      &:hover {
         opacity: 0.9;
       }
-      span{
+      span {
         padding-right: 0.75rem;
       }
     }
-    &-prev{
+    &-prev {
       background: transparent;
-      color:$white;
+      color: $white;
       border: 1px solid $light-300;
-      margin:0 1rem 0 1.5rem;
-      &:hover{
+      margin: 0 1rem 0 1.5rem;
+      &:hover {
         background: rgba(255, 255, 255, 0.1);
       }
     }
   }
-  &-header{
+  &-header {
     position: fixed;
     top: 0;
     left: 0;
@@ -66,13 +66,13 @@
     border-bottom: 2px solid $light-200;
     padding: 1.75rem 0;
     justify-content: center;
-    &-title{
+    &-title {
       margin: 0.75rem 1rem;
       font-weight: $font-weight-bold;
       font-size: $h3-font-size;
       line-height: 1.125;
     }
-    &-button{
+    &-button {
       display: flex;
       flex-direction: row;
       justify-content: center;
@@ -85,7 +85,7 @@
       font-weight: $font-weight-semi-bold;
       font-size: $font-size-base;
       line-height: $line-height-base;
-      &:hover{
+      &:hover {
         background: rgba(255, 255, 255, 0.1);
       }
     }
