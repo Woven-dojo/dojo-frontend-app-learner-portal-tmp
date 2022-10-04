@@ -52,7 +52,6 @@ Array [
           className="error-page-message"
         >
           Please log back in 
-           
           <a
             className="pgn__hyperlink default-link standalone-link"
             href="http://localhost:8734/"
