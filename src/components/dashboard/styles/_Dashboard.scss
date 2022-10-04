@@ -9,7 +9,7 @@
     border-radius: 8px;
     background-color: $white;
 
-    & + & {
+    &-wrap {
       margin-top: 40px;
     }
 
@@ -67,5 +67,8 @@
 
   &-coursecard-grid {
     gap: 24px 0;
+  }
+  &-start-btn{
+    display: inline-block;
   }
 }
