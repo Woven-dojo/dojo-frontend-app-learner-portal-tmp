@@ -1,12 +1,4 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-run_eslint_error_fix () {
-  echo "\nRunning \033[0;37mnpm run lint:fix\033[0m to autofix errors."
-  npm run lint:fix;
-  echo "If not all errors have been corrected, fix it manually before committing.\n\033[1;33mDon't forget to stage changes that you want to commit.\033[0m\n"
-  # Return `false` for husky to disable the commit that should follow if there were issues.
-  false
-}
-
-npm run lint || run_eslint_error_fix
+npx lint-staged
