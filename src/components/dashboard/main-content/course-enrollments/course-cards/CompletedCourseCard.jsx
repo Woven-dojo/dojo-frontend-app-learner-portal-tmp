@@ -12,12 +12,7 @@ import CertificateImg from './images/edx-verified-mini-cert.png';
 const CompletedCourseCard = (props) => {
   const user = getAuthenticatedUser();
   const { username } = user;
-  const {
-    title,
-    linkToCourse,
-    courseRunId,
-    endDate,
-  } = props;
+  const { title, linkToCourse, courseRunId, endDate } = props;
   const config = getConfig();
 
   const renderButtons = () => {
@@ -25,16 +20,10 @@ const CompletedCourseCard = (props) => {
       return null;
     }
 
-    return (
-      <ContinueLearningButton
-        linkToCourse={linkToCourse}
-        title={title}
-        courseRunId={courseRunId}
-      />
-    );
+    return <ContinueLearningButton linkToCourse={linkToCourse} title={title} courseRunId={courseRunId} />;
   };
 
-  const renderCertificateInfo = () => (
+  const renderCertificateInfo = () =>
     props.linkToCertificate ? (
       <div className="d-flex mb-3">
         <div className="mr-3">
@@ -42,30 +31,18 @@ const CompletedCourseCard = (props) => {
         </div>
         <div className="d-flex align-items-center">
           <p className="mb-0">
-            View your certificate on{' '}
-            <a href={`${config.LMS_BASE_URL}/u/${username}`}>
-              your profile →
-            </a>
+            View your certificate on <a href={`${config.LMS_BASE_URL}/u/${username}`}>your profile →</a>
           </p>
         </div>
       </div>
     ) : (
       <p className="mb-3">
-        To earn a certificate,{' '}
-        <a href={props.linkToCourse}>
-          retake this course →
-        </a>
+        To earn a certificate, <a href={props.linkToCourse}>retake this course →</a>
       </p>
-    )
-  );
+    );
 
   return (
-    <BaseCourseCard
-      buttons={renderButtons()}
-      type="completed"
-      hasViewCertificateLink={false}
-      {...props}
-    >
+    <BaseCourseCard buttons={renderButtons()} type="completed" hasViewCertificateLink={false} {...props}>
       {renderCertificateInfo()}
     </BaseCourseCard>
   );

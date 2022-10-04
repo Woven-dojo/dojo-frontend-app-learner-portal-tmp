@@ -11,12 +11,13 @@ jest.mock('../../utils/common');
 
 // eslint-disable-next-line react/prop-types
 const LoginRefreshWithContext = ({ roles = [] }) => (
-  <AppContext.Provider value={{
-    authenticatedUser: {
-      userId: 1,
-      roles,
-    },
-  }}
+  <AppContext.Provider
+    value={{
+      authenticatedUser: {
+        userId: 1,
+        roles,
+      },
+    }}
   >
     <LoginRefresh>
       <div>Hello!</div>
@@ -30,17 +31,13 @@ describe('<LoginRefresh />', () => {
   });
 
   it('should call loginRefresh if the user has no roles', async () => {
-    await act(async () => render(
-      <LoginRefreshWithContext />,
-    ));
+    await act(async () => render(<LoginRefreshWithContext />));
 
     expect(utils.loginRefresh).toHaveBeenCalledTimes(1);
   });
 
   it('should not call loginRefresh if the user has roles', async () => {
-    await act(async () => render(
-      <LoginRefreshWithContext roles={['role-1']} />,
-    ));
+    await act(async () => render(<LoginRefreshWithContext roles={['role-1']} />));
 
     expect(utils.loginRefresh).not.toHaveBeenCalled();
   });
@@ -48,9 +45,7 @@ describe('<LoginRefresh />', () => {
   it('should render the expected HTML', async () => {
     let tree;
     await renderer.act(async () => {
-      tree = await renderer.create(
-        <LoginRefreshWithContext />,
-      );
+      tree = await renderer.create(<LoginRefreshWithContext />);
     });
 
     expect(tree.toJSON()).toMatchSnapshot();

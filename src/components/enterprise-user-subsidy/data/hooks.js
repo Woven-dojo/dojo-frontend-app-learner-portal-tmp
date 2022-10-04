@@ -1,10 +1,6 @@
-import {
-  useState, useEffect, useCallback,
-} from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
-import {
-  fetchEnterpriseCatalogData, fetchLearningPathData, requestCourse,
-} from './service';
+import { fetchEnterpriseCatalogData, fetchLearningPathData, requestCourse } from './service';
 
 /**
  * This is a temporary solution in order to implement filtering on FE. Once we have
@@ -16,23 +12,21 @@ import {
 const applyFilter = (courses = [], filter = {}) => {
   let filteredCourses = [...courses];
   if (filter.learningPaths.length) {
-    filteredCourses = filteredCourses.filter(
-      course => course.learning_path.find(
-        path => filter.learningPaths.includes(path.internal_id?.toString()),
-      ),
+    filteredCourses = filteredCourses.filter((course) =>
+      course.learning_path.find((path) => filter.learningPaths.includes(path.internal_id?.toString())),
     );
   }
 
   if (filter.difficultyLevels.length) {
-    filteredCourses = filteredCourses.filter(course => filter.difficultyLevels.includes(course.difficulty_level));
+    filteredCourses = filteredCourses.filter((course) => filter.difficultyLevels.includes(course.difficulty_level));
   }
 
   if (filter.languages.length) {
-    filteredCourses = filteredCourses.filter(course => filter.languages.includes(course.primary_language));
+    filteredCourses = filteredCourses.filter((course) => filter.languages.includes(course.primary_language));
   }
 
   if (filter.deliveryMethods.length) {
-    filteredCourses = filteredCourses.filter(course => filter.deliveryMethods.includes(course.delivery_method));
+    filteredCourses = filteredCourses.filter((course) => filter.deliveryMethods.includes(course.delivery_method));
   }
 
   return filteredCourses;
@@ -59,18 +53,22 @@ export function useCatalogData({ enterpriseId, filter = {} }) {
 
   const requestCourseHandler = useCallback(async (courseId) => {
     await requestCourse(courseId);
-    setCatalogData(data => ({
+    setCatalogData((data) => ({
       ...data,
-      courses_metadata: data.courses_metadata.map(course => ({
+      courses_metadata: data.courses_metadata.map((course) => ({
         ...course,
         user_requested_access: course.id === courseId ? true : course.user_requested_access,
       })),
     }));
   }, []);
-  return [{
-    ...catalogData,
-    courses_metadata: applyFilter(catalogData.courses_metadata, filter),
-  }, isLoading, requestCourseHandler];
+  return [
+    {
+      ...catalogData,
+      courses_metadata: applyFilter(catalogData.courses_metadata, filter),
+    },
+    isLoading,
+    requestCourseHandler,
+  ];
 }
 
 export function useLearningPathData() {

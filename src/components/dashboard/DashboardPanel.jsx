@@ -2,7 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function DashboardPanel({
-  children, title, subtitle, headerAside, id, className, tourClassNamePositionHelper,
+  children,
+  title,
+  subtitle,
+  headerAside,
+  id,
+  className,
+  tourClassNamePositionHelper,
 }) {
   const isHeaderVisible = !!title || !!subtitle || !!headerAside;
   return (
@@ -15,18 +21,13 @@ export default function DashboardPanel({
               <h3 className="dashboard-panel-header-title">{title}</h3>
               <p className="dashboard-panel-header-subtitle">{subtitle}</p>
             </div>
-            <div>
-              {headerAside}
-            </div>
+            <div>{headerAside}</div>
           </div>
-        ) }
+        )}
 
-        <div className="dashboard-panel-main">
-          {children}
-        </div>
+        <div className="dashboard-panel-main">{children}</div>
       </div>
     </div>
-
   );
 }
 

@@ -9,9 +9,7 @@ export class IteratorFactory extends MockFactory {
     this.iterable = iterable;
     this.iterator = getIterator(this.iterable);
     this.isFillingTheRest = false;
-    this.fillFactory = fillFactory !== undefined
-      ? cloneMock(fillFactory)
-      : undefined;
+    this.fillFactory = fillFactory !== undefined ? cloneMock(fillFactory) : undefined;
   }
 
   clone() {

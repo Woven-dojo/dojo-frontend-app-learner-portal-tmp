@@ -16,8 +16,5 @@ export const fetchLearningPathData = () => {
 export const requestCourse = (courseId) => {
   const config = getConfig();
   const url = `${config.LMS_BASE_URL}/dojo_enterprise_catalog/api/learner-courses/request-access/`;
-  return getAuthenticatedHttpClient().post(
-    url,
-    { course_id: courseId },
-  );
+  return getAuthenticatedHttpClient().post(url, { course_id: courseId });
 };

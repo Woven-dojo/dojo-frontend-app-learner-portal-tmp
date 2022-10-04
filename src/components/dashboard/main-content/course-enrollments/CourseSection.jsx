@@ -39,17 +39,13 @@ class CourseSection extends React.Component {
 
   getFormattedOptionalSubtitle = () => {
     const { subtitle } = this.props;
-    if (!subtitle) { return null; }
+    if (!subtitle) {
+      return null;
+    }
     return <p className="mt-3 mb-0">{subtitle}</p>;
-  }
+  };
 
-  getCourseRunProps = ({
-    linkToCertificate,
-    notifications,
-    courseRunStatus,
-    isRevoked,
-    ...rest
-  }) => {
+  getCourseRunProps = ({ linkToCertificate, notifications, courseRunStatus, isRevoked, ...rest }) => {
     const courseRunProps = { courseRunStatus };
     switch (courseRunStatus) {
       case COURSE_STATUSES.inProgress:
@@ -76,28 +72,18 @@ class CourseSection extends React.Component {
     this.setState({
       isOpen,
     });
-    const {
-      enterpriseConfig,
-    } = this.context;
-    sendEnterpriseTrackEvent(
-      enterpriseConfig.uuid,
-      'edx.ui.enterprise.learner_portal.section.toggled',
-      {
-        is_open: isOpen,
-        section_title: title,
-      },
-    );
+    const { enterpriseConfig } = this.context;
+    sendEnterpriseTrackEvent(enterpriseConfig.uuid, 'edx.ui.enterprise.learner_portal.section.toggled', {
+      is_open: isOpen,
+      section_title: title,
+    });
   };
 
-  renderCourseCards = () => this.props.courseRuns.map(courseRun => {
-    const Component = CARD_COMPONENT_BY_COURSE_STATUS[courseRun.courseRunStatus];
-    return (
-      <Component
-        {...this.getCourseRunProps(courseRun)}
-        key={courseRun.courseRunId}
-      />
-    );
-  });
+  renderCourseCards = () =>
+    this.props.courseRuns.map((courseRun) => {
+      const Component = CARD_COMPONENT_BY_COURSE_STATUS[courseRun.courseRunStatus];
+      return <Component {...this.getCourseRunProps(courseRun)} key={courseRun.courseRunId} />;
+    });
 
   render() {
     const { courseRuns } = this.props;
@@ -122,21 +108,25 @@ class CourseSection extends React.Component {
 }
 
 CourseSection.propTypes = {
-  courseRuns: PropTypes.arrayOf(PropTypes.shape({
-    courseRunId: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    linkToCourse: PropTypes.string.isRequired,
-    notifications: PropTypes.arrayOf(PropTypes.shape({
-      url: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      date: PropTypes.string.isRequired,
-    })).isRequired,
-    microMastersTitle: PropTypes.string,
-    startDate: PropTypes.string,
-    endDate: PropTypes.string,
-    linkToCertificate: PropTypes.string,
-    hasEmailsEnabled: PropTypes.bool,
-  })).isRequired,
+  courseRuns: PropTypes.arrayOf(
+    PropTypes.shape({
+      courseRunId: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      linkToCourse: PropTypes.string.isRequired,
+      notifications: PropTypes.arrayOf(
+        PropTypes.shape({
+          url: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+          date: PropTypes.string.isRequired,
+        }),
+      ).isRequired,
+      microMastersTitle: PropTypes.string,
+      startDate: PropTypes.string,
+      endDate: PropTypes.string,
+      linkToCertificate: PropTypes.string,
+      hasEmailsEnabled: PropTypes.bool,
+    }),
+  ).isRequired,
   title: PropTypes.string.isRequired,
   subtitle: PropTypes.string,
 };

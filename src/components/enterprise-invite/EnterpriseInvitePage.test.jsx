@@ -4,10 +4,7 @@ import { getConfig } from '@edx/frontend-platform/config';
 import { screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
-import EnterpriseInvitePage, {
-  LOADING_MESSAGE,
-  CTA_BUTTON_TEXT,
-} from './EnterpriseInvitePage';
+import EnterpriseInvitePage, { LOADING_MESSAGE, CTA_BUTTON_TEXT } from './EnterpriseInvitePage';
 import { postLinkEnterpriseLearner } from './data/service';
 
 import { renderWithRouter } from '../../utils/tests';

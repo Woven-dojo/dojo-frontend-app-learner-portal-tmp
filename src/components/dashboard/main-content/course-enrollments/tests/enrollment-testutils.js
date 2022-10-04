@@ -2,10 +2,10 @@ import { COURSE_STATUSES } from '../data/constants';
 import { factory } from '../../../../../utils/tests';
 
 export const courseEnrollmentFactory = factory.object({
-  courseRunId: factory.index(i => `$course-v1:edX+DemoX+Demo_Course-${i}`),
+  courseRunId: factory.index((i) => `$course-v1:edX+DemoX+Demo_Course-${i}`),
   courseRunStatus: COURSE_STATUSES.inProgress,
   linkToCourse: 'https://edx.org/',
-  title: factory.index(i => `edX Demonstration Course-${i}`),
+  title: factory.index((i) => `edX Demonstration Course-${i}`),
   notifications: [],
   created: '2017-02-05T05:00:00Z',
   startDate: '2017-02-05T05:00:00Z',
@@ -18,9 +18,8 @@ export const courseEnrollmentFactory = factory.object({
  * Generate an enrollment with given status.
  * Can be used as a baseline to override and generate new courseRuns.
  */
-export const createCourseEnrollmentWithStatus = (courseRunStatus = COURSE_STATUSES.inProgress) => (
-  courseEnrollmentFactory.create({ courseRunStatus })
-);
+export const createCourseEnrollmentWithStatus = (courseRunStatus = COURSE_STATUSES.inProgress) =>
+  courseEnrollmentFactory.create({ courseRunStatus });
 
 export const rawCourseEnrollmentFactory = factory.object({
   courseRunId: factory.index((i) => `course-v1:Best+course+${i}`),

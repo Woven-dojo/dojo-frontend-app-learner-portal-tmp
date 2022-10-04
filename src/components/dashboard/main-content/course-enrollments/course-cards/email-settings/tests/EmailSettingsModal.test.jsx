@@ -11,12 +11,7 @@ describe('<EmailSettingsModal />', () => {
   let wrapper;
 
   beforeEach(() => {
-    wrapper = mount((
-      <EmailSettingsModal
-        onClose={() => {}}
-        courseRunId="my+course+key"
-      />
-    ));
+    wrapper = mount(<EmailSettingsModal onClose={() => {}} courseRunId="my+course+key" />);
 
     // The `EmailSettingsModal` component mounts in `BaseCourseCard` and is
     // opened via the `open` prop. Similarly, the `hasEmailsEnabled` prop

@@ -5,9 +5,7 @@ import { AppContext } from '@edx/frontend-platform/react';
 import { UserSubsidyContext } from '../../enterprise-user-subsidy';
 import * as hooks from '../main-content/course-enrollments/data/hooks';
 
-import {
-  renderWithRouter,
-} from '../../../utils/tests';
+import { renderWithRouter } from '../../../utils/tests';
 import Dashboard from '../Dashboard';
 import CourseEnrollmentsContextProvider from '../main-content/course-enrollments/CourseEnrollmentsContextProvider';
 import { filterInitial, filterOptions } from '../../enterprise-user-subsidy/data/constants';
@@ -73,7 +71,7 @@ const DashboardWithContext = ({
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useLocation: () => (mockLocation),
+  useLocation: () => mockLocation,
 }));
 
 jest.mock('@edx/frontend-platform/auth', () => ({
@@ -145,11 +143,13 @@ describe('<Dashboard />', () => {
     const userSubsidyState = {
       learningPathData: {
         ...defaultLearningPathData,
-        courses: [{
-          title: 'Course 1',
-          primary_language: 'en',
-          hours_required: 42,
-        }],
+        courses: [
+          {
+            title: 'Course 1',
+            primary_language: 'en',
+            hours_required: 42,
+          },
+        ],
         count: 1,
       },
       catalog: defaultCatalog,
@@ -162,11 +162,13 @@ describe('<Dashboard />', () => {
     const userSubsidyState = {
       learningPathData: {
         ...defaultLearningPathData,
-        courses: [{
-          title: 'How to train your dragon',
-          primary_language: 'en',
-          hours_required: 42,
-        }],
+        courses: [
+          {
+            title: 'How to train your dragon',
+            primary_language: 'en',
+            hours_required: 42,
+          },
+        ],
         count: 1,
       },
       catalog: defaultCatalog,

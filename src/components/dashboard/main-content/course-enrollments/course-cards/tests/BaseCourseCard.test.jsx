@@ -21,7 +21,7 @@ describe('<BaseCourseCard />', () => {
       const enterpriseConfig = {
         name: 'test-enterprise-name',
       };
-      wrapper = mount((
+      wrapper = mount(
         <AppContext.Provider value={{ enterpriseConfig }}>
           <BaseCourseCard
             type="completed"
@@ -30,8 +30,8 @@ describe('<BaseCourseCard />', () => {
             courseRunId="my+course+key"
             hasEmailsEnabled
           />
-        </AppContext.Provider>
-      ));
+        </AppContext.Provider>,
+      );
       // open email settings modal
       wrapper.find('Dropdown').find('button.btn-icon').simulate('click');
       wrapper.find('Dropdown').find('button.dropdown-item').simulate('click');

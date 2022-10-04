@@ -4,7 +4,7 @@
   }
 
   &-panel {
-    @include pgn-box-shadow(2, "down");
+    @include pgn-box-shadow(2, 'down');
     padding: 32px;
     border-radius: 8px;
     background-color: $white;
@@ -68,7 +68,8 @@
   &-coursecard-grid {
     gap: 24px 0;
   }
-  &-start-btn{
+
+  &-start-btn {
     display: inline-block;
   }
 }

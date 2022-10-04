@@ -3,7 +3,7 @@ import Cookies from 'universal-cookie';
 import { getAuthenticatedHttpClient } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform/config';
 
-export const isCourseEnded = endDate => moment(endDate) < moment();
+export const isCourseEnded = (endDate) => moment(endDate) < moment();
 
 export const createArrayFromValue = (value) => {
   const values = [];
@@ -18,27 +18,27 @@ export const createArrayFromValue = (value) => {
 
 export const isDefined = (value) => {
   const values = createArrayFromValue(value);
-  return values.every(item => item !== undefined);
+  return values.every((item) => item !== undefined);
 };
 
 export const isNull = (value) => {
   const values = createArrayFromValue(value);
-  return values.every(item => item === null);
+  return values.every((item) => item === null);
 };
 
 export const isDefinedAndNotNull = (value) => {
   const values = createArrayFromValue(value);
-  return values.every(item => isDefined(item) && !isNull(item));
+  return values.every((item) => isDefined(item) && !isNull(item));
 };
 
 export const isDefinedAndNull = (value) => {
   const values = createArrayFromValue(value);
-  return values.every(item => isDefined(item) && isNull(item));
+  return values.every((item) => isDefined(item) && isNull(item));
 };
 
 export const hasTruthyValue = (value) => {
   const values = createArrayFromValue(value);
-  return values.every(item => !!item);
+  return values.every((item) => !!item);
 };
 
 export const hasValidStartExpirationDates = ({ startDate, expirationDate, endDate }) => {
@@ -66,7 +66,8 @@ export const loginRefresh = async () => {
   }
 };
 
-export const fixedEncodeURIComponent = (str) => encodeURIComponent(str).replace(/[!()*]/g, (c) => `%${c.charCodeAt(0).toString(16)}`);
+export const fixedEncodeURIComponent = (str) =>
+  encodeURIComponent(str).replace(/[!()*]/g, (c) => `%${c.charCodeAt(0).toString(16)}`);
 
 export const formatStringAsNumber = (str, radix = 10) => {
   // converts a string into a number and format it with separated commas
@@ -74,11 +75,9 @@ export const formatStringAsNumber = (str, radix = 10) => {
   return num.toLocaleString();
 };
 
-export const delay = (delayDuration) => (
-  new Promise(resolve => setTimeout(resolve, delayDuration))
-);
+export const delay = (delayDuration) => new Promise((resolve) => setTimeout(resolve, delayDuration));
 
-export const waitForAsync = () => new Promise(resolve => setImmediate(resolve));
+export const waitForAsync = () => new Promise((resolve) => setImmediate(resolve));
 
 export const languageCodeToLabel = (languageCode = '') => {
   if (languageCode) {

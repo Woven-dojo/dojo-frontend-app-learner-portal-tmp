@@ -5,11 +5,4 @@ import { ReactComponent as Checklist } from '../images/checklist.svg';
 import { ReactComponent as Dash } from '../images/dashboard.svg';
 import { ReactComponent as World } from '../images/world.svg';
 
-export {
-  Alarm,
-  Baseline,
-  Certificate,
-  Checklist,
-  Dash,
-  World,
-};
+export { Alarm, Baseline, Certificate, Checklist, Dash, World };

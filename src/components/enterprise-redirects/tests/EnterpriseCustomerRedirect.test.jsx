@@ -25,9 +25,7 @@ const TEST_ENTERPRISES = [
 ];
 
 /* eslint-disable react/prop-types */
-const EnterpriseCustomerRedirectWithContext = ({
-  initialAppState = {},
-}) => (
+const EnterpriseCustomerRedirectWithContext = ({ initialAppState = {} }) => (
   <AppContext.Provider value={initialAppState}>
     <EnterpriseCustomerRedirect />
   </AppContext.Provider>
@@ -50,9 +48,7 @@ describe('<EnterpriseCustomerRedirect />', () => {
   });
 
   test('renders NotFoundPage if user is not linked to any Enterprise Customers', async () => {
-    renderWithRouter(
-      <EnterpriseCustomerRedirectWithContext initialAppState={initialAppState} />,
-    );
+    renderWithRouter(<EnterpriseCustomerRedirectWithContext initialAppState={initialAppState} />);
 
     await waitFor(() => expect(fetchEnterpriseCustomerByUUID).toHaveBeenCalledTimes(0));
 
@@ -98,10 +94,7 @@ describe('<EnterpriseCustomerRedirect />', () => {
       ...initialAppState,
       authenticatedUser: {
         ...initialAppState.authenticatedUser,
-        roles: [
-          `enterprise_learner:${TEST_ENTERPRISES[1].uuid}`,
-          `enterprise_learner:${TEST_ENTERPRISES[0].uuid}`,
-        ],
+        roles: [`enterprise_learner:${TEST_ENTERPRISES[1].uuid}`, `enterprise_learner:${TEST_ENTERPRISES[0].uuid}`],
       },
     };
 

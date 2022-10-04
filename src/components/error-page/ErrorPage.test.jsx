@@ -26,37 +26,22 @@ getConfig.mockReturnValue({
 describe('ErrorPage', () => {
   test('properly renders page layout with title and subtitle', async () => {
     const tree = renderer
-      .create((
-        <ErrorPage
-          title="Something went wrong"
-          subtitle="More details here"
-        >
+      .create(
+        <ErrorPage title="Something went wrong" subtitle="More details here">
           Here goes the error message.
-        </ErrorPage>
-      ))
+        </ErrorPage>,
+      )
       .toJSON();
     expect(tree).toMatchSnapshot();
   });
 
   test('handles optional title', async () => {
-    const tree = renderer
-      .create((
-        <ErrorPage>
-          Here goes the error message.
-        </ErrorPage>
-      ))
-      .toJSON();
+    const tree = renderer.create(<ErrorPage>Here goes the error message.</ErrorPage>).toJSON();
     expect(tree).toMatchSnapshot();
   });
 
   test('handles optional subtitle', async () => {
-    const tree = renderer
-      .create((
-        <ErrorPage>
-          Here goes the error message.
-        </ErrorPage>
-      ))
-      .toJSON();
+    const tree = renderer.create(<ErrorPage>Here goes the error message.</ErrorPage>).toJSON();
     expect(tree).toMatchSnapshot();
   });
 });

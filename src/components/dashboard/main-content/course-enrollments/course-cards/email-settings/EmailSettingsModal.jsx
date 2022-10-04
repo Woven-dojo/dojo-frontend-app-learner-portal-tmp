@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Input, Modal, Alert, StatefulButton,
-} from '@edx/paragon';
+import { Input, Modal, Alert, StatefulButton } from '@edx/paragon';
 import { Error } from '@edx/paragon/icons';
 
 import { updateEmailSettings } from './data';
@@ -41,7 +39,7 @@ class EmailSettingsModal extends Component {
     }
 
     return 'default';
-  }
+  };
 
   getDisabledStates = () => {
     const { isFormChanged } = this.state;
@@ -49,31 +47,34 @@ class EmailSettingsModal extends Component {
       return ['pending', 'complete'];
     }
     return ['pending', 'complete', 'default'];
-  }
+  };
 
   handleSaveButtonClick = () => {
     const { hasEmailsEnabled } = this.state;
     const { courseRunId } = this.props; // eslint-disable-line no-shadow
-    this.setState({
-      isSubmitting: true,
-    }, async () => {
-      try {
-        await updateEmailSettings(courseRunId, hasEmailsEnabled);
-        this.setState({
-          isSuccessful: true,
-          isSubmitting: false,
-          isFormChanged: false,
-          hasSavedForm: true,
-          error: null,
-        });
-      } catch (error) {
-        this.setState({
-          isSubmitting: false,
-          isFormChanged: false,
-          error,
-        });
-      }
-    });
+    this.setState(
+      {
+        isSubmitting: true,
+      },
+      async () => {
+        try {
+          await updateEmailSettings(courseRunId, hasEmailsEnabled);
+          this.setState({
+            isSuccessful: true,
+            isSubmitting: false,
+            isFormChanged: false,
+            hasSavedForm: true,
+            error: null,
+          });
+        } catch (error) {
+          this.setState({
+            isSubmitting: false,
+            isFormChanged: false,
+            error,
+          });
+        }
+      },
+    );
   };
 
   handleOnClose = () => {
@@ -105,15 +106,13 @@ class EmailSettingsModal extends Component {
   };
 
   render() {
-    const {
-      error, hasEmailsEnabled, isSubmitting,
-    } = this.state;
+    const { error, hasEmailsEnabled, isSubmitting } = this.state;
     const { open, courseRunId } = this.props;
 
     return (
       <Modal
         title="Email settings"
-        body={(
+        body={
           <>
             {error && (
               <Alert variant="danger" icon={Error}>
@@ -130,12 +129,11 @@ class EmailSettingsModal extends Component {
               />
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label className="form-check-label ml-2 font-weight-normal" htmlFor={`email-settings-${courseRunId}`}>
-                Receive course emails such as reminders, schedule updates, and
-                other critical announcements.
+                Receive course emails such as reminders, schedule updates, and other critical announcements.
               </label>
             </div>
           </>
-        )}
+        }
         onClose={this.handleOnClose}
         buttons={[
           <StatefulButton

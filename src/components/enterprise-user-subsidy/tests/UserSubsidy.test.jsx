@@ -20,11 +20,7 @@ const TEST_ENTERPRISE_SLUG = 'test-enterprise-slug';
 const TEST_ENTERPRISE_UUID = 'test-enterprise-uuid';
 
 /* eslint-disable react/prop-types */
-const UserSubsidyWithAppContext = ({
-  enterpriseConfig = {},
-  contextValue = {},
-  children,
-}) => (
+const UserSubsidyWithAppContext = ({ enterpriseConfig = {}, contextValue = {}, children }) => (
   <AppContext.Provider
     value={{
       enterpriseConfig: {
@@ -35,9 +31,7 @@ const UserSubsidyWithAppContext = ({
       ...contextValue,
     }}
   >
-    <UserSubsidy>
-      {children}
-    </UserSubsidy>
+    <UserSubsidy>{children}</UserSubsidy>
   </AppContext.Provider>
 );
 /* eslint-enable react/prop-types */

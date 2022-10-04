@@ -17,19 +17,11 @@ const initialState = {
   confirmSuccessful: false,
 };
 
-const MarkCompleteModal = ({
-  courseId,
-  isOpen,
-  courseTitle,
-  courseLink,
-  onSuccess,
-  onClose,
-}) => {
-  const { enterpriseConfig: { uuid } } = useContext(AppContext);
-  const [
-    { confirmButtonState, confirmError, confirmSuccessful },
-    setState,
-  ] = useState(initialState);
+const MarkCompleteModal = ({ courseId, isOpen, courseTitle, courseLink, onSuccess, onClose }) => {
+  const {
+    enterpriseConfig: { uuid },
+  } = useContext(AppContext);
+  const [{ confirmButtonState, confirmError, confirmSuccessful }, setState] = useState(initialState);
 
   const handleConfirmButtonClick = async () => {
     setState({ confirmButtonState: 'pending' });

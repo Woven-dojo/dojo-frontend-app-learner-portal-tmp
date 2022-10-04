@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import {
-  Button,
-  Container,
-  Hyperlink,
-} from '@edx/paragon';
+import { Button, Container, Hyperlink } from '@edx/paragon';
 import { LoginRedirect } from '@edx/frontend-enterprise-logistration';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import { getConfig } from '@edx/frontend-platform/config';
@@ -71,17 +67,11 @@ const EnterpriseInvitePage = () => {
         <ErrorPage subtitle="We couldn’t link your edX account to your organization">
           <p className="mb-5">
             Please reach out to your edX administrator or visit the{' '}
-            <Hyperlink
-              destination={config.LEARNER_SUPPORT_URL}
-              target="_blank"
-            >
+            <Hyperlink destination={config.LEARNER_SUPPORT_URL} target="_blank">
               edX Help Center
             </Hyperlink>{' '}
             to resolve the error and gain access to subsidized content, or continue to{' '}
-            <Hyperlink
-              destination={config.MARKETING_SITE_BASE_URL}
-              target="_blank"
-            >
+            <Hyperlink destination={config.MARKETING_SITE_BASE_URL} target="_blank">
               edX.org
             </Hyperlink>{' '}
             to start learning on your own.

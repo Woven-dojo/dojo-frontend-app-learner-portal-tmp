@@ -13,7 +13,9 @@ export const getNotices = async () => {
     } catch (e) {
       // we will just swallow error, as that probably means the notices app is not installed.
       // Notices are not necessary for the rest of dashboard to function.
-      const { customAttributes: { httpErrorStatus } } = e;
+      const {
+        customAttributes: { httpErrorStatus },
+      } = e;
       if (httpErrorStatus === 404) {
         logInfo(`${e}. This probably happened because the notices plugin is not installed on platform.`);
       } else {

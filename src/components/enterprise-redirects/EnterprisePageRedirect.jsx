@@ -5,10 +5,7 @@ import { AppContext } from '@edx/frontend-platform/react';
 import NotFoundPage from '../NotFoundPage';
 import { LoadingSpinner } from '../loading-spinner';
 
-import {
-  useEnterpriseCustomerByUUID,
-  useSelectedEnterpriseUUIDByUserRoles,
-} from './data/hooks';
+import { useEnterpriseCustomerByUUID, useSelectedEnterpriseUUIDByUserRoles } from './data/hooks';
 
 const EnterprisePageRedirect = () => {
   const { authenticatedUser } = useContext(AppContext);

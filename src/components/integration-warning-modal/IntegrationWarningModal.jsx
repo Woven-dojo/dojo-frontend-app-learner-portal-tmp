@@ -6,9 +6,7 @@ import { getConfig } from '@edx/frontend-platform/config';
 import { MODAL_BUTTON_TEXT, MODAL_TITLE } from './data/constants';
 import ModalBody from './ModalBody';
 
-const IntegrationWarningModal = ({
-  isOpen,
-}) => {
+const IntegrationWarningModal = ({ isOpen }) => {
   const config = getConfig();
   const cookies = new Cookies();
   const isWarningDismissed = () => {
@@ -16,7 +14,9 @@ const IntegrationWarningModal = ({
     return !!isDismissed;
   };
   const handleModalOnClose = () => {
-    cookies.set(config.INTEGRATION_WARNING_DISMISSED_COOKIE_NAME, true, { path: '/' });
+    cookies.set(config.INTEGRATION_WARNING_DISMISSED_COOKIE_NAME, true, {
+      path: '/',
+    });
   };
 
   const [dismissed, setState] = useState(isOpen && !isWarningDismissed());
@@ -35,10 +35,7 @@ const IntegrationWarningModal = ({
         renderHeaderCloseButton={false}
         renderDefaultCloseButton={false}
         buttons={[
-          <Button
-            variant="primary"
-            onClick={handleButtonClick}
-          >
+          <Button variant="primary" onClick={handleButtonClick}>
             {MODAL_BUTTON_TEXT}
           </Button>,
         ]}

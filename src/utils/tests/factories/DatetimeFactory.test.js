@@ -10,11 +10,7 @@ describe('DatetimeFactory', () => {
 
     const results = createManyMocks(3, factory);
 
-    expect(results).toEqual([
-      '2022-01-01 00:00',
-      '2022-01-02 00:00',
-      '2022-01-03 00:00',
-    ]);
+    expect(results).toEqual(['2022-01-01 00:00', '2022-01-02 00:00', '2022-01-03 00:00']);
   });
 
   test('Decrement', () => {
@@ -25,11 +21,7 @@ describe('DatetimeFactory', () => {
 
     const results = createManyMocks(3, factory);
 
-    expect(results).toEqual([
-      '2022-01-03 00:00',
-      '2022-01-02 00:00',
-      '2022-01-01 00:00',
-    ]);
+    expect(results).toEqual(['2022-01-03 00:00', '2022-01-02 00:00', '2022-01-01 00:00']);
   });
 
   test('Clone is independent', () => {
@@ -42,11 +34,7 @@ describe('DatetimeFactory', () => {
     const results = createManyMocks(3, factory);
     const cloneResults = createManyMocks(3, clone);
 
-    expect(results).toEqual([
-      '2022-01-01 00:00',
-      '2022-01-02 00:00',
-      '2022-01-03 00:00',
-    ]);
+    expect(results).toEqual(['2022-01-01 00:00', '2022-01-02 00:00', '2022-01-03 00:00']);
     expect(results).toEqual(cloneResults);
   });
 });

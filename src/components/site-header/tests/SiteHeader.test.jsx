@@ -28,9 +28,7 @@ const appState = {
 };
 
 /* eslint-disable react/prop-types */
-const SiteHeaderWithContext = ({
-  initialAppState = appState,
-}) => (
+const SiteHeaderWithContext = ({ initialAppState = appState }) => (
   <AppContext.Provider value={initialAppState}>
     <SiteHeader />
   </AppContext.Provider>
@@ -48,15 +46,11 @@ describe('<SiteHeader />', () => {
     window.matchMedia.setConfig(mockWindowConfig);
   });
   test('renders link with logo to dashboard', () => {
-    renderWithRouter(
-      <SiteHeaderWithContext />,
-    );
+    renderWithRouter(<SiteHeaderWithContext />);
     expect(screen.getByTestId('header-logo-image-id'));
   });
   test('renders regular logout link in absence of IDP', () => {
-    renderWithRouter(
-      <SiteHeaderWithContext initialAppState={appState} />,
-    );
+    renderWithRouter(<SiteHeaderWithContext initialAppState={appState} />);
 
     userEvent.click(screen.getByText('papa'));
     expect(screen.getByText('Sign out')).toBeInTheDocument();
@@ -72,14 +66,14 @@ describe('<SiteHeader />', () => {
         identityProvider: 'a-provider',
       },
     };
-    renderWithRouter(
-      <SiteHeaderWithContext initialAppState={appStateWithIDP} />,
-    );
+    renderWithRouter(<SiteHeaderWithContext initialAppState={appStateWithIDP} />);
 
     userEvent.click(screen.getByText('papa'));
     expect(screen.getByText('Sign out')).toBeInTheDocument();
     const logoutLink = screen.getByText('Sign out');
     // note: the values of these come from the process.env vars in setupTest.js
-    expect(logoutLink.getAttribute('href')).toBe('http://localhost:18000/logout?next=http://localhost:8734/%3Flogout=true');
+    expect(logoutLink.getAttribute('href')).toBe(
+      'http://localhost:18000/logout?next=http://localhost:8734/%3Flogout=true',
+    );
   });
 });

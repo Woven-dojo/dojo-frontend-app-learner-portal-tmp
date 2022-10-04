@@ -5,9 +5,7 @@ import { AppProvider, AuthenticatedPageRoute, PageRoute } from '@edx/frontend-pl
 
 import NotFoundPage from '../NotFoundPage';
 import NoticesProvider from '../notices-provider';
-import {
-  EnterprisePageRedirect,
-} from '../enterprise-redirects';
+import { EnterprisePageRedirect } from '../enterprise-redirects';
 import { DashboardPage } from '../dashboard';
 import { EnterpriseInvitePage } from '../enterprise-invite';
 import { ToastsProvider } from '../Toasts';

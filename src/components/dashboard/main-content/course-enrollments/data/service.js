@@ -8,6 +8,8 @@ export const fetchEnterpriseCourseEnrollments = (uuid) => {
     is_active: true,
   });
   const config = getConfig();
-  const url = `${config.LMS_BASE_URL}/enterprise_learner_portal/api/v1/enterprise_course_enrollments/?${queryParams.toString()}`;
+  const url = `${
+    config.LMS_BASE_URL
+  }/enterprise_learner_portal/api/v1/enterprise_course_enrollments/?${queryParams.toString()}`;
   return getAuthenticatedHttpClient().get(url);
 };

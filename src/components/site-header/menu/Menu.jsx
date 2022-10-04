@@ -16,7 +16,7 @@ MenuTrigger.defaultProps = {
   tag: 'div',
   className: null,
 };
-const MenuTriggerType = <MenuTrigger />.type;
+const MenuTriggerType = (<MenuTrigger />).type;
 
 function MenuContent({ tag, className, ...attributes }) {
   return React.createElement(tag, {
@@ -152,7 +152,9 @@ class Menu extends React.Component {
   // Internal functions
 
   getFocusableElements() {
-    return this.menu.current.querySelectorAll('button:not([disabled]), [href]:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])');
+    return this.menu.current.querySelectorAll(
+      'button:not([disabled]), [href]:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"]):not([disabled])',
+    );
   }
 
   getAttributesFromProps() {
@@ -160,7 +162,7 @@ class Menu extends React.Component {
     const attributes = {};
     Object.keys(this.props)
       // eslint-disable-next-line react/forbid-foreign-prop-types
-      .filter(property => Menu.propTypes[property] === undefined)
+      .filter((property) => Menu.propTypes[property] === undefined)
       .forEach((property) => {
         attributes[property] = this.props[property];
       });
@@ -242,14 +244,18 @@ class Menu extends React.Component {
 
     const rootClassName = this.state.expanded ? 'menu expanded' : 'menu';
 
-    return React.createElement(this.props.tag, {
-      className: `${rootClassName} ${className}`,
-      ref: this.menu,
-      onKeyDown: this.onKeyDown,
-      onMouseEnter: this.onMouseEnter,
-      onMouseLeave: this.onMouseLeave,
-      ...this.getAttributesFromProps(),
-    }, wrappedChildren);
+    return React.createElement(
+      this.props.tag,
+      {
+        className: `${rootClassName} ${className}`,
+        ref: this.menu,
+        onKeyDown: this.onKeyDown,
+        onMouseEnter: this.onMouseEnter,
+        onMouseLeave: this.onMouseLeave,
+        ...this.getAttributesFromProps(),
+      },
+      wrappedChildren,
+    );
   }
 }
 

@@ -15,17 +15,17 @@ import {
 const OfferSummaryCard = ({ offersCount, couponCodeRequestsCount, className }) => {
   const badgeVariantAndLabel = useMemo(() => {
     if (offersCount > 0) {
-      return ({
+      return {
         variant: OFFERS_AVAILABLE_BADGE_VARIANT,
         label: OFFERS_AVAILABLE_BADGE_LABEL,
-      });
+      };
     }
 
     if (couponCodeRequestsCount > 0) {
-      return ({
+      return {
         variant: COUPON_CODES_REQUESTED_BADGE_VARIANT,
         label: COUPON_CODES_REQUESTED_BADGE_LABEL,
-      });
+      };
     }
 
     return null;
@@ -37,25 +37,19 @@ const OfferSummaryCard = ({ offersCount, couponCodeRequestsCount, className }) =
 
   return (
     <SidebarCard
-      title={(
+      title={
         <div className="d-flex align-items-start justify-content-between">
           {`${OFFER_SUMMARY_TITLE}${offersCount > 0 ? `: ${offersCount}` : ''}`}
           {badgeVariantAndLabel && (
-            <Badge
-              variant={badgeVariantAndLabel.variant}
-              className="ml-2"
-              data-testid="subscription-status-badge"
-            >
+            <Badge variant={badgeVariantAndLabel.variant} className="ml-2" data-testid="subscription-status-badge">
               {badgeVariantAndLabel.label}
             </Badge>
           )}
         </div>
-      )}
+      }
       cardClassNames={className}
     >
-      <p className="m-0">
-        {OFFER_SUMMARY_NOTICE}
-      </p>
+      <p className="m-0">{OFFER_SUMMARY_NOTICE}</p>
     </SidebarCard>
   );
 };

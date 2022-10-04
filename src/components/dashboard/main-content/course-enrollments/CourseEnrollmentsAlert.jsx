@@ -8,21 +8,11 @@ const iconByVariant = {
   danger: WarningFilled,
 };
 
-const CourseEnrollmentsAlert = ({
-  children,
-  variant,
-  onClose,
-}) => {
+const CourseEnrollmentsAlert = ({ children, variant, onClose }) => {
   const icon = iconByVariant[variant];
 
   return (
-    <Alert
-      className="align-items-center"
-      variant={variant}
-      icon={icon}
-      dismissible={!!onClose}
-      onClose={onClose}
-    >
+    <Alert className="align-items-center" variant={variant} icon={icon} dismissible={!!onClose} onClose={onClose}>
       {children}
     </Alert>
   );

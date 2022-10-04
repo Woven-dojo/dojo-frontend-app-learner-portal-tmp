@@ -26,9 +26,7 @@ const TEST_ENTERPRISES = [
 ];
 
 /* eslint-disable react/prop-types */
-const EnterprisePageRedirectWithContext = ({
-  initialAppState = {},
-}) => (
+const EnterprisePageRedirectWithContext = ({ initialAppState = {} }) => (
   <AppContext.Provider value={initialAppState}>
     <EnterprisePageRedirect />
   </AppContext.Provider>
@@ -51,9 +49,7 @@ describe('<EnterprisePageRedirect />', () => {
   });
 
   test('renders NotFoundPage if user is not linked to any Enterprise Customers', async () => {
-    renderWithRouter(
-      <EnterprisePageRedirectWithContext initialAppState={initialAppState} />,
-    );
+    renderWithRouter(<EnterprisePageRedirectWithContext initialAppState={initialAppState} />);
 
     await waitFor(() => expect(fetchEnterpriseCustomerByUUID).toHaveBeenCalledTimes(0));
 
@@ -103,10 +99,7 @@ describe('<EnterprisePageRedirect />', () => {
       ...initialAppState,
       authenticatedUser: {
         ...initialAppState.authenticatedUser,
-        roles: [
-          `enterprise_learner:${TEST_ENTERPRISES[1].uuid}`,
-          `enterprise_learner:${TEST_ENTERPRISES[0].uuid}`,
-        ],
+        roles: [`enterprise_learner:${TEST_ENTERPRISES[1].uuid}`, `enterprise_learner:${TEST_ENTERPRISES[0].uuid}`],
       },
     };
 
@@ -115,7 +108,9 @@ describe('<EnterprisePageRedirect />', () => {
         <EnterprisePageRedirectWithContext initialAppState={initialState} />
       </Route>
     );
-    const { history } = renderWithRouter(Component, { route: '/r/course/edX+DemoX' });
+    const { history } = renderWithRouter(Component, {
+      route: '/r/course/edX+DemoX',
+    });
 
     await waitFor(() => expect(fetchEnterpriseCustomerByUUID).toHaveBeenCalledTimes(1));
 

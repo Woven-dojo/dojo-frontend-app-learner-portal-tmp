@@ -1,20 +1,20 @@
 .list-item {
-    background-color: silver;
-    color: #273F2F;;
-    padding-left: 8px;
-    border-radius: 4px;
-    margin: 5px;
-    width: max-content;
-    list-style: none;
-    display: inline-block;
+  background-color: silver;
+  color: #273f2f;
+  padding-left: 8px;
+  border-radius: 4px;
+  margin: 5px;
+  width: max-content;
+  list-style: none;
+  display: inline-block;
 }
 
 .list-item:hover * {
-    color: #273F2F;
+  color: #273f2f;
 }
 
-.item{
-    padding-left: 0 !important;
+.item {
+  padding-left: 0 !important;
 }
 
 .remove {
@@ -27,8 +27,8 @@
 }
 
 .remove:hover {
-    background: #273F2F;
-    color: silver;
+  background: #273f2f;
+  color: silver;
 }
 
 .skills-tag {

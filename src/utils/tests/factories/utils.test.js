@@ -1,6 +1,4 @@
-import {
-  cloneMock, createManyMocks, getIterator, resolveFactoryValue,
-} from './utils';
+import { cloneMock, createManyMocks, getIterator, resolveFactoryValue } from './utils';
 import { MockFactory } from './MockFactory';
 
 class TestMockFactory extends MockFactory {

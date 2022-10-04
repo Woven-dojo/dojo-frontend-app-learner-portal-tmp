@@ -6,9 +6,7 @@ import { mergeConfig, getConfig, setConfig } from '@edx/frontend-platform/config
 import { initializeMockApp, history } from '@edx/frontend-platform';
 import { App } from './components/app';
 import { delay } from './utils/common';
-import {
-  createCourseEnrollmentWithStatus,
-} from './components/dashboard/main-content/course-enrollments/tests/enrollment-testutils';
+import { createCourseEnrollmentWithStatus } from './components/dashboard/main-content/course-enrollments/tests/enrollment-testutils';
 import { COURSE_STATUSES } from './components/dashboard/main-content/course-enrollments/data';
 
 // For modals
@@ -16,50 +14,45 @@ jest.mock('react-focus-on', () => ({
   FocusOn: (props) => {
     // eslint-disable-next-line
     const { children, ...otherProps } = props;
-    return (
-      <focus-on {...otherProps}>{children}</focus-on>
-    );
+    return <focus-on {...otherProps}>{children}</focus-on>;
   },
 }));
 
 jest.mock('react-dom', () => ({
   ...jest.requireActual('react-dom'),
-  createPortal: jest.fn((element) => (
-    <portal>{element}</portal>
-  )),
+  createPortal: jest.fn((element) => <portal>{element}</portal>),
 }));
 
 jest.unmock('@edx/frontend-platform/logging');
 jest.unmock('@edx/frontend-platform/analytics');
 jest.unmock('@edx/frontend-platform/auth');
 
-const mergeTestConfig = () => mergeConfig({
-  USE_API_CACHE: process.env.USE_API_CACHE || null,
-  INTEGRATION_WARNING_DISMISSED_COOKIE_NAME: process.env.INTEGRATION_WARNING_DISMISSED_COOKIE_NAME || null,
-  IS_MAINTENANCE_ALERT_ENABLED: process.env.IS_MAINTENANCE_ALERT_ENABLED || null,
-  MAINTENANCE_ALERT_MESSAGE: process.env.MAINTENANCE_ALERT_MESSAGE || null,
-  MAINTENANCE_ALERT_START_TIMESTAMP: process.env.MAINTENANCE_ALERT_START_TIMESTAMP || null,
-  ENABLE_NOTICES: process.env.ENABLE_NOTICES || null,
-  LEARNER_SUPPORT_URL: process.env.LEARNER_SUPPORT_URL || null,
-  SENTRY_DSN: process.env.SENTRY_DSN || null,
-  SENTRY_ENVIRONMENT: process.env.SENTRY_ENVIRONMENT || '',
-  LOGIN_URL: `${process.env.LMS_BASE_URL}/login`,
-  SENTRY_PROJECT_ENV_PREFIX: 'dojo-frontend-app-learner-portal',
-  ACCESS_TOKEN_COOKIE_NAME: 'dojo-access-token',
-  CREDENTIALS_BASE_URL: 'http://example-cred.com',
-  CSRF_TOKEN_API_PATH: 'http://exaple-csrf-token-api.com',
-  PUBLISHER_BASE_URL: 'http://example-publisher-url.com',
-  IGNORED_ERROR_REGEX: '',
-  LANGUAGE_PREFERENCE_COOKIE_NAME: 'dojo-language',
-  STUDIO_BASE_URL: process.env.STUDIO_BASE_URL || null,
-  ORDER_HISTORY_URL: 'http://example-order-history.com',
-  REFRESH_ACCESS_TOKEN_ENDPOINT: '',
-});
+const mergeTestConfig = () =>
+  mergeConfig({
+    USE_API_CACHE: process.env.USE_API_CACHE || null,
+    INTEGRATION_WARNING_DISMISSED_COOKIE_NAME: process.env.INTEGRATION_WARNING_DISMISSED_COOKIE_NAME || null,
+    IS_MAINTENANCE_ALERT_ENABLED: process.env.IS_MAINTENANCE_ALERT_ENABLED || null,
+    MAINTENANCE_ALERT_MESSAGE: process.env.MAINTENANCE_ALERT_MESSAGE || null,
+    MAINTENANCE_ALERT_START_TIMESTAMP: process.env.MAINTENANCE_ALERT_START_TIMESTAMP || null,
+    ENABLE_NOTICES: process.env.ENABLE_NOTICES || null,
+    LEARNER_SUPPORT_URL: process.env.LEARNER_SUPPORT_URL || null,
+    SENTRY_DSN: process.env.SENTRY_DSN || null,
+    SENTRY_ENVIRONMENT: process.env.SENTRY_ENVIRONMENT || '',
+    LOGIN_URL: `${process.env.LMS_BASE_URL}/login`,
+    SENTRY_PROJECT_ENV_PREFIX: 'dojo-frontend-app-learner-portal',
+    ACCESS_TOKEN_COOKIE_NAME: 'dojo-access-token',
+    CREDENTIALS_BASE_URL: 'http://example-cred.com',
+    CSRF_TOKEN_API_PATH: 'http://exaple-csrf-token-api.com',
+    PUBLISHER_BASE_URL: 'http://example-publisher-url.com',
+    IGNORED_ERROR_REGEX: '',
+    LANGUAGE_PREFERENCE_COOKIE_NAME: 'dojo-language',
+    STUDIO_BASE_URL: process.env.STUDIO_BASE_URL || null,
+    ORDER_HISTORY_URL: 'http://example-order-history.com',
+    REFRESH_ACCESS_TOKEN_ENDPOINT: '',
+  });
 
 const axiosMock = new AxiosMockAdapter(axios);
-const {
-  LMS_BASE_URL,
-} = process.env;
+const { LMS_BASE_URL } = process.env;
 
 const ENTERPRISE_SLUG = 'test-enterprise-id';
 const ENTERPRISE_UUID = '55b3a044-c9f9-4550-9ce4-3ab366b2e9a6';
@@ -114,7 +107,8 @@ const ENTERPRISE_CUSTOMER_REPLY = {
   start: 0,
   results: [ENTERPRISE],
 };
-axiosMock.onGet(new RegExp(`${LMS_BASE_URL}/enterprise/api/v1/enterprise-customer/*`))
+axiosMock
+  .onGet(new RegExp(`${LMS_BASE_URL}/enterprise/api/v1/enterprise-customer/*`))
   .reply(200, ENTERPRISE_CUSTOMER_REPLY);
 
 const COURSE_ENROLLMENTS = [
@@ -123,7 +117,8 @@ const COURSE_ENROLLMENTS = [
   createCourseEnrollmentWithStatus(COURSE_STATUSES.upcoming),
 ];
 const COURSE_ENROLLMENTS_REPLY = COURSE_ENROLLMENTS;
-axiosMock.onGet(new RegExp(`${LMS_BASE_URL}/enterprise_learner_portal/api/v1/enterprise_course_enrollments/*`))
+axiosMock
+  .onGet(new RegExp(`${LMS_BASE_URL}/enterprise_learner_portal/api/v1/enterprise_course_enrollments/*`))
   .reply(200, COURSE_ENROLLMENTS_REPLY);
 
 const LOADING_DELAY = 100;

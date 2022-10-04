@@ -3,8 +3,8 @@
   height: auto;
   overflow: hidden;
   position: relative;
-  -webkit-transition: max-height .5s ease;
-  transition: max-height .5s ease;
+  -webkit-transition: max-height 0.5s ease;
+  transition: max-height 0.5s ease;
 
   &.expanded {
     max-height: unset;
@@ -19,7 +19,7 @@
     left: 0;
     width: 100%;
     height: 24px;
-    background-image: -webkit-gradient(linear,left top,left bottom,from(hsla(0,0%,100%,0)),to($white));
-    background-image: linear-gradient(180deg,hsla(0,0%,100%,0),$white);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(hsla(0, 0%, 100%, 0)), to($white));
+    background-image: linear-gradient(180deg, hsla(0, 0%, 100%, 0), $white);
   }
 }

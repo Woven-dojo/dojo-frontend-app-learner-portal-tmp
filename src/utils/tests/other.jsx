@@ -5,17 +5,9 @@ import moment from 'moment';
 import { render } from '@testing-library/react';
 
 // eslint-disable import/prefer-default-export
-export function renderWithRouter(
-  ui,
-  {
-    route = '/',
-    history = createMemoryHistory({ initialEntries: [route] }),
-  } = {},
-) {
+export function renderWithRouter(ui, { route = '/', history = createMemoryHistory({ initialEntries: [route] }) } = {}) {
   // eslint-disable-next-line react/prop-types
-  const Wrapper = ({ children }) => (
-    <Router history={history}>{children}</Router>
-  );
+  const Wrapper = ({ children }) => <Router history={history}>{children}</Router>;
   return {
     ...render(ui, { wrapper: Wrapper }),
     // adding `history` to the returned utilities to allow us
@@ -71,5 +63,7 @@ export const initialCourseState = ({
 });
 
 export const A_100_PERCENT_OFFER = {
-  catalog: 'a-catalog', discountValue: 100, discountType: 'Percentage',
+  catalog: 'a-catalog',
+  discountValue: 100,
+  discountType: 'Percentage',
 };
