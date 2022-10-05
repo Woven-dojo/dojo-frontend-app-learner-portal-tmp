@@ -1,20 +1,11 @@
 import React from 'react';
-import {
-  render,
-  screen,
-  fireEvent,
-  act,
-  waitFor,
-} from '@testing-library/react';
+import { render, screen, fireEvent, act, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { AppContext } from '@edx/frontend-platform/react';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 
 import moment from 'moment';
-import {
-  courseEnrollmentFactory,
-  createCourseEnrollmentWithStatus,
-} from './enrollment-testutils';
+import { courseEnrollmentFactory, createCourseEnrollmentWithStatus } from './enrollment-testutils';
 import CourseEnrollments, { COURSE_SECTION_TITLES } from '../CourseEnrollments';
 import { MARK_MOVE_TO_IN_PROGRESS_DEFAULT_LABEL } from '../course-cards/move-to-in-progress-modal/MoveToInProgressModal';
 import { updateCourseCompleteStatusRequest } from '../course-cards/mark-complete-modal/data/service';
@@ -36,21 +27,11 @@ const enterpriseConfig = {
   uuid: 'test-enterprise-uuid',
 };
 
-const inProgCourseRun = createCourseEnrollmentWithStatus(
-  COURSE_STATUSES.inProgress,
-);
-const upcomingCourseRun = createCourseEnrollmentWithStatus(
-  COURSE_STATUSES.upcoming,
-);
-const completedCourseRun = createCourseEnrollmentWithStatus(
-  COURSE_STATUSES.completed,
-);
-const savedForLaterCourseRun = createCourseEnrollmentWithStatus(
-  COURSE_STATUSES.savedForLater,
-);
-const requestedCourseRun = createCourseEnrollmentWithStatus(
-  COURSE_STATUSES.requested,
-);
+const inProgCourseRun = createCourseEnrollmentWithStatus(COURSE_STATUSES.inProgress);
+const upcomingCourseRun = createCourseEnrollmentWithStatus(COURSE_STATUSES.upcoming);
+const completedCourseRun = createCourseEnrollmentWithStatus(COURSE_STATUSES.completed);
+const savedForLaterCourseRun = createCourseEnrollmentWithStatus(COURSE_STATUSES.savedForLater);
+const requestedCourseRun = createCourseEnrollmentWithStatus(COURSE_STATUSES.requested);
 
 hooks.useCourseEnrollments.mockReturnValue({
   courseEnrollmentsByStatus: {
@@ -63,13 +44,14 @@ hooks.useCourseEnrollments.mockReturnValue({
   updateCourseEnrollmentStatus: jest.fn(),
 });
 
-const renderEnrollmentsComponent = () => render(
-  <AppContext.Provider value={{ enterpriseConfig }}>
-    <CourseEnrollmentsContextProvider>
-      <CourseEnrollments />
-    </CourseEnrollmentsContextProvider>
-  </AppContext.Provider>,
-);
+const renderEnrollmentsComponent = () =>
+  render(
+    <AppContext.Provider value={{ enterpriseConfig }}>
+      <CourseEnrollmentsContextProvider>
+        <CourseEnrollments />
+      </CourseEnrollmentsContextProvider>
+    </AppContext.Provider>,
+  );
 
 describe('Course enrollments', () => {
   beforeEach(() => {
@@ -107,8 +89,8 @@ describe('Course enrollments', () => {
 
   it('renders courses enrollments within sections by created timestamp', async () => {
     const courseFactory = courseEnrollmentFactory.extend({
-      title: factory.index(i => `title ${i}`),
-      courseRunId: factory.index(i => `course-run-${i}`),
+      title: factory.index((i) => `title ${i}`),
+      courseRunId: factory.index((i) => `course-run-${i}`),
       created: factory.datetime(moment(), {
         increment: { seconds: 100 },
       }),
@@ -119,12 +101,11 @@ describe('Course enrollments', () => {
     const inProgressCourses = [courses[0], courses[3]];
     const upcomingCourses = [courses[2], courses[1], courses[4]];
 
-    const setCoursesStatus = (coursesList, status) => coursesList.forEach(
-      course => {
+    const setCoursesStatus = (coursesList, status) =>
+      coursesList.forEach((course) => {
         // eslint-disable-next-line no-param-reassign
         course.status = status;
-      },
-    );
+      });
 
     setCoursesStatus(inProgressCourses, COURSE_STATUSES.inProgress);
     setCoursesStatus(upcomingCourses, COURSE_STATUSES.upcoming);

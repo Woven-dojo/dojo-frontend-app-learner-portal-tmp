@@ -1,9 +1,9 @@
 .card {
-    &.catalog-access-card {
-        border-top-width: 4px;
-        
-        .card-title { 
-            @extend .h4;
-        }
+  &.catalog-access-card {
+    border-top-width: 4px;
+
+    .card-title {
+      @extend .h4;
     }
+  }
 }

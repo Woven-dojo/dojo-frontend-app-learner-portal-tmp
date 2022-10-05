@@ -19,18 +19,15 @@ export class ObjectFactory extends MockFactory {
   create(mixin) {
     const result = {};
 
-    const resolveTemplate = (template) => (
+    const resolveTemplate = (template) =>
       Object.entries(template).forEach(([key, item]) => {
         result[key] = resolveFactoryValue(item);
-      })
-    );
+      });
 
     resolveTemplate(this.template);
 
     if (mixin) {
-      const usedMixin = mixin instanceof ObjectFactory
-        ? mixin.create()
-        : mixin;
+      const usedMixin = mixin instanceof ObjectFactory ? mixin.create() : mixin;
 
       resolveTemplate(usedMixin);
     }
@@ -39,9 +36,7 @@ export class ObjectFactory extends MockFactory {
   }
 
   extend(mixin) {
-    const mixinTemplate = mixin instanceof ObjectFactory
-      ? mixin.template
-      : mixin;
+    const mixinTemplate = mixin instanceof ObjectFactory ? mixin.template : mixin;
     return new this.constructor({ ...this.template, ...mixinTemplate });
   }
 }

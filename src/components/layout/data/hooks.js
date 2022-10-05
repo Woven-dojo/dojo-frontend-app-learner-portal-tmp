@@ -9,48 +9,45 @@ const COLOR_LIGHTEN_DARKEN_MODIFIER = 0.2;
 const COLOR_MIX_MODIFIER = 0.1;
 
 export const useStylesForCustomBrandColors = (enterpriseConfig) => {
-  const brandColors = useMemo(
-    () => {
-      if (!isDefinedAndNotNull(enterpriseConfig)) {
-        return undefined;
-      }
+  const brandColors = useMemo(() => {
+    if (!isDefinedAndNotNull(enterpriseConfig)) {
+      return undefined;
+    }
 
-      const { branding } = enterpriseConfig;
+    const { branding } = enterpriseConfig;
 
-      const primaryColor = Color(branding.colors.primary);
-      const secondaryColor = Color(branding.colors.secondary);
-      const tertiaryColor = Color(branding.colors.tertiary);
+    const primaryColor = Color(branding.colors.primary);
+    const secondaryColor = Color(branding.colors.secondary);
+    const tertiaryColor = Color(branding.colors.tertiary);
 
-      const whiteColor = Color(colors?.white);
-      const darkColor = Color(colors?.dark);
+    const whiteColor = Color(colors?.white);
+    const darkColor = Color(colors?.dark);
 
-      const getA11yTextColor = color => (color.isDark() ? whiteColor : darkColor);
+    const getA11yTextColor = (color) => (color.isDark() ? whiteColor : darkColor);
 
-      return {
-        white: whiteColor,
-        dark: darkColor,
-        primary: {
-          regular: primaryColor,
-          light: primaryColor.lighten(COLOR_LIGHTEN_DARKEN_MODIFIER),
-          dark: primaryColor.darken(COLOR_LIGHTEN_DARKEN_MODIFIER),
-          textColor: getA11yTextColor(primaryColor),
-        },
-        secondary: {
-          regular: secondaryColor,
-          light: secondaryColor.lighten(COLOR_LIGHTEN_DARKEN_MODIFIER),
-          dark: secondaryColor.darken(COLOR_LIGHTEN_DARKEN_MODIFIER),
-          textColor: getA11yTextColor(secondaryColor),
-        },
-        tertiary: {
-          regular: tertiaryColor,
-          light: tertiaryColor.lighten(COLOR_LIGHTEN_DARKEN_MODIFIER),
-          dark: tertiaryColor.darken(COLOR_LIGHTEN_DARKEN_MODIFIER),
-          textColor: getA11yTextColor(tertiaryColor),
-        },
-      };
-    },
-    [enterpriseConfig],
-  );
+    return {
+      white: whiteColor,
+      dark: darkColor,
+      primary: {
+        regular: primaryColor,
+        light: primaryColor.lighten(COLOR_LIGHTEN_DARKEN_MODIFIER),
+        dark: primaryColor.darken(COLOR_LIGHTEN_DARKEN_MODIFIER),
+        textColor: getA11yTextColor(primaryColor),
+      },
+      secondary: {
+        regular: secondaryColor,
+        light: secondaryColor.lighten(COLOR_LIGHTEN_DARKEN_MODIFIER),
+        dark: secondaryColor.darken(COLOR_LIGHTEN_DARKEN_MODIFIER),
+        textColor: getA11yTextColor(secondaryColor),
+      },
+      tertiary: {
+        regular: tertiaryColor,
+        light: tertiaryColor.lighten(COLOR_LIGHTEN_DARKEN_MODIFIER),
+        dark: tertiaryColor.darken(COLOR_LIGHTEN_DARKEN_MODIFIER),
+        textColor: getA11yTextColor(tertiaryColor),
+      },
+    };
+  }, [enterpriseConfig]);
 
   if (!isDefined(brandColors)) {
     return null;
@@ -59,7 +56,7 @@ export const useStylesForCustomBrandColors = (enterpriseConfig) => {
   const enterpriseColors = ['primary', 'secondary', 'tertiary'];
   const styles = enterpriseColors.map((colorName) => ({
     key: colorName,
-    styles: (`
+    styles: `
       .btn-brand-${colorName} {
         background-color: ${brandColors[colorName].regular.hex()} !important;
         border-color: ${brandColors[colorName].regular.hex()} !important;
@@ -100,7 +97,7 @@ export const useStylesForCustomBrandColors = (enterpriseConfig) => {
       .text-brand-${colorName} {
         color: ${brandColors[colorName].textColor.hex()} !important;
       }
-    `),
+    `,
   }));
 
   return styles;

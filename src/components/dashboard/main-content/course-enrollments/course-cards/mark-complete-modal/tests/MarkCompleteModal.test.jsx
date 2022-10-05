@@ -3,7 +3,10 @@ import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
 import { AppContext } from '@edx/frontend-platform/react';
 
-import MarkCompleteModal, { MARK_SAVED_FOR_LATER_DEFAULT_LABEL, MARK_SAVED_FOR_LATER_PENDING_LABEL } from '../MarkCompleteModal';
+import MarkCompleteModal, {
+  MARK_SAVED_FOR_LATER_DEFAULT_LABEL,
+  MARK_SAVED_FOR_LATER_PENDING_LABEL,
+} from '../MarkCompleteModal';
 import * as service from '../data/service';
 
 jest.mock('../data/service');
@@ -23,19 +26,18 @@ describe('<MarkCompleteModal />', () => {
   };
 
   it('handles confirm click with success', () => {
-    service.markCourseAsCompleteRequest = jest.fn()
-      .mockImplementation(() => Promise.resolve({
+    service.markCourseAsCompleteRequest = jest.fn().mockImplementation(() =>
+      Promise.resolve({
         data: {
           course_run_status: 'completed',
         },
-      }));
-    const wrapper = mount((
+      }),
+    );
+    const wrapper = mount(
       <AppContext.Provider value={{ enterpriseConfig }}>
-        <MarkCompleteModal
-          {...initialProps}
-        />
-      </AppContext.Provider>
-    ));
+        <MarkCompleteModal {...initialProps} />
+      </AppContext.Provider>,
+    );
     wrapper.find('.confirm-mark-complete-btn').hostNodes().simulate('click');
     expect(service.updateCourseCompleteStatusRequest).toBeCalledWith({
       course_id: initialProps.courseId,
@@ -46,15 +48,12 @@ describe('<MarkCompleteModal />', () => {
   });
 
   it('handles confirm click with error', async () => {
-    service.markCourseAsCompleteRequest = jest.fn()
-      .mockImplementation(() => Promise.reject(new Error('test error')));
-    const wrapper = mount((
+    service.markCourseAsCompleteRequest = jest.fn().mockImplementation(() => Promise.reject(new Error('test error')));
+    const wrapper = mount(
       <AppContext.Provider value={{ enterpriseConfig }}>
-        <MarkCompleteModal
-          {...initialProps}
-        />
-      </AppContext.Provider>
-    ));
+        <MarkCompleteModal {...initialProps} />
+      </AppContext.Provider>,
+    );
     await act(async () => {
       wrapper.find('.confirm-mark-complete-btn').hostNodes().simulate('click');
     });
@@ -68,14 +67,11 @@ describe('<MarkCompleteModal />', () => {
 
   it('handles close modal', () => {
     const mockOnClose = jest.fn();
-    const wrapper = mount((
+    const wrapper = mount(
       <AppContext.Provider value={{ enterpriseConfig }}>
-        <MarkCompleteModal
-          {...initialProps}
-          onClose={mockOnClose}
-        />
-      </AppContext.Provider>
-    ));
+        <MarkCompleteModal {...initialProps} onClose={mockOnClose} />
+      </AppContext.Provider>,
+    );
     act(() => {
       wrapper.find('.modal-footer button.btn-link').hostNodes().simulate('click');
     });

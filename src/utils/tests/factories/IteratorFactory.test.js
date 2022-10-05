@@ -11,11 +11,7 @@ describe('IteratorFactory', () => {
 
     const result = createManyMocks(iterable.length * 3, factory);
 
-    expect(result).toEqual([
-      ...iterable,
-      ...iterable,
-      ...iterable,
-    ]);
+    expect(result).toEqual([...iterable, ...iterable, ...iterable]);
   });
 
   test('Fill in the rest with factory', () => {
@@ -25,11 +21,7 @@ describe('IteratorFactory', () => {
 
     const result = createManyMocks(iterable.length + 2, factory);
 
-    expect(result).toEqual([
-      ...iterable,
-      TestMockFactory.OUTPUT,
-      TestMockFactory.OUTPUT,
-    ]);
+    expect(result).toEqual([...iterable, TestMockFactory.OUTPUT, TestMockFactory.OUTPUT]);
   });
 
   test('Empty iterator error', () => {
@@ -44,10 +36,7 @@ describe('IteratorFactory', () => {
 
   test('Clone is independent from original', () => {
     const iterable = [1, 2];
-    const expectedResult = [
-      ...iterable,
-      CloneTestFactory.NOT_USED,
-    ];
+    const expectedResult = [...iterable, CloneTestFactory.NOT_USED];
 
     const factory = new IteratorFactory(iterable, new CloneTestFactory());
     const clone = factory.clone();

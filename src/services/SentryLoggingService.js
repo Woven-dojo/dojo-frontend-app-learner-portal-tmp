@@ -22,7 +22,7 @@ function printBySeverity(error, customAttributes, severityLevel) {
     case Sentry.Severity.Error:
     case Sentry.Severity.Critical:
     case Sentry.Severity.Fatal:
-      console.error(error, customAttributes); // eslint-disable-line 
+      console.error(error, customAttributes); // eslint-disable-line
       return;
     default:
       console.log(error, customAttributes); // eslint-disable-line
@@ -34,7 +34,7 @@ function sendException(error, customAttributes, severityLevel = Sentry.Severity.
     printBySeverity(error, customAttributes, severityLevel);
   }
 
-  Sentry.withScope(scope => {
+  Sentry.withScope((scope) => {
     scope.setLevel(severityLevel);
     scope.setExtra(customAttributes);
 
@@ -50,13 +50,11 @@ function getAuthUserForSentry() {
 
 export default class SentryLoggingService {
   constructor(options) {
-    const {
-      SENTRY_DSN, SENTRY_ENVIRONMENT, SENTRY_PROJECT_PREFIX, IGNORED_ERROR_REGEX,
-    } = options?.config || {};
+    const { SENTRY_DSN, SENTRY_ENVIRONMENT, SENTRY_PROJECT_PREFIX, IGNORED_ERROR_REGEX } = options?.config || {};
 
     Sentry.init({
       dsn: SENTRY_DSN,
-      environment: [SENTRY_PROJECT_PREFIX, SENTRY_ENVIRONMENT].filter(value => Boolean(value)).join('_'),
+      environment: [SENTRY_PROJECT_PREFIX, SENTRY_ENVIRONMENT].filter((value) => Boolean(value)).join('_'),
       integrations: [new BrowserTracing()],
       tracesSampleRate: 1.0,
     });

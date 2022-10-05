@@ -2,12 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Card } from '@edx/paragon';
 
-const SidebarCard = ({
-  title,
-  children,
-  cardClassNames,
-  titleClassNames,
-}) => (
+const SidebarCard = ({ title, children, cardClassNames, titleClassNames }) => (
   <Card className={cardClassNames}>
     <Card.Body>
       {title && <Card.Header title={title} className={titleClassNames} />}

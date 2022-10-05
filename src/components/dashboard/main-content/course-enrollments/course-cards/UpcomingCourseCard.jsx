@@ -12,9 +12,7 @@ const UpcomingCourseCard = (props) => {
     </Button>
   );
 
-  return (
-    <BaseCourseCard type="upcoming" buttons={renderButtons()} {...props} />
-  );
+  return <BaseCourseCard type="upcoming" buttons={renderButtons()} {...props} />;
 };
 
 UpcomingCourseCard.propTypes = {

@@ -11,7 +11,10 @@ jest.mock('@edx/frontend-platform/auth', () => ({
 
 jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
-  useLocation: jest.fn().mockReturnValue({ search: '?logout=true', pathname: '/test-enterprise-slug' }),
+  useLocation: jest.fn().mockReturnValue({
+    search: '?logout=true',
+    pathname: '/test-enterprise-slug',
+  }),
   useParams: jest.fn().mockReturnValue({ enterpriseSlug: 'test-enterprise-slug' }),
 }));
 

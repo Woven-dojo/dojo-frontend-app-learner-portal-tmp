@@ -1,18 +1,7 @@
-import React, {
-  useContext, useEffect, useState, useCallback, useMemo, useLayoutEffect,
-} from 'react';
+import React, { useContext, useEffect, useState, useCallback, useMemo, useLayoutEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useHistory, useLocation } from 'react-router-dom';
-import {
-  Container,
-  Row,
-  Col,
-  Pagination,
-  TransitionReplace,
-  Button,
-  Hyperlink,
-  Spinner,
-} from '@edx/paragon';
+import { Container, Row, Col, Pagination, TransitionReplace, Button, Hyperlink, Spinner } from '@edx/paragon';
 import { AppContext } from '@edx/frontend-platform/react';
 import PropTypes from 'prop-types';
 import { CourseCard, CourseDetails } from '@woven-dojo/dojo-frontend-common';
@@ -23,19 +12,8 @@ import DashboardPanel from './DashboardPanel';
 import DashboardDrawer from './DashboardDrawer';
 import { UserSubsidyContext } from '../enterprise-user-subsidy';
 import { Filter, ActiveFilter } from '../filter/Filter';
-import {
-  Alarm,
-  Baseline,
-  Certificate,
-  Checklist,
-  Dash,
-  World,
-} from './data/svg';
-import {
-  COURSES_PER_CATALOG_PAGE,
-  LEARNING_PATH,
-  CATALOG_COURSE,
-} from './data/constants';
+import { Alarm, Baseline, Certificate, Checklist, Dash, World } from './data/svg';
+import { COURSES_PER_CATALOG_PAGE, LEARNING_PATH, CATALOG_COURSE } from './data/constants';
 import { languageCodeToLabel } from '../../utils/common';
 import { useToast } from '../Toasts/hooks';
 import { setDashIfEmpty, isElementInDOM } from './utils/common';
@@ -70,12 +48,7 @@ export default function Dashboard() {
   const { state } = useLocation();
   const history = useHistory();
   const {
-    learningPathData: {
-      learning_path_name: learningPathName,
-      kickoff_survey: kickoffSurvey,
-      courses,
-      count = 0,
-    },
+    learningPathData: { learning_path_name: learningPathName, kickoff_survey: kickoffSurvey, courses, count = 0 },
     catalog: {
       data: { courses_metadata: catalogCourses },
       filter,
@@ -84,19 +57,15 @@ export default function Dashboard() {
   } = useContext(UserSubsidyContext);
 
   const toast = useToast();
-  const {
-    isOpen, currentStep, setSteps, setIsOpen, steps,
-  } = useTour();
+  const { isOpen, currentStep, setSteps, setIsOpen, steps } = useTour();
 
-  const catalogPageCount = Math.ceil(
-    catalogCourses.length / COURSES_PER_CATALOG_PAGE,
-  );
+  const catalogPageCount = Math.ceil(catalogCourses.length / COURSES_PER_CATALOG_PAGE);
   const [activeCatalogPage, setActiveCatalogPage] = useState(1);
-  const catalogCoursesOnActivePage = catalogCourses?.slice(
-    (activeCatalogPage - 1) * COURSES_PER_CATALOG_PAGE,
-    (activeCatalogPage - 1) * COURSES_PER_CATALOG_PAGE
-        + COURSES_PER_CATALOG_PAGE,
-  ) ?? [];
+  const catalogCoursesOnActivePage =
+    catalogCourses?.slice(
+      (activeCatalogPage - 1) * COURSES_PER_CATALOG_PAGE,
+      (activeCatalogPage - 1) * COURSES_PER_CATALOG_PAGE + COURSES_PER_CATALOG_PAGE,
+    ) ?? [];
   const [activeCourseParams, setActiveCourseParams] = useState(null);
   const [isLoading, setLoading] = useState(false);
 
@@ -108,9 +77,7 @@ export default function Dashboard() {
       return courses.find((course) => course.id === activeCourseParams.id);
     }
     if (activeCourseParams.type === CATALOG_COURSE) {
-      return catalogCourses.find(
-        (course) => course.id === activeCourseParams.id,
-      );
+      return catalogCourses.find((course) => course.id === activeCourseParams.id);
     }
     return null;
   }, [activeCourseParams, courses, catalogCourses]);
@@ -176,12 +143,9 @@ export default function Dashboard() {
         onClick: () => {
           toast.addToast(
             <>
-              <span className="d-block h5 mb-2 text-white">
-                We&apos;re working on it!
-              </span>
-              We have received your request and are working on preparing this
-              course for you, feel free to reach out to us on
-              #dojo&#8209;platform&#8209;support
+              <span className="d-block h5 mb-2 text-white">We&apos;re working on it!</span>
+              We have received your request and are working on preparing this course for you, feel free to reach out to
+              us on #dojo&#8209;platform&#8209;support
             </>,
           );
         },
@@ -199,18 +163,15 @@ export default function Dashboard() {
               <span className="d-block h5 mb-2 text-white">
                 Thanks for reaching out. Dojo staff will contact you soon!
               </span>
-              Meanwhile, if you have any questions, feel free to reach out to us
-              on #dojo&#8209;platform&#8209;support
+              Meanwhile, if you have any questions, feel free to reach out to us on #dojo&#8209;platform&#8209;support
             </>,
           );
         } catch {
           toast.addToast(
             <>
-              <span className="d-block h5 mb-2 text-white">
-                Unexpected error
-              </span>
-              An error occurred when requesting access, feel free to reach out
-              to us on #dojo&#8209;platform&#8209;support
+              <span className="d-block h5 mb-2 text-white">Unexpected error</span>
+              An error occurred when requesting access, feel free to reach out to us on
+              #dojo&#8209;platform&#8209;support
             </>,
           );
         } finally {
@@ -224,20 +185,20 @@ export default function Dashboard() {
     <>
       {isOpen && (
         <div className="reactour-header">
-          <p className="reactour-header-title">Toutorial step {currentStep + 1} out of {steps.length}</p>
-          <button className="reactour-header-button" type="button" onClick={() => setIsOpen(false)}>Skip tutorial</button>
+          <p className="reactour-header-title">
+            Toutorial step {currentStep + 1} out of {steps.length}
+          </p>
+          <button className="reactour-header-button" type="button" onClick={() => setIsOpen(false)}>
+            Skip tutorial
+          </button>
         </div>
       )}
       <Helmet title={`Dashboard - ${name}`} />
       <Container size="lg" className="py-5">
         <Row className="align-items-center mb-4">
           <Col sm={6}>
-            <h2 className="h2 pb-1.5">
-              {userFirstName ? `Welcome, ${userFirstName}!` : 'Welcome!'}
-            </h2>
-            <p className="dashboard-welcome-subtitle">
-              Today is a great day for education.
-            </p>
+            <h2 className="h2 pb-1.5">{userFirstName ? `Welcome, ${userFirstName}!` : 'Welcome!'}</h2>
+            <p className="dashboard-welcome-subtitle">Today is a great day for education.</p>
           </Col>
           <Col sm={6} className="text-center text-md-right">
             {kickoffSurvey && (
@@ -248,7 +209,8 @@ export default function Dashboard() {
                   showLaunchIcon={false}
                   destination={kickoffSurvey}
                   variant="primary"
-                >Start learning survey
+                >
+                  Start learning survey
                 </Button>
               </div>
             )}
@@ -260,39 +222,37 @@ export default function Dashboard() {
           id="learning-path"
           className="tour-learning-path"
           tourClassNamePositionHelper="tour-learning-path-top-position"
-          headerAside={(
+          headerAside={
             <div>
               <div className="small text-dark-400">Available for kick-off</div>
               <div className="h4">
                 {count} {count === 1 ? 'course' : 'courses'}
               </div>
             </div>
-          )}
+          }
         >
-          {count === 0
-            ? (
-              <EmptyState
-                title="You don't have a course in Learning path yet"
-                text="Check out our complete course catalog for courses that might interest you"
-              />
-            )
-            : (
-              <Row data-testid="learningPath" className="dashboard-coursecard-grid">
-                {courses?.map((course) => (
-                  <Col xs={12} md={6} lg={4} key={course.id}>
-                    <CourseCard
-                      active={activeCourse?.id === course.id && activeCourseParams?.type === LEARNING_PATH}
-                      title={course.title}
-                      hours={setDashIfEmpty(course, 'hours_required', value => `${value} h`)}
-                      languages={[course.primary_language].map(languageCodeToLabel)}
-                      difficultyLevel={setDashIfEmpty(course, 'difficulty_level', value => value)}
-                      bgKey={course.id % 10}
-                      onClick={() => setActiveCourseParams({ id: course.id, type: LEARNING_PATH })}
-                    />
-                  </Col>
-                ))}
-              </Row>
-            )}
+          {count === 0 ? (
+            <EmptyState
+              title="You don't have a course in Learning path yet"
+              text="Check out our complete course catalog for courses that might interest you"
+            />
+          ) : (
+            <Row data-testid="learningPath" className="dashboard-coursecard-grid">
+              {courses?.map((course) => (
+                <Col xs={12} md={6} lg={4} key={course.id}>
+                  <CourseCard
+                    active={activeCourse?.id === course.id && activeCourseParams?.type === LEARNING_PATH}
+                    title={course.title}
+                    hours={setDashIfEmpty(course, 'hours_required', (value) => `${value} h`)}
+                    languages={[course.primary_language].map(languageCodeToLabel)}
+                    difficultyLevel={setDashIfEmpty(course, 'difficulty_level', (value) => value)}
+                    bgKey={course.id % 10}
+                    onClick={() => setActiveCourseParams({ id: course.id, type: LEARNING_PATH })}
+                  />
+                </Col>
+              ))}
+            </Row>
+          )}
         </DashboardPanel>
         <DashboardPanel
           title="Course catalog"
@@ -308,33 +268,27 @@ export default function Dashboard() {
                 <EmptyState
                   image={noResultsImage}
                   title="Can't find what you're looking for?"
-                  text={
-                    <>Get in touch with us at #dojo-platform-support on Slack</>
-                  }
+                  text={<>Get in touch with us at #dojo-platform-support on Slack</>}
                 />
               )}
               <div className="dashboard-catalog-wrap">
                 <TransitionReplace>
-                  <Row
-                    key={activeCatalogPage}
-                    className="dashboard-catalog-page dashboard-coursecard-grid"
-                  >
+                  <Row key={activeCatalogPage} className="dashboard-catalog-page dashboard-coursecard-grid">
                     {catalogCoursesOnActivePage.map((course) => (
                       <Col xs={12} md={6} key={course.id}>
                         <CourseCard
-                          active={
-                            activeCourse?.id === course.id
-                            && activeCourseParams?.type === CATALOG_COURSE
-                          }
+                          active={activeCourse?.id === course.id && activeCourseParams?.type === CATALOG_COURSE}
                           title={course.title}
-                          hours={setDashIfEmpty(course, 'hours_required', value => `${value} h`)}
+                          hours={setDashIfEmpty(course, 'hours_required', (value) => `${value} h`)}
                           languages={[course.primary_language].map(languageCodeToLabel)}
-                          difficultyLevel={setDashIfEmpty(course, 'difficulty_level', value => value)}
+                          difficultyLevel={setDashIfEmpty(course, 'difficulty_level', (value) => value)}
                           bgKey={course.id % 10}
-                          onClick={() => setActiveCourseParams({
-                            id: course.id,
-                            type: CATALOG_COURSE,
-                          })}
+                          onClick={() =>
+                            setActiveCourseParams({
+                              id: course.id,
+                              type: CATALOG_COURSE,
+                            })
+                          }
                         />
                       </Col>
                     ))}
@@ -367,7 +321,7 @@ export default function Dashboard() {
               details={[
                 {
                   key: 'Time investment',
-                  value: setDashIfEmpty(activeCourse, 'hours_required', value => `${value} h`),
+                  value: setDashIfEmpty(activeCourse, 'hours_required', (value) => `${value} h`),
                   icon: <Alarm />,
                 },
                 {
@@ -377,12 +331,12 @@ export default function Dashboard() {
                 },
                 {
                   key: 'Difficulty level',
-                  value: setDashIfEmpty(activeCourse, 'difficulty_level', value => value),
+                  value: setDashIfEmpty(activeCourse, 'difficulty_level', (value) => value),
                   icon: <Dash />,
                 },
                 {
                   key: 'Primary language',
-                  value: setDashIfEmpty(activeCourse, 'primary_language', value => languageCodeToLabel(value)),
+                  value: setDashIfEmpty(activeCourse, 'primary_language', (value) => languageCodeToLabel(value)),
                   icon: <World />,
                 },
                 {
@@ -392,7 +346,7 @@ export default function Dashboard() {
                 },
                 {
                   key: 'Prerequisites',
-                  value: setDashIfEmpty(activeCourse, 'prerequisites', value => value),
+                  value: setDashIfEmpty(activeCourse, 'prerequisites', (value) => value),
                   icon: <Checklist />,
                 },
               ]}

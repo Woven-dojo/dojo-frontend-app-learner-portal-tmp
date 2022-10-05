@@ -30,9 +30,9 @@ export const transformCourseEnrollment = (rawCourseEnrollment) => {
 
 export const groupCourseEnrollmentsByStatus = (courseEnrollments) => {
   const courseEnrollmentsByStatus = Object.keys(COURSE_STATUSES).reduce((acc, status) => {
-    acc[status] = courseEnrollments ? courseEnrollments.filter(
-      courseEnrollment => courseEnrollment.courseRunStatus === COURSE_STATUSES[status],
-    ) : [];
+    acc[status] = courseEnrollments
+      ? courseEnrollments.filter((courseEnrollment) => courseEnrollment.courseRunStatus === COURSE_STATUSES[status])
+      : [];
     return acc;
   }, {});
 

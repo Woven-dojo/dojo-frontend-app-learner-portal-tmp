@@ -1,8 +1,4 @@
-import {
-  FETCH_OFFERS_REQUEST,
-  FETCH_OFFERS_SUCCESS,
-  FETCH_OFFERS_FAILURE,
-} from './constants';
+import { FETCH_OFFERS_REQUEST, FETCH_OFFERS_SUCCESS, FETCH_OFFERS_FAILURE } from './constants';
 
 export const initialOfferState = {
   loading: false,

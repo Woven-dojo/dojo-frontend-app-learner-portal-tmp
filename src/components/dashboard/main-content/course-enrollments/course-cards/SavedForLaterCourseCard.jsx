@@ -12,18 +12,8 @@ import { COURSE_STATUSES } from '../data/constants';
 import { CourseEnrollmentsContext } from '../CourseEnrollmentsContextProvider';
 
 const SavedForLaterCourseCard = (props) => {
-  const {
-    title,
-    linkToCourse,
-    courseRunId,
-    courseRunStatus,
-    endDate,
-    isRevoked,
-  } = props;
-  const {
-    updateCourseEnrollmentStatus,
-    setShowMoveToInProgressCourseSuccess,
-  } = useContext(CourseEnrollmentsContext);
+  const { title, linkToCourse, courseRunId, courseRunStatus, endDate, isRevoked } = props;
+  const { updateCourseEnrollmentStatus, setShowMoveToInProgressCourseSuccess } = useContext(CourseEnrollmentsContext);
 
   const { enterpriseConfig } = useContext(AppContext);
 
@@ -66,7 +56,7 @@ const SavedForLaterCourseCard = (props) => {
       return [];
     }
 
-    return ([
+    return [
       {
         key: 'move-course-to-in-progress',
         type: 'button',
@@ -87,7 +77,7 @@ const SavedForLaterCourseCard = (props) => {
           </div>
         ),
       },
-    ]);
+    ];
   };
 
   const renderButtons = () => {
@@ -95,13 +85,7 @@ const SavedForLaterCourseCard = (props) => {
       return null;
     }
 
-    return (
-      <ContinueLearningButton
-        linkToCourse={linkToCourse}
-        title={title}
-        courseRunId={courseRunId}
-      />
-    );
+    return <ContinueLearningButton linkToCourse={linkToCourse} title={title} courseRunId={courseRunId} />;
   };
 
   return (

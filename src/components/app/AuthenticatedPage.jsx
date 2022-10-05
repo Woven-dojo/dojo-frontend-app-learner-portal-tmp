@@ -34,10 +34,7 @@ export default function AuthenticatedPage({ children, useEnterpriseConfigCache }
   if (!user && isLogoutWorkflow) {
     return (
       <ErrorPage title="You are now logged out." showSiteFooter={false}>
-        Please log back in {' '}
-        <Hyperlink destination={`${config.BASE_URL}/`}>
-          here.
-        </Hyperlink>
+        Please log back in <Hyperlink destination={`${config.BASE_URL}/`}>here.</Hyperlink>
       </ErrorPage>
     );
   }
@@ -45,9 +42,7 @@ export default function AuthenticatedPage({ children, useEnterpriseConfigCache }
     <LoginRedirect>
       <LoginRefresh>
         <EnterprisePage useEnterpriseConfigCache={useEnterpriseConfigCache}>
-          <Layout>
-            {children}
-          </Layout>
+          <Layout>{children}</Layout>
         </EnterprisePage>
       </LoginRefresh>
     </LoginRedirect>

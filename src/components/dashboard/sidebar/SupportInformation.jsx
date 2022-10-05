@@ -10,42 +10,27 @@ import { CONTACT_HELP_EMAIL_MESSAGE, NEED_HELP_BLOCK_TITLE } from './data/consta
 const SupportInformation = ({ className }) => {
   const config = getConfig();
   const {
-    enterpriseConfig: {
-      contactEmail,
-    },
+    enterpriseConfig: { contactEmail },
   } = useContext(AppContext);
 
   const renderContactHelpText = () => {
     const message = CONTACT_HELP_EMAIL_MESSAGE;
     if (contactEmail) {
-      return (
-        <MailtoLink to={contactEmail}>
-          {message}
-        </MailtoLink>
-      );
+      return <MailtoLink to={contactEmail}>{message}</MailtoLink>;
     }
     return message;
   };
 
   return (
-    <SidebarBlock
-      title={NEED_HELP_BLOCK_TITLE}
-      titleOptions={{ tag: 'h3' }}
-      className={className}
-    >
+    <SidebarBlock title={NEED_HELP_BLOCK_TITLE} titleOptions={{ tag: 'h3' }} className={className}>
       <p>
         For technical support, visit the{' '}
-        <Hyperlink
-          destination={config.LEARNER_SUPPORT_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <Hyperlink destination={config.LEARNER_SUPPORT_URL} target="_blank" rel="noopener noreferrer">
           edX Help Center
-        </Hyperlink>.
+        </Hyperlink>
+        .
       </p>
-      <p>
-        To request more benefits or specific courses, {renderContactHelpText()}.
-      </p>
+      <p>To request more benefits or specific courses, {renderContactHelpText()}.</p>
     </SidebarBlock>
   );
 };

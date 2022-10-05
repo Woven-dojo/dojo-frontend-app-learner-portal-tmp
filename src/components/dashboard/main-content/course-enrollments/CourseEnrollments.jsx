@@ -29,17 +29,14 @@ const CourseEnrollments = ({ children }) => {
   );
 
   const savedForLaterCourseEnrollments = useMemo(
-    () => sortedEnrollmentsByEnrollmentDate(
-      courseEnrollmentsByStatus.savedForLater,
-    ),
+    () => sortedEnrollmentsByEnrollmentDate(courseEnrollmentsByStatus.savedForLater),
     [courseEnrollmentsByStatus.savedForLater],
   );
 
   if (fetchCourseEnrollmentsError) {
     return (
       <CourseEnrollmentsAlert variant="danger">
-        An error occurred while retrieving your course enrollments. Please try
-        again.
+        An error occurred while retrieving your course enrollments. Please try again.
       </CourseEnrollmentsAlert>
     );
   }
@@ -49,18 +46,12 @@ const CourseEnrollments = ({ children }) => {
   return (
     <>
       {showMarkCourseCompleteSuccess && (
-        <CourseEnrollmentsAlert
-          variant="success"
-          onClose={() => setShowMarkCourseCompleteSuccess(false)}
-        >
+        <CourseEnrollmentsAlert variant="success" onClose={() => setShowMarkCourseCompleteSuccess(false)}>
           Your course was saved for later.
         </CourseEnrollmentsAlert>
       )}
       {showMoveToInProgressCourseSuccess && (
-        <CourseEnrollmentsAlert
-          variant="success"
-          onClose={() => setShowMoveToInProgressCourseSuccess(false)}
-        >
+        <CourseEnrollmentsAlert variant="success" onClose={() => setShowMoveToInProgressCourseSuccess(false)}>
           Your course was moved to In Progress.
         </CourseEnrollmentsAlert>
       )}
@@ -70,14 +61,8 @@ const CourseEnrollments = ({ children }) => {
           gets displayed if the user does not have any course enrollments.
       */}
       {!hasCourseEnrollments && children}
-      <CourseSection
-        title={COURSE_SECTION_TITLES.completed}
-        courseRuns={completedCourseEnrollments}
-      />
-      <CourseSection
-        title={COURSE_SECTION_TITLES.savedForLater}
-        courseRuns={savedForLaterCourseEnrollments}
-      />
+      <CourseSection title={COURSE_SECTION_TITLES.completed} courseRuns={completedCourseEnrollments} />
+      <CourseSection title={COURSE_SECTION_TITLES.savedForLater} courseRuns={savedForLaterCourseEnrollments} />
     </>
   );
 };

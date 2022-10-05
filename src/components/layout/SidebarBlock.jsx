@@ -2,20 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-const SidebarBlock = ({
-  className,
-  title,
-  children,
-  titleOptions,
-}) => {
+const SidebarBlock = ({ className, title, children, titleOptions }) => {
   const { tag: TitleTag } = titleOptions;
   return (
     <div className={className}>
-      {title && (
-        <TitleTag className={classNames('mb-2', titleOptions.className)}>
-          {title}
-        </TitleTag>
-      )}
+      {title && <TitleTag className={classNames('mb-2', titleOptions.className)}>{title}</TitleTag>}
       {children}
     </div>
   );

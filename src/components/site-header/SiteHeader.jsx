@@ -12,15 +12,11 @@ export default function SiteHeader() {
 
   const renderDojoLogo = () => (
     <Link to="/">
-      <img
-        className="d-block logo"
-        src={dojoLogo}
-        alt="Dojo logo"
-      />
+      <img className="d-block logo" src={dojoLogo} alt="Dojo logo" />
     </Link>
   );
 
-  const renderEnterpriseLogo = () => (
+  const renderEnterpriseLogo = () =>
     enterpriseConfig.branding.logo && (
       <img
         className="d-block logo"
@@ -28,8 +24,7 @@ export default function SiteHeader() {
         alt={`${enterpriseConfig.name} logo`}
         data-testid="header-logo-image-id"
       />
-    )
-  );
+    );
 
   const renderDesktopHeader = () => (
     <header className="site-header-desktop">
@@ -47,13 +42,8 @@ export default function SiteHeader() {
   );
 
   const renderMobileHeader = () => (
-    <header
-      aria-label="Main"
-      className="site-header-mobile d-flex justify-content-between align-items-center shadow"
-    >
-      <div className="w-100 d-flex justify-content-start py-3 ml-2.5">
-        {renderDojoLogo()}
-      </div>
+    <header aria-label="Main" className="site-header-mobile d-flex justify-content-between align-items-center shadow">
+      <div className="w-100 d-flex justify-content-start py-3 ml-2.5">{renderDojoLogo()}</div>
       <div className="w-100 d-flex justify-content-center " />
       <div className="w-100 d-flex justify-content-end align-items-center">
         {renderEnterpriseLogo()}
@@ -69,12 +59,8 @@ export default function SiteHeader() {
           Skip to main content
         </HashLink>
       </div>
-      <MediaQuery maxWidth={768}>
-        {renderMobileHeader()}
-      </MediaQuery>
-      <MediaQuery minWidth={769}>
-        {renderDesktopHeader()}
-      </MediaQuery>
+      <MediaQuery maxWidth={768}>{renderMobileHeader()}</MediaQuery>
+      <MediaQuery minWidth={769}>{renderDesktopHeader()}</MediaQuery>
     </>
   );
 }

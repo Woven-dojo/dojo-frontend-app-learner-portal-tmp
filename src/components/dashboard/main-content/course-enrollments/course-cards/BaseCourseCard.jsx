@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import {
-  Dropdown, Badge, IconButton, Icon,
-} from '@edx/paragon';
+import { Dropdown, Badge, IconButton, Icon } from '@edx/paragon';
 import { AppContext } from '@edx/frontend-platform/react';
 import { sendEnterpriseTrackEvent } from '@edx/frontend-enterprise-utils';
 import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
@@ -110,7 +108,7 @@ class BaseCourseCard extends Component {
   };
 
   setModalState = ({ key, open = false, options = {} }) => {
-    this.setState(state => ({
+    this.setState((state) => ({
       modals: {
         ...state.modals,
         [key]: {
@@ -128,9 +126,7 @@ class BaseCourseCard extends Component {
 
   handleEmailSettingsButtonClick = () => {
     const { courseRunId } = this.props;
-    const {
-      hasEmailsEnabled,
-    } = this.state;
+    const { hasEmailsEnabled } = this.state;
     const { enterpriseConfig } = this.context;
     this.setModalState({
       key: 'emailSettings',
@@ -139,11 +135,9 @@ class BaseCourseCard extends Component {
         hasEmailsEnabled,
       },
     });
-    sendEnterpriseTrackEvent(
-      enterpriseConfig.uuid,
-      'edx.ui.enterprise.learner_portal.email_settings_modal.opened',
-      { course_run_id: courseRunId },
-    );
+    sendEnterpriseTrackEvent(enterpriseConfig.uuid, 'edx.ui.enterprise.learner_portal.email_settings_modal.opened', {
+      course_run_id: courseRunId,
+    });
   };
 
   handleEmailSettingsModalOnClose = (hasEmailsEnabled) => {
@@ -165,20 +159,10 @@ class BaseCourseCard extends Component {
       return (
         <div className="ml-auto">
           <Dropdown>
-            <Dropdown.Toggle
-              as={IconButton}
-              src={MoreVert}
-              iconAs={Icon}
-              alt={`course settings for ${title}`}
-            />
+            <Dropdown.Toggle as={IconButton} src={MoreVert} iconAs={Icon} alt={`course settings for ${title}`} />
             <Dropdown.Menu>
-              {menuItems.map(menuItem => (
-                <Dropdown.Item
-                  key={menuItem.key}
-                  as={menuItem.type}
-                  onClick={menuItem.onClick}
-                  role="menuitem"
-                >
+              {menuItems.map((menuItem) => (
+                <Dropdown.Item key={menuItem.key} as={menuItem.type} onClick={menuItem.onClick} role="menuitem">
                   {menuItem.children}
                 </Dropdown.Item>
               ))}
@@ -207,7 +191,9 @@ class BaseCourseCard extends Component {
   };
 
   renderSponsoredByEnterpriseMessage = () => {
-    const { enterpriseConfig: { name } } = this.context;
+    const {
+      enterpriseConfig: { name },
+    } = this.context;
     if (name) {
       return <small>Sponsored by {name}.</small>;
     }
@@ -217,11 +203,7 @@ class BaseCourseCard extends Component {
   renderMicroMastersTitle = () => {
     const { microMastersTitle } = this.props;
     if (microMastersTitle) {
-      return (
-        <p className="font-weight-bold w-75 mb-2">
-          {microMastersTitle}
-        </p>
-      );
+      return <p className="font-weight-bold w-75 mb-2">{microMastersTitle}</p>;
     }
     return null;
   };
@@ -239,9 +221,7 @@ class BaseCourseCard extends Component {
     if (children) {
       return (
         <div className="row">
-          <div className="col">
-            {children}
-          </div>
+          <div className="col">{children}</div>
         </div>
       );
     }
@@ -253,9 +233,7 @@ class BaseCourseCard extends Component {
     if (buttons) {
       return (
         <div className="row">
-          <div className="col mb-3">
-            {buttons}
-          </div>
+          <div className="col mb-3">{buttons}</div>
         </div>
       );
     }
@@ -271,9 +249,7 @@ class BaseCourseCard extends Component {
     if (linkToCertificate) {
       return (
         <small className="mb-0">
-          View your certificate on
-          {' '}
-          <a href={`${config.LMS_BASE_URL}/u/${username}`}>your profile →</a>
+          View your certificate on <a href={`${config.LMS_BASE_URL}/u/${username}`}>your profile →</a>
         </small>
       );
     }
@@ -281,12 +257,7 @@ class BaseCourseCard extends Component {
   };
 
   render() {
-    const {
-      type,
-      title,
-      linkToCourse,
-      hasViewCertificateLink,
-    } = this.props;
+    const { type, title, linkToCourse, hasViewCertificateLink } = this.props;
     const dropdownMenuItems = this.getDropdownMenuItems();
     return (
       <div className="dashboard-course-card py-4 border-bottom">
@@ -295,16 +266,11 @@ class BaseCourseCard extends Component {
             {this.renderMicroMastersTitle()}
             <div className="d-flex align-items-start justify-content-between mb-1">
               <h4 className="course-title mb-0 mr-2">
-                <a className="h3" href={linkToCourse}>{title}</a>
+                <a className="h3" href={linkToCourse}>
+                  {title}
+                </a>
               </h4>
-              {
-                BADGE_PROPS_BY_COURSE_STATUS[type] && (
-                  <Badge
-                    className="mt-1"
-                    {...BADGE_PROPS_BY_COURSE_STATUS[type]}
-                  />
-                )
-              }
+              {BADGE_PROPS_BY_COURSE_STATUS[type] && <Badge className="mt-1" {...BADGE_PROPS_BY_COURSE_STATUS[type]} />}
             </div>
             {this.renderOrganizationName()}
           </div>
@@ -314,9 +280,7 @@ class BaseCourseCard extends Component {
         {this.renderChildren()}
         <div className="course-misc-text row">
           <div className="col text-gray">
-            <small className="mb-0">
-              {this.getCourseMiscText()}
-            </small>
+            <small className="mb-0">{this.getCourseMiscText()}</small>
             {this.renderSponsoredByEnterpriseMessage()}
             {hasViewCertificateLink && this.renderViewCertificateText()}
           </div>
@@ -328,9 +292,7 @@ class BaseCourseCard extends Component {
 }
 
 BaseCourseCard.propTypes = {
-  type: PropTypes.oneOf([
-    'in_progress', 'upcoming', 'completed', 'saved_for_later',
-  ]).isRequired,
+  type: PropTypes.oneOf(['in_progress', 'upcoming', 'completed', 'saved_for_later']).isRequired,
   title: PropTypes.string.isRequired,
   linkToCourse: PropTypes.string.isRequired,
   courseRunId: PropTypes.string.isRequired,
@@ -344,12 +306,14 @@ BaseCourseCard.propTypes = {
   orgName: PropTypes.string,
   pacing: PropTypes.oneOf(['instructor', 'self']),
   linkToCertificate: PropTypes.string,
-  dropdownMenuItems: PropTypes.arrayOf(PropTypes.shape({
-    key: PropTypes.string,
-    type: PropTypes.string,
-    onClick: PropTypes.func,
-    children: PropTypes.element,
-  })),
+  dropdownMenuItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string,
+      type: PropTypes.string,
+      onClick: PropTypes.func,
+      children: PropTypes.element,
+    }),
+  ),
 };
 
 BaseCourseCard.contextType = AppContext;

@@ -9,9 +9,7 @@ import ErrorPageHeader from './ErrorPageHeader';
  * React component for the error case when attempting to link a user to a customer. Renders
  * a header, error alert, and a footer.
  */
-const ErrorPage = ({
-  title, subtitle, showSiteFooter, children,
-}) => (
+const ErrorPage = ({ title, subtitle, showSiteFooter, children }) => (
   <>
     <ErrorPageHeader />
     <main id="content" className="error-page-container">
@@ -24,10 +22,7 @@ const ErrorPage = ({
       </Container>
     </main>
     {showSiteFooter && (
-      <Footer
-        left={`Copyright ${new Date().getFullYear()} Dojo. All rights reserved`}
-        className="dojo-footer"
-      />
+      <Footer left={`Copyright ${new Date().getFullYear()} Dojo. All rights reserved`} className="dojo-footer" />
     )}
   </>
 );

@@ -45,16 +45,11 @@ export default function Layout({ children }) {
           ))}
         </Helmet>
         {isMaintenanceAlertOpen && (
-          <SystemWideWarningBanner>
-            {config.MAINTENANCE_ALERT_MESSAGE}
-          </SystemWideWarningBanner>
+          <SystemWideWarningBanner>{config.MAINTENANCE_ALERT_MESSAGE}</SystemWideWarningBanner>
         )}
         <SiteHeader />
         <main id="content">{children}</main>
-        <Footer
-          left={`Copyright ${new Date().getFullYear()} Dojo. All rights reserved`}
-          className="dojo-footer"
-        />
+        <Footer left={`Copyright ${new Date().getFullYear()} Dojo. All rights reserved`} className="dojo-footer" />
       </>
     </IntlProvider>
   );

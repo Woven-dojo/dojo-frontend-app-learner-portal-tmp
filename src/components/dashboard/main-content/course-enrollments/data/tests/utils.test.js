@@ -24,23 +24,32 @@ describe('transformCourseEnrollment', () => {
 });
 
 describe('groupCourseEnrollmentsByStatus', () => {
-  const inProgressCourseEnrollment = { courseRunStatus: COURSE_STATUSES.inProgress };
-  const upcomingCourseEnrollment = { courseRunStatus: COURSE_STATUSES.upcoming };
-  const completedCourseEnrollment = { courseRunStatus: COURSE_STATUSES.completed };
-  const savedForLaterCourseEnrollment = { courseRunStatus: COURSE_STATUSES.savedForLater };
+  const inProgressCourseEnrollment = {
+    courseRunStatus: COURSE_STATUSES.inProgress,
+  };
+  const upcomingCourseEnrollment = {
+    courseRunStatus: COURSE_STATUSES.upcoming,
+  };
+  const completedCourseEnrollment = {
+    courseRunStatus: COURSE_STATUSES.completed,
+  };
+  const savedForLaterCourseEnrollment = {
+    courseRunStatus: COURSE_STATUSES.savedForLater,
+  };
   it('should group course enrollments by their status', () => {
-    const courseEnrollmentsByStatus = groupCourseEnrollmentsByStatus(
-      [savedForLaterCourseEnrollment, completedCourseEnrollment, upcomingCourseEnrollment, inProgressCourseEnrollment],
-    );
+    const courseEnrollmentsByStatus = groupCourseEnrollmentsByStatus([
+      savedForLaterCourseEnrollment,
+      completedCourseEnrollment,
+      upcomingCourseEnrollment,
+      inProgressCourseEnrollment,
+    ]);
 
-    expect(courseEnrollmentsByStatus).toEqual(
-      {
-        inProgress: [inProgressCourseEnrollment],
-        upcoming: [upcomingCourseEnrollment],
-        completed: [completedCourseEnrollment],
-        savedForLater: [savedForLaterCourseEnrollment],
-        requested: [],
-      },
-    );
+    expect(courseEnrollmentsByStatus).toEqual({
+      inProgress: [inProgressCourseEnrollment],
+      upcoming: [upcomingCourseEnrollment],
+      completed: [completedCourseEnrollment],
+      savedForLater: [savedForLaterCourseEnrollment],
+      requested: [],
+    });
   });
 });

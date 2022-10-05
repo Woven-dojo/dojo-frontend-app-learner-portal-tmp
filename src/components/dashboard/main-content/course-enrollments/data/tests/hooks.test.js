@@ -25,7 +25,11 @@ describe('useCourseEnrollments', () => {
     expect(service.fetchEnterpriseCourseEnrollments).toHaveBeenCalled();
 
     expect(result.current.courseEnrollmentsByStatus).toEqual({
-      inProgress: [mockTransformedMockCourseEnrollment], upcoming: [], completed: [], savedForLater: [], requested: [],
+      inProgress: [mockTransformedMockCourseEnrollment],
+      upcoming: [],
+      completed: [],
+      savedForLater: [],
+      requested: [],
     });
 
     expect(result.current.fetchError).toBeUndefined();
@@ -42,30 +46,34 @@ describe('useCourseEnrollments', () => {
 
   describe('updateCourseEnrollmentStatus', () => {
     it('should move a course enrollment to the correct status group', async () => {
-      service.fetchEnterpriseCourseEnrollments.mockResolvedValue({ data: [mockRawCourseEnrollment] });
+      service.fetchEnterpriseCourseEnrollments.mockResolvedValue({
+        data: [mockRawCourseEnrollment],
+      });
       const { result, waitForNextUpdate } = renderHook(() => useCourseEnrollments('uuid'));
       await waitForNextUpdate();
 
-      act(() => result.current.updateCourseEnrollmentStatus({
-        courseRunId: mockRawCourseEnrollment.courseRunId,
-        originalStatus: COURSE_STATUSES.inProgress,
-        newStatus: COURSE_STATUSES.savedForLater,
-        savedForLater: true,
-      }));
+      act(() =>
+        result.current.updateCourseEnrollmentStatus({
+          courseRunId: mockRawCourseEnrollment.courseRunId,
+          originalStatus: COURSE_STATUSES.inProgress,
+          newStatus: COURSE_STATUSES.savedForLater,
+          savedForLater: true,
+        }),
+      );
 
-      expect(result.current.courseEnrollmentsByStatus).toEqual(
-        {
-          inProgress: [],
-          upcoming: [],
-          completed: [],
-          savedForLater: [{
+      expect(result.current.courseEnrollmentsByStatus).toEqual({
+        inProgress: [],
+        upcoming: [],
+        completed: [],
+        savedForLater: [
+          {
             ...mockTransformedMockCourseEnrollment,
             courseRunStatus: COURSE_STATUSES.savedForLater,
             savedForLater: true,
-          }],
-          requested: [],
-        },
-      );
+          },
+        ],
+        requested: [],
+      });
     });
   });
 });

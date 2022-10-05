@@ -7,11 +7,7 @@ import { COURSE_STATUSES } from '../data/constants';
 
 // Partial implementation
 const RequestedCourseCard = (props) => (
-  <BaseCourseCard
-    type={COURSE_STATUSES.requested}
-    hasViewCertificateLink={false}
-    {...props}
-  />
+  <BaseCourseCard type={COURSE_STATUSES.requested} hasViewCertificateLink={false} {...props} />
 );
 
 RequestedCourseCard.propTypes = {

@@ -7,12 +7,7 @@ import { AvatarButton, Dropdown } from '@edx/paragon';
 import { isDefinedAndNotNull } from '../../utils/common';
 
 const AvatarDropdown = ({ showLabel }) => {
-  const {
-    BASE_URL,
-    LMS_BASE_URL,
-    LOGOUT_URL,
-    LEARNER_SUPPORT_URL,
-  } = getConfig();
+  const { BASE_URL, LMS_BASE_URL, LOGOUT_URL, LEARNER_SUPPORT_URL } = getConfig();
   const { enterpriseConfig, authenticatedUser } = useContext(AppContext);
   const { username, profileImage } = authenticatedUser;
   const enterpriseDashboardLink = '/';
@@ -28,10 +23,7 @@ const AvatarDropdown = ({ showLabel }) => {
       <Dropdown.Toggle showLabel={showLabel} as={AvatarButton} src={profileImage.imageUrlMedium}>
         {username}
       </Dropdown.Toggle>
-      <Dropdown.Menu
-        style={{ maxWidth: 280 }}
-        alignRight
-      >
+      <Dropdown.Menu style={{ maxWidth: 280 }} alignRight>
         <Dropdown.Header className="text-uppercase">Switch Dashboard</Dropdown.Header>
         <Dropdown.Item href={`${LMS_BASE_URL}/dashboard`}>Personal</Dropdown.Item>
         {/* TODO: support multiple enterprises! */}

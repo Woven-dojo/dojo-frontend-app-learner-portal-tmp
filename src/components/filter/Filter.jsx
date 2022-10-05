@@ -5,18 +5,12 @@ import PropTypes from 'prop-types';
 import { filterGroups } from '../enterprise-user-subsidy/data/constants';
 import closeIcon from '../../assets/icons/close.svg';
 
-const FilterGroup = ({
-  options, label, onChange, active = [],
-}) => (
+const FilterGroup = ({ options, label, onChange, active = [] }) => (
   <div className="filter-group">
     <h4 className="filter-group__title">{label}</h4>
     {options.map((option) => (
       <div key={option.value} className="filter-group__item">
-        <Form.Checkbox
-          checked={active.includes(option.value)}
-          onChange={onChange}
-          value={option.value}
-        >
+        <Form.Checkbox checked={active.includes(option.value)} onChange={onChange} value={option.value}>
           {option.label}
         </Form.Checkbox>
       </div>
@@ -50,20 +44,21 @@ const ActiveFilterTag = ({ children, onClick }) => (
   <span className="active-filter__tag">
     {children}
     <button onClick={onClick} className="active-filter__icon" type="button">
-      <img
-        src={closeIcon}
-        alt="Remove this filter"
-      />
+      <img src={closeIcon} alt="Remove this filter" />
     </button>
   </span>
 );
 
 export const ActiveFilter = ({ filter }) => {
-  const activeFilters = filterGroups.reduce((accumulator, group) => accumulator.concat(
-    filter.options[group.id]
-      .filter((option) => filter.current[group.id].includes(option.value))
-      .map((item) => ({ ...item, group: group.id })),
-  ), []);
+  const activeFilters = filterGroups.reduce(
+    (accumulator, group) =>
+      accumulator.concat(
+        filter.options[group.id]
+          .filter((option) => filter.current[group.id].includes(option.value))
+          .map((item) => ({ ...item, group: group.id })),
+      ),
+    [],
+  );
 
   const handleChange = (group, value) => {
     filter.toggle(group, [value]);
@@ -72,10 +67,7 @@ export const ActiveFilter = ({ filter }) => {
   return (
     <div className="active-filter">
       {activeFilters.map((item) => (
-        <ActiveFilterTag
-          onClick={() => handleChange(item.group, item.value)}
-          key={`${item.group}-${item.value}`}
-        >
+        <ActiveFilterTag onClick={() => handleChange(item.group, item.value)} key={`${item.group}-${item.value}`}>
           {item.label}
         </ActiveFilterTag>
       ))}
@@ -86,10 +78,14 @@ export const ActiveFilter = ({ filter }) => {
 const filterPropTypes = PropTypes.shape({
   toggle: PropTypes.func.isRequired,
   current: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
-  options: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string,
-    label: PropTypes.string,
-  }))).isRequired,
+  options: PropTypes.objectOf(
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        value: PropTypes.string,
+        label: PropTypes.string,
+      }),
+    ),
+  ).isRequired,
 });
 
 Filter.propTypes = {
@@ -97,10 +93,12 @@ Filter.propTypes = {
 };
 
 FilterGroup.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string,
-    label: PropTypes.string,
-  })).isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      value: PropTypes.string,
+      label: PropTypes.string,
+    }),
+  ).isRequired,
   label: PropTypes.node.isRequired,
   onChange: PropTypes.func.isRequired,
   active: PropTypes.arrayOf(PropTypes.string),

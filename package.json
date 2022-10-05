@@ -67,7 +67,9 @@
     "coveralls": "3.1.0",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.6",
+    "eslint-config-prettier": "^8.5.0",
     "husky": "^7.0.4",
+    "lint-staged": "^12.5.0",
     "match-media-mock": "0.1.1",
     "prettier": "2.2.1",
     "react-test-renderer": "16.14.0"
@@ -89,10 +91,21 @@
     "test": "fedx-scripts jest --coverage --passWithNoTests --maxWorkers=50%",
     "test:smoke": "fedx-scripts jest --coverage --passWithNoTests --maxWorkers=50% --testPathPattern=src/smoke.test.jsx",
     "install-theme": "npm install \"@edx/brand@${THEME}\" --no-save",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write ."
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/edx/frontend-app-learner-portal-enterprise.git"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "npm run lint:fix",
+      "npm run prettier:fix"
+    ],
+    "*.{scss,md,json}": [
+      "npm run prettier:fix"
+    ]
   }
 }

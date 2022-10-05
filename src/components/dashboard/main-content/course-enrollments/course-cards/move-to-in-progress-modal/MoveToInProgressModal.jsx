@@ -17,19 +17,11 @@ const initialState = {
   confirmSuccessful: false,
 };
 
-const MoveToInProgressModal = ({
-  courseId,
-  isOpen,
-  courseTitle,
-  courseLink,
-  onSuccess,
-  onClose,
-}) => {
-  const { enterpriseConfig: { uuid } } = useContext(AppContext);
-  const [
-    { confirmButtonState, confirmError, confirmSuccessful },
-    setState,
-  ] = useState(initialState);
+const MoveToInProgressModal = ({ courseId, isOpen, courseTitle, courseLink, onSuccess, onClose }) => {
+  const {
+    enterpriseConfig: { uuid },
+  } = useContext(AppContext);
+  const [{ confirmButtonState, confirmError, confirmSuccessful }, setState] = useState(initialState);
 
   const handleConfirmButtonClick = async () => {
     setState({ confirmButtonState: 'pending' });
@@ -65,7 +57,7 @@ const MoveToInProgressModal = ({
       }}
     >
       <Modal
-        title="Move course to &quot;In Progress&quot;"
+        title='Move course to "In Progress"'
         body={<ModalBody />}
         buttons={[
           <StatefulButton

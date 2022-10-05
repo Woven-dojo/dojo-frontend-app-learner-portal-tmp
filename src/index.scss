@@ -1,29 +1,29 @@
-@import "@edx/brand/paragon/fonts";
-@import "@edx/brand/paragon/variables";
-@import "@edx/paragon/scss/core/core";
+@import '@edx/brand/paragon/fonts';
+@import '@edx/brand/paragon/variables';
+@import '@edx/paragon/scss/core/core';
 // frontend-enterprise-* imports must come before the paragon overrides for correct styling
-@import "@edx/brand/paragon/overrides";
+@import '@edx/brand/paragon/overrides';
 
-$fa-font-path: "~font-awesome/fonts";
-@import "~font-awesome/scss/font-awesome";
+$fa-font-path: '~font-awesome/fonts';
+@import '~font-awesome/scss/font-awesome';
 
-@import "@woven-dojo/dojo-admin-brand/paragon/fonts";
-@import "@woven-dojo/dojo-admin-brand/paragon/variables";
-@import "@woven-dojo/dojo-admin-brand/paragon/mixins";
-@import "@woven-dojo/dojo-admin-brand/paragon/overrides";
+@import '@woven-dojo/dojo-admin-brand/paragon/fonts';
+@import '@woven-dojo/dojo-admin-brand/paragon/variables';
+@import '@woven-dojo/dojo-admin-brand/paragon/mixins';
+@import '@woven-dojo/dojo-admin-brand/paragon/overrides';
 
-@import "./components/dashboard/main-content/course-enrollments/course-cards/styles/CourseCard";
-@import "./components/dashboard/main-content/course-enrollments/styles/CourseSection";
-@import "./components/dashboard/sidebar/styles/SidebarCard";
-@import "./components/dashboard/styles/SubscriptionExpirationModal";
-@import "./components/dashboard/styles/Dashboard";
-@import "./components/dashboard/styles/DashboardDrawer";
-@import "./components/dashboard/styles/DashboardPage";
-@import "./components/dashboard/styles/Pagination";
-@import "./components/site-header/styles/Header";
-@import "./components/preview-expand/styles/PreviewExpand";
-@import "./components/error-page/styles/ErrorPage";
-@import "./components/filter/styles/Filter";
+@import './components/dashboard/main-content/course-enrollments/course-cards/styles/CourseCard';
+@import './components/dashboard/main-content/course-enrollments/styles/CourseSection';
+@import './components/dashboard/sidebar/styles/SidebarCard';
+@import './components/dashboard/styles/SubscriptionExpirationModal';
+@import './components/dashboard/styles/Dashboard';
+@import './components/dashboard/styles/DashboardDrawer';
+@import './components/dashboard/styles/DashboardPage';
+@import './components/dashboard/styles/Pagination';
+@import './components/site-header/styles/Header';
+@import './components/preview-expand/styles/PreviewExpand';
+@import './components/error-page/styles/ErrorPage';
+@import './components/filter/styles/Filter';
 
 body {
   background-color: $light-200;

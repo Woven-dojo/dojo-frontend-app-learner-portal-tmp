@@ -13,15 +13,11 @@ const updateEmailSettings = (courseRunId, hasEmailsEnabled) => {
   }
   // NOTE: this request url cannot use a trailing slash since it causes a 404
   const emailSettingsUrl = `${config.LMS_BASE_URL}/api/change_email_settings`;
-  return getAuthenticatedHttpClient().post(
-    emailSettingsUrl,
-    queryParams.toString(),
-    {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+  return getAuthenticatedHttpClient().post(emailSettingsUrl, queryParams.toString(), {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
-  );
+  });
 };
 
 export { updateEmailSettings };

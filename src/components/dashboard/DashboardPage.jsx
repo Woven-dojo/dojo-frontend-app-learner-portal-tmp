@@ -28,10 +28,8 @@ export default function DashboardPage() {
         scrollSmooth
         inViewThreshold={{ x: 10, y: 1000 }}
         onClickMask={() => null}
-        prevButton={(
-          { currentStep, setCurrentStep },
-        ) => (
-          (currentStep !== 0) && (
+        prevButton={({ currentStep, setCurrentStep }) =>
+          currentStep !== 0 && (
             <button
               className="reactour-button reactour-button-prev"
               onClick={() => setCurrentStep(currentStep - 1)}
@@ -40,24 +38,20 @@ export default function DashboardPage() {
               Back
             </button>
           )
-        )}
-        nextButton={(
-          {
-            currentStep, stepsLength, setCurrentStep, setIsOpen,
-          },
-        ) => (
+        }
+        nextButton={({ currentStep, stepsLength, setCurrentStep, setIsOpen }) => (
           <button
             className="reactour-button reactour-button-next"
             type="button"
             onClick={() => {
-              if (currentStep !== (stepsLength - 1)) {
+              if (currentStep !== stepsLength - 1) {
                 setCurrentStep(currentStep + 1);
               } else {
                 setIsOpen(false);
               }
             }}
           >
-            <span>{currentStep === (stepsLength - 1) ? 'Finish tutorial' : 'Next step'}</span>
+            <span>{currentStep === stepsLength - 1 ? 'Finish tutorial' : 'Next step'}</span>
           </button>
         )}
         styles={{

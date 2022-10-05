@@ -7,7 +7,8 @@ import { UserSubsidyContext } from '../../../enterprise-user-subsidy';
 import DashboardSidebar from '../DashboardSidebar';
 import { renderWithRouter } from '../../../../utils/tests';
 import {
-  SUBSCRIPTION_SUMMARY_CARD_TITLE, CATALOG_ACCESS_CARD_BUTTON_TEXT,
+  SUBSCRIPTION_SUMMARY_CARD_TITLE,
+  CATALOG_ACCESS_CARD_BUTTON_TEXT,
   CONTACT_HELP_EMAIL_MESSAGE,
   NEED_HELP_BLOCK_TITLE,
   OFFER_SUMMARY_NOTICE,
@@ -25,8 +26,7 @@ jest.mock('../../main-content/course-enrollments/data/hooks', () => ({
       requested: [],
     },
     fetchError: null,
-    updateCourseEnrollmentStatus: () => {
-    },
+    updateCourseEnrollmentStatus: () => {},
   })),
 }));
 
@@ -76,8 +76,7 @@ describe('<DashboardSidebar />', () => {
         initialUserSubsidyState={defaultUserSubsidyState}
       />,
     );
-    expect(screen.queryByText(OFFER_SUMMARY_NOTICE))
-      .toBeFalsy();
+    expect(screen.queryByText(OFFER_SUMMARY_NOTICE)).toBeFalsy();
   });
   test('Subscription summary card is not displayed when enterprise subscription is not available and there is no pending license request', () => {
     renderWithRouter(
@@ -86,8 +85,7 @@ describe('<DashboardSidebar />', () => {
         initialUserSubsidyState={defaultUserSubsidyState}
       />,
     );
-    expect(screen.queryByText(SUBSCRIPTION_SUMMARY_CARD_TITLE))
-      .toBeFalsy();
+    expect(screen.queryByText(SUBSCRIPTION_SUMMARY_CARD_TITLE)).toBeFalsy();
   });
   test('Subscription summary card is not displayed when enterprise subscription is available but user license is not available', () => {
     renderWithRouter(
@@ -103,8 +101,7 @@ describe('<DashboardSidebar />', () => {
         }}
       />,
     );
-    expect(screen.queryByText(SUBSCRIPTION_SUMMARY_CARD_TITLE))
-      .toBeFalsy();
+    expect(screen.queryByText(SUBSCRIPTION_SUMMARY_CARD_TITLE)).toBeFalsy();
   });
   test('Find a course button is not rendered when user has no offer or license subsidy', () => {
     renderWithRouter(
@@ -114,8 +111,7 @@ describe('<DashboardSidebar />', () => {
       />,
     );
     const catalogAccessButton = screen.queryByText(CATALOG_ACCESS_CARD_BUTTON_TEXT);
-    expect(catalogAccessButton)
-      .toBeFalsy();
+    expect(catalogAccessButton).toBeFalsy();
   });
   test('Find a course button is not rendered when user has subsidy but customer has search disabled', () => {
     renderWithRouter(
@@ -125,8 +121,7 @@ describe('<DashboardSidebar />', () => {
       />,
     );
     const catalogAccessButton = screen.queryByText(CATALOG_ACCESS_CARD_BUTTON_TEXT);
-    expect(catalogAccessButton)
-      .toBeFalsy();
+    expect(catalogAccessButton).toBeFalsy();
   });
   test('Need help sidebar block is always rendered', () => {
     renderWithRouter(
@@ -135,9 +130,7 @@ describe('<DashboardSidebar />', () => {
         initialUserSubsidyState={defaultUserSubsidyState}
       />,
     );
-    expect(screen.queryByText(NEED_HELP_BLOCK_TITLE))
-      .toBeTruthy();
-    expect(screen.queryByText(CONTACT_HELP_EMAIL_MESSAGE))
-      .toBeTruthy();
+    expect(screen.queryByText(NEED_HELP_BLOCK_TITLE)).toBeTruthy();
+    expect(screen.queryByText(CONTACT_HELP_EMAIL_MESSAGE)).toBeTruthy();
   });
 });

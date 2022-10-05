@@ -12,14 +12,9 @@ import { getLoginUrl } from '../utils/urls';
  * @param {element} loadingDisplay A React element to display while authenticated user is loading
  */
 
-export default function LoginRedirect({
-  children,
-  loadingDisplay: LoadingDisplay,
-}) {
+export default function LoginRedirect({ children, loadingDisplay: LoadingDisplay }) {
   const user = getAuthenticatedUser();
-  const {
-    enterpriseCustomerInviteKey,
-  } = useParams();
+  const { enterpriseCustomerInviteKey } = useParams();
 
   if (user) {
     return children;

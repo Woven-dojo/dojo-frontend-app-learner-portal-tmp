@@ -12,27 +12,13 @@ import Notification from './Notification';
 
 import { CourseEnrollmentsContext } from '../CourseEnrollmentsContextProvider';
 
-const InProgressCourseCard = ({
-  linkToCourse,
-  courseRunId,
-  title,
-  notifications,
-  courseRunStatus,
-  ...rest
-}) => {
-  const {
-    updateCourseEnrollmentStatus,
-    setShowMarkCourseCompleteSuccess,
-  } = useContext(CourseEnrollmentsContext);
+const InProgressCourseCard = ({ linkToCourse, courseRunId, title, notifications, courseRunStatus, ...rest }) => {
+  const { updateCourseEnrollmentStatus, setShowMarkCourseCompleteSuccess } = useContext(CourseEnrollmentsContext);
   const [isMarkCompleteModalOpen, setIsMarkCompleteModalOpen] = useState(false);
   const { courseCards, enterpriseConfig } = useContext(AppContext);
 
   const renderButtons = () => (
-    <ContinueLearningButton
-      linkToCourse={linkToCourse}
-      title={title}
-      courseRunId={courseRunId}
-    />
+    <ContinueLearningButton linkToCourse={linkToCourse} title={title} courseRunId={courseRunId} />
   );
 
   const filteredNotifications = notifications.filter((notification) => {
@@ -49,26 +35,28 @@ const InProgressCourseCard = ({
     const hasMarkComplete = settingsMenu ? settingsMenu.hasMarkComplete : false;
 
     if (hasMarkComplete) {
-      return [{
-        key: 'mark-complete',
-        type: 'button',
-        onClick: () => {
-          setIsMarkCompleteModalOpen(true);
-          sendEnterpriseTrackEvent(
-            enterpriseConfig.uuid,
-            'edx.ui.enterprise.learner_portal.dashboard.course.mark_complete.modal.opened',
-            {
-              course_run_id: courseRunId,
-            },
-          );
+      return [
+        {
+          key: 'mark-complete',
+          type: 'button',
+          onClick: () => {
+            setIsMarkCompleteModalOpen(true);
+            sendEnterpriseTrackEvent(
+              enterpriseConfig.uuid,
+              'edx.ui.enterprise.learner_portal.dashboard.course.mark_complete.modal.opened',
+              {
+                course_run_id: courseRunId,
+              },
+            );
+          },
+          children: (
+            <>
+              Save course for later
+              <span className="sr-only">for {title}</span>
+            </>
+          ),
         },
-        children: (
-          <>
-            Save course for later
-            <span className="sr-only">for {title}</span>
-          </>
-        ),
-      }];
+      ];
     }
     return [];
   };
@@ -94,14 +82,12 @@ const InProgressCourseCard = ({
     );
     setIsMarkCompleteModalOpen(false);
     resetModalState();
-    updateCourseEnrollmentStatus(
-      {
-        courseRunId: response.courseRunId,
-        originalStatus: courseRunStatus,
-        newStatus: response.courseRunStatus,
-        savedForLater: response.savedForLater,
-      },
-    );
+    updateCourseEnrollmentStatus({
+      courseRunId: response.courseRunId,
+      originalStatus: courseRunStatus,
+      newStatus: response.courseRunStatus,
+      savedForLater: response.savedForLater,
+    });
     setShowMarkCourseCompleteSuccess(true);
   };
 
@@ -111,11 +97,8 @@ const InProgressCourseCard = ({
     }
     return (
       <div className="notifications mb-3">
-        <ul
-          className="list-unstyled mb-0"
-          aria-label="course due dates"
-        >
-          {filteredNotifications.map(notificationProps => (
+        <ul className="list-unstyled mb-0" aria-label="course due dates">
+          {filteredNotifications.map((notificationProps) => (
             <Notification
               key={`notification-${notificationProps.url}-${notificationProps.date}`}
               courseRunId={courseRunId}
@@ -154,11 +137,13 @@ const InProgressCourseCard = ({
 InProgressCourseCard.propTypes = {
   linkToCourse: PropTypes.string.isRequired,
   courseRunId: PropTypes.string.isRequired,
-  notifications: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired,
-  })).isRequired,
+  notifications: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
   title: PropTypes.string.isRequired,
   courseRunStatus: PropTypes.string.isRequired,
 };

@@ -17,32 +17,27 @@ export const useEnterpriseCustomerByUUID = (enterpriseUUID) => {
   const [enterpriseCustomer, setEnterpriseCustomer] = useState();
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(
-    () => {
-      if (!enterpriseUUID) {
-        setIsLoading(false);
-        return;
-      }
+  useEffect(() => {
+    if (!enterpriseUUID) {
+      setIsLoading(false);
+      return;
+    }
 
-      fetchEnterpriseCustomerByUUID(enterpriseUUID)
-        .then((response) => {
-          const data = camelCaseObject(response.data);
-          const results = data?.results || [];
-          setEnterpriseCustomer(results.shift());
-        })
-        .catch((error) => {
-          const errorMessage = (
-            `EnterpriseCustomerRedirect could not fetch metadata for 
-            enterprise customer (${enterpriseUUID}): ${error.message}`
-          );
-          logError(errorMessage);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    },
-    [enterpriseUUID],
-  );
+    fetchEnterpriseCustomerByUUID(enterpriseUUID)
+      .then((response) => {
+        const data = camelCaseObject(response.data);
+        const results = data?.results || [];
+        setEnterpriseCustomer(results.shift());
+      })
+      .catch((error) => {
+        const errorMessage = `EnterpriseCustomerRedirect could not fetch metadata for 
+            enterprise customer (${enterpriseUUID}): ${error.message}`;
+        logError(errorMessage);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [enterpriseUUID]);
 
   return [enterpriseCustomer, isLoading];
 };
@@ -55,15 +50,12 @@ export const useEnterpriseCustomerByUUID = (enterpriseUUID) => {
  * @returns {string} The user's selected enterprise UUID for their session.
  */
 export const useSelectedEnterpriseUUIDByUserRoles = (userRoles) => {
-  const selectedEnterpriseUUID = useMemo(
-    () => {
-      const enterpriseLearnerRole = userRoles.find((role) => {
-        const parts = role.split(':');
-        return parts[0] === 'enterprise_learner';
-      });
-      return enterpriseLearnerRole?.split(':').pop();
-    },
-    [userRoles],
-  );
+  const selectedEnterpriseUUID = useMemo(() => {
+    const enterpriseLearnerRole = userRoles.find((role) => {
+      const parts = role.split(':');
+      return parts[0] === 'enterprise_learner';
+    });
+    return enterpriseLearnerRole?.split(':').pop();
+  }, [userRoles]);
   return selectedEnterpriseUUID;
 };

@@ -1,6 +1,4 @@
-import React, {
-  useContext, createContext, useMemo, useState,
-} from 'react';
+import React, { useContext, createContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { AppContext } from '@edx/frontend-platform/react';
 import { Container } from '@edx/paragon';
@@ -11,9 +9,7 @@ export const CourseEnrollmentsContext = createContext();
 
 const CourseEnrollmentsContextProvider = ({ children }) => {
   const {
-    enterpriseConfig: {
-      uuid,
-    },
+    enterpriseConfig: { uuid },
   } = useContext(AppContext);
 
   const {
@@ -26,21 +22,24 @@ const CourseEnrollmentsContextProvider = ({ children }) => {
   const [showMarkCourseCompleteSuccess, setShowMarkCourseCompleteSuccess] = useState(false);
   const [showMoveToInProgressCourseSuccess, setShowMoveToInProgressCourseSuccess] = useState(false);
 
-  const context = useMemo(() => ({
-    courseEnrollmentsByStatus,
-    fetchCourseEnrollmentsError,
-    showMarkCourseCompleteSuccess,
-    showMoveToInProgressCourseSuccess,
-    updateCourseEnrollmentStatus,
-    setShowMarkCourseCompleteSuccess,
-    setShowMoveToInProgressCourseSuccess,
-  }), [
-    courseEnrollmentsByStatus,
-    fetchCourseEnrollmentsError,
-    showMarkCourseCompleteSuccess,
-    showMoveToInProgressCourseSuccess,
-    updateCourseEnrollmentStatus,
-  ]);
+  const context = useMemo(
+    () => ({
+      courseEnrollmentsByStatus,
+      fetchCourseEnrollmentsError,
+      showMarkCourseCompleteSuccess,
+      showMoveToInProgressCourseSuccess,
+      updateCourseEnrollmentStatus,
+      setShowMarkCourseCompleteSuccess,
+      setShowMoveToInProgressCourseSuccess,
+    }),
+    [
+      courseEnrollmentsByStatus,
+      fetchCourseEnrollmentsError,
+      showMarkCourseCompleteSuccess,
+      showMoveToInProgressCourseSuccess,
+      updateCourseEnrollmentStatus,
+    ],
+  );
 
   if (isLoading) {
     return (
@@ -50,11 +49,7 @@ const CourseEnrollmentsContextProvider = ({ children }) => {
     );
   }
 
-  return (
-    <CourseEnrollmentsContext.Provider value={context}>
-      {children}
-    </CourseEnrollmentsContext.Provider>
-  );
+  return <CourseEnrollmentsContext.Provider value={context}>{children}</CourseEnrollmentsContext.Provider>;
 };
 
 CourseEnrollmentsContextProvider.propTypes = {

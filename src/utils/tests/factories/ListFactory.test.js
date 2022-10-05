@@ -3,11 +3,7 @@ import { ListFactory } from './ListFactory';
 import { createManyMocks } from './utils';
 
 describe('ListFactory', () => {
-  const threeMocks = [
-    TestMockFactory.OUTPUT,
-    TestMockFactory.OUTPUT,
-    TestMockFactory.OUTPUT,
-  ];
+  const threeMocks = [TestMockFactory.OUTPUT, TestMockFactory.OUTPUT, TestMockFactory.OUTPUT];
 
   test('Three items', () => {
     const factory = new ListFactory(3, new TestMockFactory());
@@ -32,10 +28,7 @@ describe('ListFactory', () => {
 
     const factory = new ListFactory(getLength, new TestMockFactory());
 
-    expect(createManyMocks(2, factory)).toEqual([
-      threeMocks,
-      [],
-    ]);
+    expect(createManyMocks(2, factory)).toEqual([threeMocks, []]);
   });
 
   test('Clone is independent from original', () => {

@@ -1,9 +1,9 @@
 import { MockFactory } from '../MockFactory';
 
 export class CloneTestFactory extends MockFactory {
-  static USED = 'used'
+  static USED = 'used';
 
-  static NOT_USED = 'not_used'
+  static NOT_USED = 'not_used';
 
   constructor() {
     super();

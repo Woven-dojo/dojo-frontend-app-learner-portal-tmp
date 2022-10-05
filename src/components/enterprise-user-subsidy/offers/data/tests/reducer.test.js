@@ -1,9 +1,5 @@
 import offersReducer from '../reducer';
-import {
-  FETCH_OFFERS_REQUEST,
-  FETCH_OFFERS_SUCCESS,
-  FETCH_OFFERS_FAILURE,
-} from '../constants';
+import { FETCH_OFFERS_REQUEST, FETCH_OFFERS_SUCCESS, FETCH_OFFERS_FAILURE } from '../constants';
 
 const initialState = {
   loading: false,
@@ -23,9 +19,11 @@ describe('offers reducer', () => {
       loading: true,
       error: null,
     };
-    expect(offersReducer(undefined, {
-      type: FETCH_OFFERS_REQUEST,
-    })).toEqual(expected);
+    expect(
+      offersReducer(undefined, {
+        type: FETCH_OFFERS_REQUEST,
+      }),
+    ).toEqual(expected);
   });
 
   it('should handle FETCH_OFFERS_SUCCESS', () => {
@@ -35,13 +33,15 @@ describe('offers reducer', () => {
       offersCount: 4,
       error: null,
     };
-    expect(offersReducer(undefined, {
-      type: FETCH_OFFERS_SUCCESS,
-      payload: {
-        offers: ['some data'],
-        offersCount: 4,
-      },
-    })).toEqual(expected);
+    expect(
+      offersReducer(undefined, {
+        type: FETCH_OFFERS_SUCCESS,
+        payload: {
+          offers: ['some data'],
+          offersCount: 4,
+        },
+      }),
+    ).toEqual(expected);
   });
 
   it('should handle FETCH_OFFERS_FAILURE', () => {
@@ -50,11 +50,13 @@ describe('offers reducer', () => {
       loading: false,
       error: Error,
     };
-    expect(offersReducer(undefined, {
-      type: FETCH_OFFERS_FAILURE,
-      payload: {
-        error: Error,
-      },
-    })).toEqual(expected);
+    expect(
+      offersReducer(undefined, {
+        type: FETCH_OFFERS_FAILURE,
+        payload: {
+          error: Error,
+        },
+      }),
+    ).toEqual(expected);
   });
 });

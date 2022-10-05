@@ -18,20 +18,12 @@ export default function ContinueLearningButton({ linkToCourse, title, courseRunI
   const { enterpriseConfig } = useContext(AppContext);
 
   const onClickHandler = () => {
-    sendEnterpriseTrackEvent(
-      enterpriseConfig.uuid,
-      'edx.ui.enterprise.learner_portal.dashboard.course.continued',
-      {
-        course_run_id: courseRunId,
-      },
-    );
+    sendEnterpriseTrackEvent(enterpriseConfig.uuid, 'edx.ui.enterprise.learner_portal.dashboard.course.continued', {
+      course_run_id: courseRunId,
+    });
   };
   return (
-    <a
-      className="btn btn-outline-primary btn-xs-block"
-      href={linkToCourse}
-      onClick={onClickHandler}
-    >
+    <a className="btn btn-outline-primary btn-xs-block" href={linkToCourse} onClick={onClickHandler}>
       Continue learning
       <span className="sr-only">for {title}</span>
     </a>

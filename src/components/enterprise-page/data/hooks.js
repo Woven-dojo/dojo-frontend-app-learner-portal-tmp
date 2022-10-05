@@ -32,12 +32,7 @@ export function useEnterpriseCustomerConfig(enterpriseSlug, useCache = true) {
         const config = results.pop();
         if (config?.enableLearnerPortal) {
           const brandingConfiguration = config.brandingConfiguration || defaultBrandingConfig;
-          const {
-            logo,
-            primaryColor,
-            secondaryColor,
-            tertiaryColor,
-          } = brandingConfiguration;
+          const { logo, primaryColor, secondaryColor, tertiaryColor } = brandingConfiguration;
           const {
             name,
             uuid,

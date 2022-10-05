@@ -5,9 +5,7 @@ import { MemoryRouter } from 'react-router-dom';
 
 import { Layout } from '../index';
 
-jest.mock('@edx/frontend-component-footer', () => () => (
-  <footer>SiteFooter</footer>
-));
+jest.mock('@edx/frontend-component-footer', () => () => <footer>SiteFooter</footer>);
 
 jest.mock('../../../colors.scss', () => ({
   white: 'white',
