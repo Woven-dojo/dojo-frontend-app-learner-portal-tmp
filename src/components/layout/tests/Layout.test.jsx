@@ -17,11 +17,7 @@ const APP_CONTEXT = {
     userId: 1,
     roles: [],
   },
-  config: {
-    IS_MAINTENANCE_ALERT_ENABLED: false,
-    MAINTENANCE_ALERT_MESSAGE: '',
-    MAINTENANCE_ALERT_START_TIMESTAMP: '2020-10-01',
-  },
+  config: {},
   enterpriseConfig: {
     branding: {
       colors: {

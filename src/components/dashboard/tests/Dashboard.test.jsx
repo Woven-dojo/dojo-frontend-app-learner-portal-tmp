@@ -3,11 +3,9 @@ import '@testing-library/jest-dom/extend-expect';
 import { screen, within } from '@testing-library/react';
 import { AppContext } from '@edx/frontend-platform/react';
 import { UserSubsidyContext } from '../../enterprise-user-subsidy';
-import * as hooks from '../main-content/course-enrollments/data/hooks';
 
 import { renderWithRouter } from '../../../utils/tests';
 import Dashboard from '../Dashboard';
-import CourseEnrollmentsContextProvider from '../main-content/course-enrollments/CourseEnrollmentsContextProvider';
 import { filterInitial, filterOptions } from '../../enterprise-user-subsidy/data/constants';
 
 const mockAuthenticatedUser = { username: 'myspace-tom', name: 'John Doe' };
@@ -61,9 +59,7 @@ const DashboardWithContext = ({
 }) => (
   <AppContext.Provider value={initialAppState}>
     <UserSubsidyContext.Provider value={initialUserSubsidyState}>
-      <CourseEnrollmentsContextProvider>
-        <Dashboard />
-      </CourseEnrollmentsContextProvider>
+      <Dashboard />
     </UserSubsidyContext.Provider>
   </AppContext.Provider>
 );
@@ -80,16 +76,6 @@ jest.mock('@edx/frontend-platform/auth', () => ({
 }));
 
 jest.mock('universal-cookie');
-jest.mock('../main-content/course-enrollments/data/hooks');
-hooks.useCourseEnrollments.mockReturnValue({
-  courseEnrollmentsByStatus: {
-    inProgress: [],
-    upcoming: [],
-    completed: [],
-    savedForLater: [],
-    requested: [],
-  },
-});
 
 // eslint-disable-next-line no-console
 console.error = jest.fn();

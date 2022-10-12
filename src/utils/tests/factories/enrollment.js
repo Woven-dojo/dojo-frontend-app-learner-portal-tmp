@@ -1,5 +1,14 @@
-import { COURSE_STATUSES } from '../data/constants';
-import { factory } from '../../../../../utils/tests';
+import { factory } from './factory';
+
+export const COURSE_STATUSES = {
+  inProgress: 'in_progress',
+  upcoming: 'upcoming',
+  completed: 'completed',
+  savedForLater: 'saved_for_later',
+
+  // Not yet implemented
+  requested: 'requested',
+};
 
 export const courseEnrollmentFactory = factory.object({
   courseRunId: factory.index((i) => `$course-v1:edX+DemoX+Demo_Course-${i}`),

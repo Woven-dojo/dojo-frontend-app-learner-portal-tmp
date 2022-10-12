@@ -6,8 +6,8 @@ import { mergeConfig, getConfig, setConfig } from '@edx/frontend-platform/config
 import { initializeMockApp, history } from '@edx/frontend-platform';
 import { App } from './components/app';
 import { delay } from './utils/common';
-import { createCourseEnrollmentWithStatus } from './components/dashboard/main-content/course-enrollments/tests/enrollment-testutils';
-import { COURSE_STATUSES } from './components/dashboard/main-content/course-enrollments/data';
+
+import { createCourseEnrollmentWithStatus, COURSE_STATUSES } from './utils/tests/factories/enrollment';
 
 // For modals
 jest.mock('react-focus-on', () => ({
@@ -31,10 +31,7 @@ const mergeTestConfig = () =>
   mergeConfig({
     USE_API_CACHE: process.env.USE_API_CACHE || null,
     INTEGRATION_WARNING_DISMISSED_COOKIE_NAME: process.env.INTEGRATION_WARNING_DISMISSED_COOKIE_NAME || null,
-    IS_MAINTENANCE_ALERT_ENABLED: process.env.IS_MAINTENANCE_ALERT_ENABLED || null,
-    MAINTENANCE_ALERT_MESSAGE: process.env.MAINTENANCE_ALERT_MESSAGE || null,
-    MAINTENANCE_ALERT_START_TIMESTAMP: process.env.MAINTENANCE_ALERT_START_TIMESTAMP || null,
-    ENABLE_NOTICES: process.env.ENABLE_NOTICES || null,
+    ENABLE_NOTICES: null,
     LEARNER_SUPPORT_URL: process.env.LEARNER_SUPPORT_URL || null,
     SENTRY_DSN: process.env.SENTRY_DSN || null,
     SENTRY_ENVIRONMENT: process.env.SENTRY_ENVIRONMENT || '',
