@@ -12,7 +12,7 @@ exports[`Layout should render the expected HTML 1`] = `
         className="master-header"
       >
         <div
-          className="container"
+          className="container-fluid"
         >
           <div
             className="align-items-center row"
