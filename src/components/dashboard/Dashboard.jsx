@@ -114,7 +114,7 @@ export default function Dashboard() {
     // `x.current` eslint rule is expecting that `x` contains reference obtained by `useRef`.
     // As that's not case at this dependency array, the error is disabled.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter.current]);
+  }, [filter && filter.current]);
 
   const userFirstName = authenticatedUser?.name.split(' ').shift();
 
@@ -262,8 +262,8 @@ export default function Dashboard() {
         >
           <hr />
           <Row>
-            <Col lg={8} data-testid="courseCatalog">
-              <ActiveFilter filter={filter} />
+            <Col lg={filter ? '8' : '12'} data-testid="courseCatalog">
+              {filter && <ActiveFilter filter={filter} />}
               {catalogCoursesOnActivePage.length === 0 && (
                 <EmptyState
                   image={noResultsImage}
@@ -275,7 +275,7 @@ export default function Dashboard() {
                 <TransitionReplace>
                   <Row key={activeCatalogPage} className="dashboard-catalog-page dashboard-coursecard-grid">
                     {catalogCoursesOnActivePage.map((course) => (
-                      <Col xs={12} md={6} key={course.id}>
+                      <Col xs={12} md={6} lg={filter ? '6' : '4'} key={course.id}>
                         <CourseCard
                           active={activeCourse?.id === course.id && activeCourseParams?.type === CATALOG_COURSE}
                           title={course.title}
@@ -308,9 +308,11 @@ export default function Dashboard() {
                 )}
               </div>
             </Col>
-            <Col lg={4}>
-              <Filter filter={filter} />
-            </Col>
+            {filter && (
+              <Col lg={4}>
+                <Filter filter={filter} />
+              </Col>
+            )}
           </Row>
         </DashboardPanel>
         <DashboardDrawer open={activeCourse !== null}>

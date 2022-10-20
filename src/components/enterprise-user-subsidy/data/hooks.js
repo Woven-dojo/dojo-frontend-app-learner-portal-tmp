@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import { fetchEnterpriseCatalogData, fetchLearningPathData, requestCourse } from './service';
+import { fetchEnterpriseCatalogData, fetchLearningPathData, requestCourse, fetchShowLearningPathFlag } from './service';
 
 /**
  * This is a temporary solution in order to implement filtering on FE. Once we have
@@ -91,4 +91,26 @@ export function useLearningPathData() {
   }, []);
 
   return [learningPathData, isLoading];
+}
+
+export function useShowLearningPathFlagData() {
+  const [showLearningPathFlagData, setShowLearningPathFlagData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetchShowLearningPathFlag();
+        setShowLearningPathFlagData(response.data);
+      } catch (e) {
+        setShowLearningPathFlagData(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return [showLearningPathFlagData, isLoading];
 }
