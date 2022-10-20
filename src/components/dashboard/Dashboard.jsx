@@ -48,14 +48,14 @@ export default function Dashboard() {
   const { state } = useLocation();
   const history = useHistory();
   const {
-    learningPathData: { learning_path_name: learningPathName, kickoff_survey: kickoffSurvey, courses, count = 0 },
+    learningPathData,
     catalog: {
       data: { courses_metadata: catalogCourses },
       filter,
       requestCourse,
     },
   } = useContext(UserSubsidyContext);
-
+  const { learning_path_name: learningPathName, kickoff_survey: kickoffSurvey, courses, count = 0 } = learningPathData;
   const toast = useToast();
   const { isOpen, currentStep, setSteps, setIsOpen, steps } = useTour();
 
@@ -114,7 +114,7 @@ export default function Dashboard() {
     // `x.current` eslint rule is expecting that `x` contains reference obtained by `useRef`.
     // As that's not case at this dependency array, the error is disabled.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter && filter.current]);
+  }, [filter.current]);
 
   const userFirstName = authenticatedUser?.name.split(' ').shift();
 
@@ -216,44 +216,46 @@ export default function Dashboard() {
             )}
           </Col>
         </Row>
-        <DashboardPanel
-          title="My learning path"
-          subtitle={learningPathName}
-          id="learning-path"
-          className="tour-learning-path"
-          tourClassNamePositionHelper="tour-learning-path-top-position"
-          headerAside={
-            <div>
-              <div className="small text-dark-400">Available for kick-off</div>
-              <div className="h4">
-                {count} {count === 1 ? 'course' : 'courses'}
+        {Object.keys(learningPathData).length !== 0 && (
+          <DashboardPanel
+            title="My learning path"
+            subtitle={learningPathName}
+            id="learning-path"
+            className="tour-learning-path"
+            tourClassNamePositionHelper="tour-learning-path-top-position"
+            headerAside={
+              <div>
+                <div className="small text-dark-400">Available for kick-off</div>
+                <div className="h4">
+                  {count} {count === 1 ? 'course' : 'courses'}
+                </div>
               </div>
-            </div>
-          }
-        >
-          {count === 0 ? (
-            <EmptyState
-              title="You don't have a course in Learning path yet"
-              text="Check out our complete course catalog for courses that might interest you"
-            />
-          ) : (
-            <Row data-testid="learningPath" className="dashboard-coursecard-grid">
-              {courses?.map((course) => (
-                <Col xs={12} md={6} lg={4} key={course.id}>
-                  <CourseCard
-                    active={activeCourse?.id === course.id && activeCourseParams?.type === LEARNING_PATH}
-                    title={course.title}
-                    hours={setDashIfEmpty(course, 'hours_required', (value) => `${value} h`)}
-                    languages={[course.primary_language].map(languageCodeToLabel)}
-                    difficultyLevel={setDashIfEmpty(course, 'difficulty_level', (value) => value)}
-                    bgKey={course.id % 10}
-                    onClick={() => setActiveCourseParams({ id: course.id, type: LEARNING_PATH })}
-                  />
-                </Col>
-              ))}
-            </Row>
-          )}
-        </DashboardPanel>
+            }
+          >
+            {count === 0 ? (
+              <EmptyState
+                title="You don't have a course in Learning path yet"
+                text="Check out our complete course catalog for courses that might interest you"
+              />
+            ) : (
+              <Row data-testid="learningPath" className="dashboard-coursecard-grid">
+                {courses?.map((course) => (
+                  <Col xs={12} md={6} lg={4} key={course.id}>
+                    <CourseCard
+                      active={activeCourse?.id === course.id && activeCourseParams?.type === LEARNING_PATH}
+                      title={course.title}
+                      hours={setDashIfEmpty(course, 'hours_required', (value) => `${value} h`)}
+                      languages={[course.primary_language].map(languageCodeToLabel)}
+                      difficultyLevel={setDashIfEmpty(course, 'difficulty_level', (value) => value)}
+                      bgKey={course.id % 10}
+                      onClick={() => setActiveCourseParams({ id: course.id, type: LEARNING_PATH })}
+                    />
+                  </Col>
+                ))}
+              </Row>
+            )}
+          </DashboardPanel>
+        )}
         <DashboardPanel
           title="Course catalog"
           id="course-catalog"
@@ -262,8 +264,8 @@ export default function Dashboard() {
         >
           <hr />
           <Row>
-            <Col lg={filter ? '8' : '12'} data-testid="courseCatalog">
-              {filter && <ActiveFilter filter={filter} />}
+            <Col lg={8} data-testid="courseCatalog">
+              <ActiveFilter filter={filter} />
               {catalogCoursesOnActivePage.length === 0 && (
                 <EmptyState
                   image={noResultsImage}
@@ -275,7 +277,7 @@ export default function Dashboard() {
                 <TransitionReplace>
                   <Row key={activeCatalogPage} className="dashboard-catalog-page dashboard-coursecard-grid">
                     {catalogCoursesOnActivePage.map((course) => (
-                      <Col xs={12} md={6} lg={filter ? '6' : '4'} key={course.id}>
+                      <Col xs={12} md={6} key={course.id}>
                         <CourseCard
                           active={activeCourse?.id === course.id && activeCourseParams?.type === CATALOG_COURSE}
                           title={course.title}
@@ -308,11 +310,9 @@ export default function Dashboard() {
                 )}
               </div>
             </Col>
-            {filter && (
-              <Col lg={4}>
-                <Filter filter={filter} />
-              </Col>
-            )}
+            <Col lg={4}>
+              <Filter filter={filter} />
+            </Col>
           </Row>
         </DashboardPanel>
         <DashboardDrawer open={activeCourse !== null}>

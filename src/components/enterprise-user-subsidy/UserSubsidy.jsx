@@ -5,8 +5,14 @@ import { Container } from '@edx/paragon';
 
 import { LoadingSpinner } from '../loading-spinner';
 
-import { useCatalogData, useLearningPathData, useShowLearningPathFlagData } from './data/hooks';
-import { LOADING_SCREEN_READER_TEXT, filterInitial, filterOptions, filterOptionsExpanded } from './data/constants';
+import { useCatalogData, useLearningPathData, useFeatureFlagsData } from './data/hooks';
+import {
+  LOADING_SCREEN_READER_TEXT,
+  SHOW_LEARNING_PATH_FLAG,
+  filterInitial,
+  filterOptions,
+  filterOptionsExpanded,
+} from './data/constants';
 
 export const UserSubsidyContext = createContext();
 
@@ -17,36 +23,29 @@ const UserSubsidy = ({ children }) => {
     enterpriseId: enterpriseConfig.uuid,
     filter: catalogFilter,
   });
-  const [learningPathData, isLoadingLearningPathdata] = useLearningPathData();
+  const [featureFlagsData, isLoadingfeatureFlagsData] = useFeatureFlagsData();
 
-  const [showLearningPathFlagData, isLoadingShowLearningPathFlagData] = useShowLearningPathFlagData();
+  const isShowLearningPathFlag = featureFlagsData[SHOW_LEARNING_PATH_FLAG];
 
-  const isShowLearningPathFlag = showLearningPathFlagData['lms.filter.show_learning_path'];
+  const [learningPathData, isLoadingLearningPathdata] = useLearningPathData(isShowLearningPathFlag);
+  const isLoading = isLoadingCatalogData || isLoadingLearningPathdata || isLoadingfeatureFlagsData;
 
-  const isLoading = isLoadingCatalogData || isLoadingLearningPathdata || isLoadingShowLearningPathFlagData;
-
-  const toggleFilter = useCallback(
-    (group, options) => {
-      if (!isShowLearningPathFlag) {
-        return {};
-      }
-      setCatalogFilter((currentFilter) => {
-        let newFilterValues = [...currentFilter[group]];
-        const allOptions = filterOptionsExpanded[group] ? filterOptionsExpanded[group][options] : options;
-        allOptions.forEach((option) => {
-          newFilterValues = newFilterValues.includes(option)
-            ? newFilterValues.filter((value) => value !== option)
-            : [...newFilterValues, option];
-        });
-        return {
-          ...currentFilter,
-          [group]: newFilterValues,
-        };
+  const toggleFilter = useCallback((group, options) => {
+    setCatalogFilter((currentFilter) => {
+      let newFilterValues = [...currentFilter[group]];
+      const allOptions = filterOptionsExpanded[group] ? filterOptionsExpanded[group][options] : options;
+      allOptions.forEach((option) => {
+        newFilterValues = newFilterValues.includes(option)
+          ? newFilterValues.filter((value) => value !== option)
+          : [...newFilterValues, option];
       });
-      return {};
-    },
-    [isShowLearningPathFlag],
-  );
+      return {
+        ...currentFilter,
+        [group]: newFilterValues,
+      };
+    });
+  }, []);
+
   const contextValue = useMemo(() => {
     if (isLoading) {
       return {};
@@ -56,17 +55,15 @@ const UserSubsidy = ({ children }) => {
       learningPathData,
       catalog: {
         data: catalogData,
-        filter: isShowLearningPathFlag
-          ? {
-              current: catalogFilter,
-              options: filterOptions,
-              toggle: toggleFilter,
-            }
-          : null,
+        filter: {
+          current: catalogFilter,
+          options: filterOptions,
+          toggle: toggleFilter,
+        },
         requestCourse,
       },
     };
-  }, [isLoading, catalogData, learningPathData, catalogFilter, requestCourse, isShowLearningPathFlag, toggleFilter]);
+  }, [isLoading, catalogData, learningPathData, catalogFilter, requestCourse, toggleFilter]);
 
   if (isLoading) {
     return (

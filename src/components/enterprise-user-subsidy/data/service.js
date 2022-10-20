@@ -19,12 +19,9 @@ export const requestCourse = (courseId) => {
   return getAuthenticatedHttpClient().post(url, { course_id: courseId });
 };
 
-export function fetchShowLearningPathFlag() {
+export const fetchFeatureFlags = () => {
   const config = getConfig();
   const slug = window.location.host.split('.')[0];
   const url = `${config.LMS_BASE_URL}/api/features/${slug}/`;
-  const httpClient = getAuthenticatedHttpClient({
-    useCache: config.USE_API_CACHE,
-  });
-  return httpClient.get(url);
-}
+  return fetch(url).then((res) => res.json());
+};

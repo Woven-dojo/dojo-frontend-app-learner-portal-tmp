@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-
-import { fetchEnterpriseCatalogData, fetchLearningPathData, requestCourse, fetchShowLearningPathFlag } from './service';
+import { useQuery } from 'react-query';
+import { fetchEnterpriseCatalogData, fetchLearningPathData, requestCourse, fetchFeatureFlags } from './service';
 
 /**
  * This is a temporary solution in order to implement filtering on FE. Once we have
@@ -71,14 +71,14 @@ export function useCatalogData({ enterpriseId, filter = {} }) {
   ];
 }
 
-export function useLearningPathData() {
+export function useLearningPathData(isLoadData = true) {
   const [learningPathData, setLearningPathData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchCatalogData = async () => {
       try {
-        const response = await fetchLearningPathData();
+        const response = isLoadData ? await fetchLearningPathData() : { data: {} };
         setLearningPathData(response.data);
       } catch {
         setLearningPathData({});
@@ -86,31 +86,14 @@ export function useLearningPathData() {
         setIsLoading(false);
       }
     };
-
     fetchCatalogData();
-  }, []);
+  }, [isLoadData]);
 
   return [learningPathData, isLoading];
 }
 
-export function useShowLearningPathFlagData() {
-  const [showLearningPathFlagData, setShowLearningPathFlagData] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
+export function useFeatureFlagsData() {
+  const { isLoading, data = {} } = useQuery('repoData', fetchFeatureFlags);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetchShowLearningPathFlag();
-        setShowLearningPathFlagData(response.data);
-      } catch (e) {
-        setShowLearningPathFlagData(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  return [showLearningPathFlagData, isLoading];
+  return [data, isLoading];
 }
