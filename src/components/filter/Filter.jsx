@@ -5,6 +5,13 @@ import PropTypes from 'prop-types';
 import { filterGroups } from '../enterprise-user-subsidy/data/constants';
 import closeIcon from '../../assets/icons/close.svg';
 
+const getFilterGroups = (isShowLearningPathFlag) =>
+  filterGroups.filter((filterGroup) => {
+    if (!isShowLearningPathFlag) {
+      return filterGroup.id !== 'learningPaths';
+    }
+    return filterGroup;
+  });
 const FilterGroup = ({ options, label, onChange, active = [] }) => (
   <div className="filter-group">
     <h4 className="filter-group__title">{label}</h4>
@@ -22,10 +29,11 @@ export const Filter = ({ filter }) => {
   const handleChange = (group) => (event) => {
     filter.toggle(group, [event.target.value]);
   };
+  const filtredFilterGroups = getFilterGroups(filter.isShowLearningPathFlag);
   return (
     <>
       <h3 className="mb-4">Filter by</h3>
-      {filterGroups.map((group, index) => (
+      {filtredFilterGroups.map((group, index) => (
         <React.Fragment key={group.id}>
           {index !== 0 && <hr />}
           <FilterGroup
@@ -50,7 +58,8 @@ const ActiveFilterTag = ({ children, onClick }) => (
 );
 
 export const ActiveFilter = ({ filter }) => {
-  const activeFilters = filterGroups.reduce(
+  const filtredFilterGroups = getFilterGroups(filter.isShowLearningPathFlag);
+  const activeFilters = filtredFilterGroups.reduce(
     (accumulator, group) =>
       accumulator.concat(
         filter.options[group.id]
@@ -86,6 +95,7 @@ const filterPropTypes = PropTypes.shape({
       }),
     ),
   ).isRequired,
+  isShowLearningPathFlag: PropTypes.bool.isRequired,
 });
 
 Filter.propTypes = {

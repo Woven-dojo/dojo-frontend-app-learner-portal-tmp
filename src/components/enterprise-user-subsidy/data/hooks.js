@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useQuery } from 'react-query';
-import { fetchEnterpriseCatalogData, fetchLearningPathData, requestCourse, fetchFeatureFlags } from './service';
+
+import { fetchEnterpriseCatalogData, fetchLearningPathData, requestCourse } from './service';
 
 /**
  * This is a temporary solution in order to implement filtering on FE. Once we have
@@ -71,14 +71,14 @@ export function useCatalogData({ enterpriseId, filter = {} }) {
   ];
 }
 
-export function useLearningPathData(isLoadData = true) {
+export function useLearningPathData() {
   const [learningPathData, setLearningPathData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchCatalogData = async () => {
       try {
-        const response = isLoadData ? await fetchLearningPathData() : { data: {} };
+        const response = await fetchLearningPathData();
         setLearningPathData(response.data);
       } catch {
         setLearningPathData({});
@@ -87,13 +87,7 @@ export function useLearningPathData(isLoadData = true) {
       }
     };
     fetchCatalogData();
-  }, [isLoadData]);
+  }, []);
 
   return [learningPathData, isLoading];
-}
-
-export function useFeatureFlagsData() {
-  const { isLoading, data = {} } = useQuery('repoData', fetchFeatureFlags);
-
-  return [data, isLoading];
 }

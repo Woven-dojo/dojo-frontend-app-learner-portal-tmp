@@ -48,14 +48,13 @@ export default function Dashboard() {
   const { state } = useLocation();
   const history = useHistory();
   const {
-    learningPathData,
+    learningPathData: { learning_path_name: learningPathName, kickoff_survey: kickoffSurvey, courses, count = 0 },
     catalog: {
       data: { courses_metadata: catalogCourses },
       filter,
       requestCourse,
     },
   } = useContext(UserSubsidyContext);
-  const { learning_path_name: learningPathName, kickoff_survey: kickoffSurvey, courses, count = 0 } = learningPathData;
   const toast = useToast();
   const { isOpen, currentStep, setSteps, setIsOpen, steps } = useTour();
 
@@ -216,46 +215,44 @@ export default function Dashboard() {
             )}
           </Col>
         </Row>
-        {Object.keys(learningPathData).length !== 0 && (
-          <DashboardPanel
-            title="My learning path"
-            subtitle={learningPathName}
-            id="learning-path"
-            className="tour-learning-path"
-            tourClassNamePositionHelper="tour-learning-path-top-position"
-            headerAside={
-              <div>
-                <div className="small text-dark-400">Available for kick-off</div>
-                <div className="h4">
-                  {count} {count === 1 ? 'course' : 'courses'}
-                </div>
+        <DashboardPanel
+          title="My learning path"
+          subtitle={learningPathName}
+          id="learning-path"
+          className="tour-learning-path"
+          tourClassNamePositionHelper="tour-learning-path-top-position"
+          headerAside={
+            <div>
+              <div className="small text-dark-400">Available for kick-off</div>
+              <div className="h4">
+                {count} {count === 1 ? 'course' : 'courses'}
               </div>
-            }
-          >
-            {count === 0 ? (
-              <EmptyState
-                title="You don't have a course in Learning path yet"
-                text="Check out our complete course catalog for courses that might interest you"
-              />
-            ) : (
-              <Row data-testid="learningPath" className="dashboard-coursecard-grid">
-                {courses?.map((course) => (
-                  <Col xs={12} md={6} lg={4} key={course.id}>
-                    <CourseCard
-                      active={activeCourse?.id === course.id && activeCourseParams?.type === LEARNING_PATH}
-                      title={course.title}
-                      hours={setDashIfEmpty(course, 'hours_required', (value) => `${value} h`)}
-                      languages={[course.primary_language].map(languageCodeToLabel)}
-                      difficultyLevel={setDashIfEmpty(course, 'difficulty_level', (value) => value)}
-                      bgKey={course.id % 10}
-                      onClick={() => setActiveCourseParams({ id: course.id, type: LEARNING_PATH })}
-                    />
-                  </Col>
-                ))}
-              </Row>
-            )}
-          </DashboardPanel>
-        )}
+            </div>
+          }
+        >
+          {count === 0 ? (
+            <EmptyState
+              title="You don't have a course in Learning path yet"
+              text="Check out our complete course catalog for courses that might interest you"
+            />
+          ) : (
+            <Row data-testid="learningPath" className="dashboard-coursecard-grid">
+              {courses?.map((course) => (
+                <Col xs={12} md={6} lg={4} key={course.id}>
+                  <CourseCard
+                    active={activeCourse?.id === course.id && activeCourseParams?.type === LEARNING_PATH}
+                    title={course.title}
+                    hours={setDashIfEmpty(course, 'hours_required', (value) => `${value} h`)}
+                    languages={[course.primary_language].map(languageCodeToLabel)}
+                    difficultyLevel={setDashIfEmpty(course, 'difficulty_level', (value) => value)}
+                    bgKey={course.id % 10}
+                    onClick={() => setActiveCourseParams({ id: course.id, type: LEARNING_PATH })}
+                  />
+                </Col>
+              ))}
+            </Row>
+          )}
+        </DashboardPanel>
         <DashboardPanel
           title="Course catalog"
           id="course-catalog"
