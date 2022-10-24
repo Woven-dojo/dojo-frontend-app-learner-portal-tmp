@@ -55,7 +55,6 @@ export default function Dashboard() {
       requestCourse,
     },
   } = useContext(UserSubsidyContext);
-
   const toast = useToast();
   const { isOpen, currentStep, setSteps, setIsOpen, steps } = useTour();
 

@@ -2,11 +2,17 @@ import React, { createContext, useCallback, useContext, useMemo, useState } from
 import PropTypes from 'prop-types';
 import { AppContext } from '@edx/frontend-platform/react';
 import { Container } from '@edx/paragon';
-
+import { useQuery } from 'react-query';
 import { LoadingSpinner } from '../loading-spinner';
-
+import { fetchFeatureFlags } from './data/service';
 import { useCatalogData, useLearningPathData } from './data/hooks';
-import { LOADING_SCREEN_READER_TEXT, filterInitial, filterOptions, filterOptionsExpanded } from './data/constants';
+import {
+  LOADING_SCREEN_READER_TEXT,
+  SHOW_LEARNING_PATH_FLAG,
+  filterInitial,
+  filterOptions,
+  filterOptionsExpanded,
+} from './data/constants';
 
 export const UserSubsidyContext = createContext();
 
@@ -18,8 +24,10 @@ const UserSubsidy = ({ children }) => {
     filter: catalogFilter,
   });
   const [learningPathData, isLoadingLearningPathdata] = useLearningPathData();
+  const featureFlagsData = useQuery('featureFlags', fetchFeatureFlags);
+  const isShowLearningPathFlag = !featureFlagsData.isLoading ? featureFlagsData.data?.[SHOW_LEARNING_PATH_FLAG] : false;
 
-  const isLoading = isLoadingCatalogData || isLoadingLearningPathdata;
+  const isLoading = isLoadingCatalogData || isLoadingLearningPathdata || featureFlagsData.isLoading;
 
   const toggleFilter = useCallback((group, options) => {
     setCatalogFilter((currentFilter) => {
@@ -46,6 +54,7 @@ const UserSubsidy = ({ children }) => {
       catalog: {
         data: catalogData,
         filter: {
+          isShowLearningPathFlag,
           current: catalogFilter,
           options: filterOptions,
           toggle: toggleFilter,
@@ -53,7 +62,7 @@ const UserSubsidy = ({ children }) => {
         requestCourse,
       },
     };
-  }, [isLoading, catalogData, learningPathData, catalogFilter, requestCourse, toggleFilter]);
+  }, [isLoading, catalogData, learningPathData, catalogFilter, isShowLearningPathFlag, requestCourse, toggleFilter]);
 
   if (isLoading) {
     return (

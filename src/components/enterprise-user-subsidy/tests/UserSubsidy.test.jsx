@@ -2,7 +2,7 @@ import React from 'react';
 import { screen, waitFor } from '@testing-library/react';
 import { AppContext } from '@edx/frontend-platform/react';
 import '@testing-library/jest-dom/extend-expect';
-
+import { QueryClient, QueryClientProvider } from 'react-query';
 import UserSubsidy from '../UserSubsidy';
 
 import { renderWithRouter } from '../../../utils/tests';
@@ -20,20 +20,26 @@ const TEST_ENTERPRISE_SLUG = 'test-enterprise-slug';
 const TEST_ENTERPRISE_UUID = 'test-enterprise-uuid';
 
 /* eslint-disable react/prop-types */
-const UserSubsidyWithAppContext = ({ enterpriseConfig = {}, contextValue = {}, children }) => (
-  <AppContext.Provider
-    value={{
-      enterpriseConfig: {
-        slug: TEST_ENTERPRISE_SLUG,
-        uuid: TEST_ENTERPRISE_UUID,
-        ...enterpriseConfig,
-      },
-      ...contextValue,
-    }}
-  >
-    <UserSubsidy>{children}</UserSubsidy>
-  </AppContext.Provider>
-);
+const UserSubsidyWithAppContext = ({ enterpriseConfig = {}, contextValue = {}, children }) => {
+  const queryClient = new QueryClient();
+  return (
+    <AppContext.Provider
+      value={{
+        enterpriseConfig: {
+          slug: TEST_ENTERPRISE_SLUG,
+          uuid: TEST_ENTERPRISE_UUID,
+          ...enterpriseConfig,
+        },
+        ...contextValue,
+      }}
+    >
+      <QueryClientProvider client={queryClient}>
+        <UserSubsidy>{children}</UserSubsidy>
+      </QueryClientProvider>
+    </AppContext.Provider>
+  );
+};
+
 /* eslint-enable react/prop-types */
 
 const SubscriptionLicenseConsumer = () => <div>License status: none</div>;

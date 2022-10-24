@@ -18,3 +18,10 @@ export const requestCourse = (courseId) => {
   const url = `${config.LMS_BASE_URL}/dojo_enterprise_catalog/api/learner-courses/request-access/`;
   return getAuthenticatedHttpClient().post(url, { course_id: courseId });
 };
+
+export const fetchFeatureFlags = () => {
+  const config = getConfig();
+  const slug = window.location.host.split('.')[0];
+  const url = `${config.LMS_BASE_URL}/api/features/${slug}/`;
+  return fetch(url).then((res) => res.json());
+};

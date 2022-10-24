@@ -87,3 +87,5 @@ export const filterOptions = {
     },
   ],
 };
+
+export const SHOW_LEARNING_PATH_FLAG = 'lms.filter.show_learning_path';
