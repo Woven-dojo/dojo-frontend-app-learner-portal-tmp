@@ -25,8 +25,7 @@ const UserSubsidy = ({ children }) => {
   });
   const [learningPathData, isLoadingLearningPathdata] = useLearningPathData();
   const featureFlagsData = useQuery('featureFlags', fetchFeatureFlags);
-  const isShowLearningPathFlag =
-    (!featureFlagsData.isLoading && featureFlagsData.data?.[SHOW_LEARNING_PATH_FLAG]) || true;
+  const isShowLearningPathFlag = !featureFlagsData.isLoading ? featureFlagsData.data?.[SHOW_LEARNING_PATH_FLAG] : false;
 
   const isLoading = isLoadingCatalogData || isLoadingLearningPathdata || featureFlagsData.isLoading;
 

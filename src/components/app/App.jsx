@@ -9,7 +9,13 @@ import { ToastsProvider } from '../Toasts';
 
 export default function App() {
   const { initHotjar } = useHotjar();
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
 
   useEffect(() => {
     if (process.env.HOTJAR_APP_ID) {
